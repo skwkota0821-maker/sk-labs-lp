@@ -1,0 +1,35 @@
+name: Fix triangle logo
+
+on:
+  push:
+    paths:
+      - '.github/workflows/fix-triangle-logo.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Change logo mark to triangle layout
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('index.html')
+          s = p.read_text(encoding='utf-8')
+          old = '.mark{display:flex;justify-content:center;gap:10px}'
+          new = '.mark{display:grid;grid-template-columns:repeat(2,58px);grid-template-rows:52px 52px;justify-content:center;gap:5px 10px}.mark .hex:nth-child(1){grid-column:1/3;justify-self:center}.mark .hex:nth-child(2){grid-column:1}.mark .hex:nth-child(3){grid-column:2}'
+          if old not in s:
+              raise SystemExit('target CSS not found')
+          p.write_text(s.replace(old,new,1), encoding='utf-8')
+          PY
+      - name: Commit change
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add index.html
+          git commit -m 'Fix intro logo to triangle layout'
+          git push
