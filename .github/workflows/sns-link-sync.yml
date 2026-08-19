@@ -1,0 +1,58 @@
+name: SNSリンク同期
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/sns-link-sync.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync-sns-links:
+    runs-on: ubuntu-latest
+    steps:
+      - name: リポジトリ取得
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: SNSリンク更新
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          replacements = {
+              'https://x.com/sklabs_jp': 'https://x.com/sk_labs_jp?s=11',
+              'https://www.instagram.com/sklabs_official': 'https://www.instagram.com/sklabs_official?igsi=enF0NGh6ODhpdGRt&utm_source=qr',
+          }
+
+          for filename in ('index.html', 'public/index.html'):
+              path = Path(filename)
+              text = path.read_text(encoding='utf-8')
+              original = text
+              for old, new in replacements.items():
+                  text = text.replace(old, new)
+              if text == original:
+                  print(f'{filename}: 変更なし')
+              else:
+                  path.write_text(text, encoding='utf-8')
+                  print(f'{filename}: 更新完了')
+          PY
+
+      - name: GitHub正本へ反映
+        shell: bash
+        run: |
+          if git diff --quiet -- index.html public/index.html; then
+            echo "変更なし"
+            exit 0
+          fi
+          git config user.name "SK LABS Automation"
+          git config user.email "actions@users.noreply.github.com"
+          git add index.html public/index.html
+          git commit -m "🟢【修正】公式SNSリンク更新｜2026年8月19日"
+          git push origin HEAD:main
