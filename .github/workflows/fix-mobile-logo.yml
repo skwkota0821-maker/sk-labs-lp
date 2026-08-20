@@ -1,51 +1,18 @@
-name: Fix mobile intro logo
+name: 退役済み確認・モバイルイントロロゴ
 
 on:
-  push:
-    paths:
-      - '.github/workflows/fix-mobile-logo.yml'
+  workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
-  patch:
+  verify-retired:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - name: Patch mobile intro logo
-        shell: bash
+      - name: 正本を読み取り専用で取得
+        uses: actions/checkout@v4
+      - name: 退役状態を確認
         run: |
-          python - <<'PY'
-          from pathlib import Path
-
-          p = Path('index.html')
-          text = p.read_text(encoding='utf-8')
-
-          old = '.mark{display:grid;grid-template-columns:repeat(2,58px);grid-template-rows:52px 52px;justify-content:center;gap:5px 10px}'
-          new = '.mark{display:grid;grid-template-columns:repeat(2,58px);grid-template-rows:52px 52px;justify-content:center;align-items:center;gap:6px 10px;width:126px;margin:0 auto}'
-          if old in text:
-              text = text.replace(old, new, 1)
-
-          old_mobile = '.intro-logo{top:55%}.hex{width:44px;height:40px}.intro-logo h2{font-size:26px}'
-          new_mobile = '.intro-logo{top:55%}.mark{grid-template-columns:repeat(2,44px);grid-template-rows:40px 40px;gap:5px 8px;width:96px}.hex{width:44px;height:40px}.intro-logo h2{font-size:26px}'
-          if old_mobile in text:
-              text = text.replace(old_mobile, new_mobile, 1)
-
-          cleanup = "<script>(function(){const i=document.querySelector('.intro');if(!i)return;let done=false;const remove=()=>{if(done)return;done=true;i.remove();window.removeEventListener('scroll',remove);window.removeEventListener('touchstart',remove);window.removeEventListener('wheel',remove)};window.addEventListener('scroll',remove,{passive:true,once:true});window.addEventListener('touchstart',remove,{passive:true,once:true});window.addEventListener('wheel',remove,{passive:true,once:true});setTimeout(remove,10300)})();</script>"
-          if cleanup not in text:
-              text = text.replace('</body>', cleanup + '</body>', 1)
-
-          p.write_text(text, encoding='utf-8')
-          PY
-      - name: Commit changes
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add index.html
-          if git diff --cached --quiet; then
-            echo "No changes needed"
-          else
-            git commit -m "Fix mobile intro logo distortion and overlay"
-            git push
-          fi
+          echo "このWorkflowの修正内容は現行LPへ反映済みです。"
+          echo "mainへの自動commit/pushは行いません。"
