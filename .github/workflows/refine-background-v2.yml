@@ -1,52 +1,18 @@
-name: Refine LP Background v2
+name: 退役済み確認・LP背景調整
 
 on:
   workflow_dispatch:
-  push:
-    paths:
-      - '.github/workflows/refine-background-v2.yml'
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
-  refine:
+  verify-retired:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - name: Replace coarse background with high-resolution CSS layers
+      - name: 正本を読み取り専用で取得
+        uses: actions/checkout@v4
+      - name: 退役状態を確認
         run: |
-          python - <<'PY'
-          from pathlib import Path
-          p = Path('index.html')
-          s = p.read_text(encoding='utf-8')
-
-          s = s.replace(
-            "#hero{position:relative;min-height:100svh;overflow:hidden;display:grid;place-items:center;background:radial-gradient(circle at 78% 16%,rgba(188,45,150,.22),transparent 32%),radial-gradient(circle at 12% 28%,rgba(31,91,224,.24),transparent 31%),linear-gradient(180deg,#040018 0%,#08042a 48%,#03010e 100%)}",
-            "#hero{position:relative;min-height:100svh;overflow:hidden;display:grid;place-items:center;background:radial-gradient(ellipse 70% 55% at 82% 12%,rgba(236,66,190,.28) 0%,rgba(132,39,200,.16) 30%,transparent 68%),radial-gradient(ellipse 74% 62% at 8% 26%,rgba(46,126,255,.30) 0%,rgba(32,55,185,.16) 34%,transparent 70%),radial-gradient(ellipse 82% 55% at 52% 72%,rgba(102,49,225,.18) 0%,transparent 66%),linear-gradient(180deg,#040018 0%,#080329 48%,#02010d 100%);isolation:isolate}"
-          )
-
-          s = s.replace(
-            ".nebula{position:absolute;inset:-12%;z-index:0;filter:blur(36px);opacity:.7;background:radial-gradient(ellipse at 72% 18%,rgba(171,38,145,.22),transparent 26%),radial-gradient(ellipse at 26% 36%,rgba(52,85,205,.20),transparent 30%),radial-gradient(ellipse at 54% 62%,rgba(84,37,188,.14),transparent 34%)}",
-            ".nebula{position:absolute;inset:-18%;z-index:0;opacity:.78;background:conic-gradient(from 214deg at 52% 46%,transparent 0 14%,rgba(56,93,255,.10) 22%,transparent 33% 54%,rgba(232,66,184,.10) 66%,transparent 79%),radial-gradient(ellipse at 72% 20%,rgba(213,53,173,.18),transparent 38%),radial-gradient(ellipse at 20% 38%,rgba(46,104,238,.18),transparent 42%);filter:blur(46px);transform:translateZ(0)}"
-          )
-
-          s = s.replace(
-            ".earth{position:absolute;left:50%;bottom:-35vh;transform:translateX(-50%);width:150vw;height:72vh;border-radius:50%;z-index:1;background:radial-gradient(ellipse at 54% 4%,rgba(119,184,255,.85) 0%,rgba(31,80,145,.85) 20%,rgba(10,28,64,.98) 52%,#020711 77%);box-shadow:0 -2px 5px rgba(225,247,255,.95),0 -12px 34px rgba(74,158,255,.78),0 -38px 110px rgba(36,91,215,.30)}",
-            ".earth{position:absolute;left:50%;bottom:-35vh;transform:translateX(-50%) translateZ(0);width:150vw;height:72vh;border-radius:50%;z-index:1;background:radial-gradient(ellipse at 54% 3%,rgba(178,226,255,.30) 0%,rgba(91,166,255,.46) 9%,rgba(34,89,164,.76) 24%,rgba(10,29,70,.98) 52%,#020711 78%);box-shadow:0 -1px 2px rgba(238,251,255,.98),0 -7px 18px rgba(115,199,255,.80),0 -20px 58px rgba(68,136,255,.42),0 -58px 150px rgba(69,70,230,.22);will-change:transform}"
-          )
-
-          s = s.replace(
-            ".earth:before{content:\"\";position:absolute;inset:0;border-radius:inherit;background:radial-gradient(circle at 28% 23%,rgba(255,195,92,.08) 0 1px,transparent 2px),radial-gradient(circle at 39% 19%,rgba(255,214,120,.07) 0 1px,transparent 2px),radial-gradient(circle at 62% 24%,rgba(255,204,110,.08) 0 1px,transparent 2px),linear-gradient(102deg,rgba(0,0,0,.72),rgba(0,0,0,.16) 45%,transparent 63%)}",
-            ".earth:before{content:\"\";position:absolute;inset:0;border-radius:inherit;background:radial-gradient(circle at 26% 20%,rgba(255,204,118,.16) 0 1px,transparent 1.8px),radial-gradient(circle at 36% 18%,rgba(255,218,142,.12) 0 1px,transparent 1.7px),radial-gradient(circle at 51% 21%,rgba(255,205,118,.13) 0 1px,transparent 1.8px),radial-gradient(circle at 65% 18%,rgba(255,216,137,.10) 0 1px,transparent 1.8px),linear-gradient(102deg,rgba(0,0,0,.74),rgba(0,0,0,.12) 47%,transparent 65%);background-size:47px 41px,59px 53px,71px 61px,83px 67px,auto;mix-blend-mode:screen}"
-          )
-
-          p.write_text(s, encoding='utf-8')
-          PY
-      - name: Commit refined background
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add index.html
-          git diff --cached --quiet || git commit -m "Refine cosmic background quality"
-          git push
+          echo "このWorkflowの修正内容は現行LPへ反映済みです。"
+          echo "mainへの自動commit/pushは行いません。"
