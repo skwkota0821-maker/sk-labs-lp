@@ -2,6 +2,11 @@
   publish = "public"
 
 [[redirects]]
+  from = "/starter-kit"
+  to = "/starter-kit.html"
+  status = 200
+
+[[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
