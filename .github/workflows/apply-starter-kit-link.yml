@@ -1,0 +1,55 @@
+name: Apply Starter Kit top links
+
+on:
+  push:
+    branches:
+      - feature/starter-kit-top-link-20260822
+    paths:
+      - .github/workflows/apply-starter-kit-link.yml
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: feature/starter-kit-top-link-20260822
+      - name: Patch only Starter Kit links
+        shell: python
+        run: |
+          from pathlib import Path
+          p = Path('public/index.html')
+          s = p.read_text(encoding='utf-8')
+          replacements = [
+              ('    <a href="#ftr">会社概要</a>\n  </nav>',
+               '    <a href="#ftr">会社概要</a>\n    <a href="/starter-kit">無料資料</a>\n  </nav>'),
+              ('    <!-- 【一時対応】遷移先の資料が未確定のため非表示化(hg-disabled)。資料URL確定後にクラスを外せば復活可能 -->\n    <a href="#" class="hg hg-disabled" tabindex="-1" aria-hidden="true">📄 資料ダウンロード</a>',
+               '    <a href="/starter-kit" class="hg">📄 無料資料</a>'),
+              ('  <a href="#ftr">会社概要</a>\n  <div class="mnav-cta">',
+               '  <a href="#ftr">会社概要</a>\n  <a href="/starter-kit">無料資料</a>\n  <div class="mnav-cta">'),
+              ('    <a href="mailto:info@sk-labs.net?subject=SK+LABS無料相談" class="hp">✉ 無料相談する →</a>\n  </div>\n</nav>',
+               '    <a href="mailto:info@sk-labs.net?subject=SK+LABS無料相談" class="hp">✉ 無料相談する →</a>\n    <a href="/starter-kit" class="hg">📄 4つの無料資料を見る</a>\n  </div>\n</nav>')
+          ]
+          for old, new in replacements:
+              count = s.count(old)
+              if count != 1:
+                  raise SystemExit(f'Expected exactly one match, got {count}: {old[:80]}')
+              s = s.replace(old, new, 1)
+          if s.count('/starter-kit') != 4:
+              raise SystemExit('Unexpected Starter Kit link count')
+          p.write_text(s, encoding='utf-8')
+      - name: Verify diff scope
+        run: |
+          git diff --check
+          git diff -- public/index.html
+      - name: Commit patch
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -- public/index.html
+          git commit -m "トップページからStarter Kitへの導線を追加"
+          git push origin HEAD:feature/starter-kit-top-link-20260822
