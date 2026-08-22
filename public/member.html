@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>SK LABS 会員ポータル</title>
+  <style>
+    :root{color-scheme:dark;background:#070b12;color:#eef4ff;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#162338,#070b12 55%);min-height:100vh}.wrap{width:min(760px,92%);margin:auto;padding:64px 0}.brand{letter-spacing:.18em;font-weight:800}.sub{color:#9db0ca}.card{background:rgba(14,22,35,.88);border:1px solid #263852;border-radius:20px;padding:24px;margin:20px 0;box-shadow:0 20px 60px rgba(0,0,0,.25)}h1{font-size:clamp(30px,6vw,52px);margin:.3em 0}h2{margin-top:0}label{display:block;margin:12px 0 6px}input[type=email],input[type=password],input[type=text]{width:100%;padding:13px;border-radius:10px;border:1px solid #38506f;background:#09111d;color:white}button{border:0;border-radius:999px;padding:12px 20px;font-weight:700;cursor:pointer;background:#eef4ff;color:#07101c;margin-top:14px}.secondary{background:#1a2a40;color:#eef4ff}.grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.check{display:flex;gap:10px;align-items:flex-start;margin:14px 0}.check input{margin-top:4px}.notice{border-left:3px solid #93a8c4;padding-left:14px;color:#c6d2e2}.adult{border-color:#59442f}.external{display:block;padding:16px;border-radius:12px;background:#171e29;color:#fff;text-decoration:none;margin:10px 0}.external[aria-disabled=true]{opacity:.55;pointer-events:none}#status{min-height:24px;padding:8px 0}#status[data-type=error]{color:#ffb3b3}#status[data-type=success]{color:#b8ffd2}@media(max-width:640px){.grid{grid-template-columns:1fr}.wrap{padding-top:32px}}
+  </style>
+</head>
+<body>
+<main class="wrap">
+  <div class="brand">SK LABS</div>
+  <h1>会員ポータル</h1>
+  <p class="sub">SK LABS Harness 会員基盤 MVP</p>
+  <div id="status" aria-live="polite"></div>
+
+  <section id="auth-panel" class="grid">
+    <form id="login-form" class="card">
+      <h2>ログイン</h2>
+      <label>メールアドレス</label><input name="email" type="email" autocomplete="email" required>
+      <label>パスワード</label><input name="password" type="password" autocomplete="current-password" required>
+      <button type="submit">ログイン</button>
+    </form>
+    <form id="signup-form" class="card">
+      <h2>新規会員登録</h2>
+      <label>表示名</label><input name="name" type="text" autocomplete="name">
+      <label>メールアドレス</label><input name="email" type="email" autocomplete="email" required>
+      <label>パスワード</label><input name="password" type="password" autocomplete="new-password" minlength="8" required>
+      <button type="submit">会員登録</button>
+    </form>
+  </section>
+
+  <section id="member-panel" class="card" hidden>
+    <h2>マイページ</h2>
+    <p><strong id="member-email"></strong> でログイン中です。</p>
+    <p class="notice">通常商品・購入履歴・限定コンテンツは今後この会員IDへ統合します。</p>
+    <button id="logout" class="secondary">ログアウト</button>
+  </section>
+
+  <section id="adult-gate" class="card adult" hidden>
+    <h2>成人向け外部リンク領域</h2>
+    <p>この領域は18歳以上の会員のみ利用できます。SK LABSは、このMVPでは成人向けコンテンツ本体の配信・販売を行いません。</p>
+    <label class="check"><input id="adult-age" type="checkbox"><span>私は18歳以上です。</span></label>
+    <label class="check"><input id="adult-terms" type="checkbox"><span>外部サイトへ移動すること、移動先の規約・年齢制限が適用されることを確認しました。</span></label>
+    <button id="adult-confirm">成人向け領域を表示</button>
+    <p class="sub">※ 現段階は自己申告によるMVPゲートです。年齢確認サービスによる本人確認ではありません。</p>
+  </section>
+
+  <section id="adult-panel" class="card adult" hidden>
+    <h2>成人向け外部リンク</h2>
+    <p class="notice">登録済みの外部リンクだけをここに表示します。リンク先での購入・視聴・契約は外部サービス側で完結します。</p>
+    <a class="external" aria-disabled="true">外部リンク未登録</a>
+    <button id="adult-reset" class="secondary">成人向け領域への同意を解除</button>
+  </section>
+</main>
+<script type="module" src="/member.js"></script>
+</body>
+</html>
