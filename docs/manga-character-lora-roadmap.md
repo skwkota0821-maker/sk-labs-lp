@@ -154,6 +154,50 @@ LoRA ファイルは通常 `ComfyUI/models/loras/` 配下で管理する。
 
 外部カスタムノードはバージョン固定・ライセンス・更新停止リスクを確認して採用する。
 
+## Identity-Preserving Defaults
+
+### FaceDetailer
+
+漫画キャラ同一性維持の初期値候補:
+
+```yaml
+detector: face_yolov8m.pt
+confidence: 0.5
+denoise: 0.20
+steps: 15
+cfg: 5
+force_inpaint: true
+mask_blur: 6
+feather: 8
+```
+
+運用ルール:
+
+- 基本 denoise は 0.15〜0.25 で探索する
+- 顔崩れが強い場合のみ 0.30 前後まで上げて検証する
+- 0.50 以上は顔再描画による別人化リスクが高いため通常運用では避ける
+- FaceDetailer は「美化」ではなく「Master Characterとの一致度改善」を目的に使う
+
+### IPAdapter
+
+Master Imageへの拘束度の初期探索値:
+
+- 初回: 0.80
+- 同一性崩れ時: 0.90
+- 安定後: 0.70〜0.75
+
+1.0超は原則使用しない。構図やポーズ自由度を奪い、Master画像のコピー寄りになる場合がある。
+
+### 推奨役割分担
+
+```text
+LoRA       = Character IDの学習済み特徴
+IPAdapter  = 今回のMaster Imageへの寄せ
+ControlNet = ポーズ / 構図
+FaceDetailer = 顔領域の局所補正
+QA Engine  = 採用 / 修復 / 破棄の最終判定
+```
+
 ## 漫画向け推論パイプライン
 
 ```text
@@ -169,6 +213,8 @@ ControlNet（必要時）
   ↓
 KSampler
   ↓
+FaceDetailer
+  ↓
 Face / Hair / Body / Age QA
   ↓
 Auto Repair
@@ -177,6 +223,72 @@ Comic Panel Renderer
 ```
 
 LoRA は「人物の学習済み特徴」、IPAdapter は「今回の Master Image への寄せ」、ControlNet は「ポーズ・構図」を担当させ、役割を分離する。
+
+## QA保存ルール
+
+生成物はQA結果で保存先を自動分岐する。
+
+### 判定
+
+- 95以上: `approved`
+- 90〜94: `repair`
+- 89以下: `rejected`
+
+### 推奨構造
+
+```text
+characters/
+  rei001/
+    master/
+      rei001_master.png
+    generated/
+      temp/
+    approved/
+      chapter01/
+        scene003/
+          v01.png
+    repair/
+      chapter01/
+        scene003/
+          v02.png
+    rejected/
+      chapter01/
+        scene003/
+          fail_v01.png
+    qa/
+      chapter01_scene003.json
+```
+
+ファイル命名は `CharacterID / Chapter / Scene / Version` を必須キーとする。
+
+例:
+
+```text
+rei001_ch01_sc003_v01.png
+rei001_ch01_sc003_v02.png
+rei001_ch01_sc003_fail_v03.png
+```
+
+QAメタデータには最低限以下を残す。
+
+```json
+{
+  "character_id": "rei001",
+  "chapter": 1,
+  "scene": 3,
+  "version": 2,
+  "identity_score": 96,
+  "face_score": 98,
+  "hair_score": 97,
+  "body_score": 95,
+  "age_score": 96,
+  "repair_level": 1,
+  "repair_count": 1,
+  "status": "approved"
+}
+```
+
+この履歴を Drift Memory と LoRA再学習用データ選別に再利用する。
 
 ## LoRA適用テスト
 
@@ -200,7 +312,7 @@ LoRA は「人物の学習済み特徴」、IPAdapter は「今回の Master Ima
 
 - 学習: Kohya_ss / AI-Toolkit 等を候補
 - 推論・ワークフロー: ComfyUI
-- 本番アプリ: Character ID → LoRA 選択 → IPAdapter → 生成 → QA → Auto Repair
+- 本番アプリ: Character ID → LoRA 選択 → IPAdapter → 生成 → FaceDetailer → QA → Auto Repair → 自動保存
 
 ComfyUI 自体を LoRA 学習の唯一の中核とせず、ワークフロー / 推論オーケストレーションの役割として扱う。
 
@@ -223,12 +335,13 @@ LoRA を「合格保証」ではなく「初回生成の成功率を上げる層
 2. Dataset Gate を通る Master 画像群を自動生成・選別
 3. ComfyUI 推論PoC
 4. Character LoRA PoC
-5. LoRAのみ / LoRA+IPAdapter / LoRA+IPAdapter+QA の A/B 比較
-6. Identity Score 95+ の安定率を計測
-7. Face Embedding 追加
-8. QA + Auto Repair 統合
-9. Speech / Aura / Behavior DNA 追加
-10. Character ID 資産として再利用可能にする
+5. LoRAのみ / LoRA+IPAdapter / LoRA+IPAdapter+FaceDetailer / 全構成+QA の A/B 比較
+6. QA保存ルーティング実装
+7. Identity Score 95+ の安定率を計測
+8. Face Embedding 追加
+9. QA + Auto Repair 統合
+10. Speech / Aura / Behavior DNA 追加
+11. Character ID 資産として再利用可能にする
 
 ## Success Criteria
 
@@ -238,3 +351,4 @@ LoRA を「合格保証」ではなく「初回生成の成功率を上げる層
 - 平均 Repair 回数 1 以下
 - キャラ変更なしでシーン・ポーズ・背景を自由に変えられる
 - 同じ Character ID を別作品でも再利用できる
+- approved / repair / rejected がQAで自動分類される
