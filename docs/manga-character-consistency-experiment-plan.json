@@ -1,0 +1,62 @@
+{
+  "title": "SK LABS Manga Character Consistency Experiment Plan",
+  "version": "1.0",
+  "status": "ready_for_execution",
+  "primary_kpi": "character_consistency_rate",
+  "definition": "approved_panels / total_generated_panels",
+  "target": 0.95,
+  "sample_unit": 100,
+  "required_logs": [
+    "character_id",
+    "workflow_version",
+    "experiment_variant",
+    "seed",
+    "scene_id",
+    "identity_score",
+    "face_score",
+    "hair_score",
+    "body_score",
+    "age_score",
+    "aura_score",
+    "repair_count",
+    "repair_level",
+    "generation_time_seconds",
+    "failure_tags",
+    "hard_fail",
+    "qa_status",
+    "user_rating"
+  ],
+  "experiments": [
+    {
+      "id": "AB-1",
+      "a": "lora_only",
+      "b": "lora_plus_ipadapter",
+      "measure": ["character_consistency_rate","identity_score","repair_rate","average_repair_count","generation_time_seconds"]
+    },
+    {
+      "id": "AB-2",
+      "a": "lora_plus_ipadapter",
+      "b": "lora_plus_ipadapter_plus_facedetailer",
+      "measure": ["face_score","character_consistency_rate","hard_fail_rate","average_repair_count","generation_time_seconds"]
+    },
+    {
+      "id": "AB-3",
+      "a": "controlnet_off",
+      "b": "controlnet_on",
+      "measure": ["pose_consistency","identity_score","character_consistency_rate","generation_time_seconds"]
+    }
+  ],
+  "drift_memory": {
+    "enabled": true,
+    "aggregate_by": ["character_id","failure_tag"],
+    "minimum_samples_before_prevention": 30,
+    "prevention_rule": "inject top recurring failure tags into Level0 prompt before generation"
+  },
+  "acceptance": {
+    "identity_score_min": 95,
+    "hard_fail_rate_max": 0.0,
+    "average_repair_count_max": 1.0,
+    "character_consistency_rate_min": 0.95
+  },
+  "next_action": "Resolve executable ComfyUI environment and run AB-1 first"
+}
