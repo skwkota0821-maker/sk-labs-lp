@@ -1,50 +1,64 @@
 import type {
+  CoreEntitlement,
   GenerationRequest,
-  MemberEntitlement,
   ModelRecord,
   PolicyDecision,
 } from './types';
 
+const ADULT_ACCESS_ENTITLEMENT = 'adult_access';
+
 const deny = (
-  reasonCode: PolicyDecision['reasonCode'],
+  reason_code: PolicyDecision['reason_code'],
   message: string,
-): PolicyDecision => ({ allowed: false, reasonCode, message });
+): PolicyDecision => ({ allowed: false, reason_code, message });
+
+function hasActiveEntitlement(
+  entitlements: CoreEntitlement[],
+  member_id: string,
+  entitlement_key: string,
+  now: Date,
+): boolean {
+  return entitlements.some((entitlement) =>
+    entitlement.member_id === member_id &&
+    entitlement.entitlement_key === entitlement_key &&
+    entitlement.status === 'active' &&
+    entitlement.revoked_at === null &&
+    (entitlement.expires_at === null || new Date(entitlement.expires_at).getTime() > now.getTime())
+  );
+}
 
 export function evaluateEntitlement(
   request: GenerationRequest,
-  member: MemberEntitlement,
+  entitlements: CoreEntitlement[],
   model: ModelRecord,
+  now = new Date(),
 ): PolicyDecision {
-  if (!member.accountActive) return deny('MEMBER_INACTIVE', 'Account is inactive.');
-  if (!member.termsAccepted) return deny('TERMS_NOT_ACCEPTED', 'Terms acceptance is required.');
-  if (model.approvalStatus !== 'approved') {
+  if (model.approval_status !== 'approved') {
     return deny('MODEL_NOT_APPROVED', 'Model is not approved for production use.');
   }
 
-  if (request.contentClass === 'adult') {
-    if (!member.adultAccess) {
-      return deny('ADULT_ACCESS_REQUIRED', 'Verified adult access is required.');
+  if (request.content_class === 'adult') {
+    if (!hasActiveEntitlement(entitlements, request.member_id, ADULT_ACCESS_ENTITLEMENT, now)) {
+      return deny('ADULT_ACCESS_REQUIRED', 'Harness Core adult_access entitlement is required.');
     }
-    if (!model.adultUse) {
+    if (!model.adult_use) {
       return deny('MODEL_ADULT_USE_NOT_APPROVED', 'Model is not approved for adult use.');
     }
   }
 
-  return { allowed: true, reasonCode: 'OK', message: 'Allowed.' };
+  return { allowed: true, reason_code: 'OK', message: 'Allowed.' };
 }
 
 /**
- * Content-safety classification is intentionally injected as a separate stage.
- * Do not implement safety using a simple keyword blocklist: prompts may be
- * multilingual, obfuscated, or image-conditioned. A production classifier must
- * return explicit reason codes and fail closed for adult jobs.
+ * Content-safety classification remains a Gateway responsibility.
+ * Harness Core owns identity/entitlement/event/audit contracts, not model safety.
  */
 export function enforceSafetyDecision(
   request: GenerationRequest,
   safety: PolicyDecision,
 ): PolicyDecision {
   if (!safety.allowed) return safety;
-  if (request.contentClass === 'adult' && safety.reasonCode !== 'OK') {
+  if (request.content_class === 'adult' && safety.reason_code !== 'OK') {
     return deny('ILLEGAL_CONTENT', 'Adult job did not receive an explicit safe decision.');
   }
   return safety;
