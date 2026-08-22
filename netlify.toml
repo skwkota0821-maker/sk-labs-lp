@@ -1,9 +1,15 @@
 [build]
   publish = "public"
+  command = "npm run build"
 
 [[redirects]]
   from = "/starter-kit"
   to = "/starter-kit.html"
+  status = 200
+
+[[redirects]]
+  from = "/member"
+  to = "/member.html"
   status = 200
 
 [[redirects]]
