@@ -1,82 +1,101 @@
 import { strict as assert } from 'node:assert';
 import { test } from 'node:test';
 import { submitGeneration, type GenerationRepository } from '../src/service';
-import type { GenerationProvider, GenerationRequest, PolicyDecision } from '../src/types';
+import type { CoreEntitlement, GenerationProvider, GenerationRequest, PolicyDecision } from '../src/types';
 
 const generalRequest: GenerationRequest = {
-  memberId: 'member_test',
-  modelId: 'model_general',
-  workflowId: 'txt2img-basic',
+  member_id: 'mem_test',
+  model_id: 'model_general',
+  workflow_id: 'txt2img-basic',
   prompt: 'a watercolor blue bird in a quiet forest',
   width: 768,
   height: 768,
-  contentClass: 'general',
+  content_class: 'general',
 };
 
-function setup(safety: PolicyDecision = { allowed: true, reasonCode: 'OK', message: 'Allowed.' }) {
+const adultEntitlement: CoreEntitlement = {
+  entitlement_id: 'ent_adult', member_id: 'mem_test', product_id: null,
+  entitlement_key: 'adult_access', status: 'active', source: 'test', source_reference: 'test',
+  granted_at: '2026-08-01T00:00:00Z', expires_at: null, revoked_at: null, revoked_reason: null,
+  created_at: '2026-08-01T00:00:00Z', updated_at: '2026-08-01T00:00:00Z',
+};
+
+function setup(safety: PolicyDecision = { allowed: true, reason_code: 'OK', message: 'Allowed.' }) {
   const jobs: Array<Record<string, unknown>> = [];
+  const events: Array<Record<string, unknown>> = [];
+  let entitlements: CoreEntitlement[] = [];
   const repository: GenerationRepository = {
     async createJob(input) { jobs.push({ ...input, state: 'created' }); },
-    async markRunning(jobId, providerJobId) { jobs.push({ jobId, providerJobId, state: 'running' }); },
-    async markBlocked(jobId, reasonCode, message) { jobs.push({ jobId, reasonCode, message, state: 'blocked' }); },
+    async markRunning(job_id, provider_job_id) { jobs.push({ job_id, provider_job_id, state: 'running' }); },
+    async markBlocked(job_id, reason_code, message) { jobs.push({ job_id, reason_code, message, state: 'blocked' }); },
   };
   const provider: GenerationProvider = {
     name: 'mock-comfyui',
-    async submit() { return { providerJobId: 'prompt_001' }; },
+    async submit() { return { provider_job_id: 'prompt_001' }; },
     async getResult() { return {}; },
   };
 
-  return {
-    jobs,
-    deps: {
-      provider,
-      repository,
-      storageConfig: {
-        generalBucket: 'sklabs-generation-general',
-        adultPrivateBucket: 'sklabs-generation-adult-private',
-      },
-      createId: () => 'gen_test_001',
-      now: () => new Date('2026-08-22T00:00:00Z'),
-      async loadMember() {
-        return { memberId: 'member_test', adultAccess: false, termsAccepted: true, accountActive: true };
-      },
-      async loadModel() {
-        return {
-          modelId: 'model_general', displayName: 'General Test', provider: 'local', modelType: 'checkpoint' as const,
-          approvalStatus: 'approved' as const, commercialUse: true, adultUse: false,
-          derivativesAllowed: false, redistributionAllowed: false,
-        };
-      },
-      async classifySafety() { return safety; },
-      async buildWorkflow() { return { node: 'mock' }; },
+  const deps = {
+    provider, repository,
+    core: {
+      async listEntitlements() { return entitlements; },
+      async recordServerEvent(event: Record<string, unknown>) { events.push(event); },
     },
+    storageConfig: {
+      generalBucket: 'sklabs-generation-general',
+      adultPrivateBucket: 'sklabs-generation-adult-private',
+    },
+    createId: () => 'gen_test_001',
+    now: () => new Date('2026-08-22T00:00:00Z'),
+    async loadModel() {
+      return {
+        model_id: 'model_general', display_name: 'General Test', provider: 'local', model_type: 'checkpoint' as const,
+        approval_status: 'approved' as const, commercial_use: true, adult_use: false,
+        derivatives_allowed: false, redistribution_allowed: false,
+      };
+    },
+    async classifySafety() { return safety; },
+    async buildWorkflow() { return { node: 'mock' }; },
   };
+
+  return { jobs, events, deps, setEntitlements(value: CoreEntitlement[]) { entitlements = value; } };
 }
 
-test('general image routes only to general storage and reaches provider', async () => {
-  const { deps, jobs } = setup();
+test('general job uses Core member_id naming, general storage, and emits Core server event', async () => {
+  const { deps, jobs, events } = setup();
   const result = await submitGeneration(generalRequest, deps);
   assert.equal(result.status, 'running');
-  assert.equal(result.storageZone, 'general');
+  assert.equal(result.storage_zone, 'general');
   const created = jobs[0] as any;
   assert.equal(created.storage.bucket, 'sklabs-generation-general');
-  assert.match(created.storage.keyPrefix, /^general\/member_test\/2026\/08\/gen_test_001\//);
+  assert.match(created.storage.keyPrefix, /^general\/mem_test\/2026\/08\/gen_test_001\//);
+  assert.equal(events[0].event_name, 'generation.started');
+  assert.equal(events[0].member_id, 'mem_test');
 });
 
-test('adult request without adult access is blocked and cannot use general storage', async () => {
-  const { deps, jobs } = setup();
-  const result = await submitGeneration({ ...generalRequest, contentClass: 'adult' }, deps);
+test('adult request without Core adult_access entitlement is blocked in adult_private', async () => {
+  const { deps, jobs, events } = setup();
+  const result = await submitGeneration({ ...generalRequest, content_class: 'adult' }, deps);
   assert.equal(result.status, 'blocked');
-  assert.equal(result.storageZone, 'adult_private');
-  assert.equal(result.reasonCode, 'ADULT_ACCESS_REQUIRED');
+  assert.equal(result.storage_zone, 'adult_private');
+  assert.equal(result.reason_code, 'ADULT_ACCESS_REQUIRED');
   const created = jobs[0] as any;
   assert.equal(created.storage.bucket, 'sklabs-generation-adult-private');
+  assert.equal(events[0].event_name, 'generation.blocked');
+});
+
+test('Core adult_access is recognized but model adult approval remains Gateway responsibility', async () => {
+  const { deps, setEntitlements } = setup();
+  setEntitlements([adultEntitlement]);
+  const result = await submitGeneration({ ...generalRequest, content_class: 'adult' }, deps);
+  assert.equal(result.status, 'blocked');
+  assert.equal(result.reason_code, 'MODEL_ADULT_USE_NOT_APPROVED');
 });
 
 test('safety rejection blocks before provider execution', async () => {
-  const { deps } = setup({ allowed: false, reasonCode: 'RIGHTS_UNVERIFIED', message: 'Rights not verified.' });
+  const { deps } = setup({ allowed: false, reason_code: 'RIGHTS_UNVERIFIED', message: 'Rights not verified.' });
   let providerCalled = false;
-  deps.provider.submit = async () => { providerCalled = true; return { providerJobId: 'should_not_run' }; };
+  deps.provider.submit = async () => { providerCalled = true; return { provider_job_id: 'should_not_run' }; };
   const result = await submitGeneration(generalRequest, deps);
   assert.equal(result.status, 'blocked');
   assert.equal(providerCalled, false);
