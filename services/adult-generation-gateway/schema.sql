@@ -35,6 +35,7 @@ CREATE TABLE IF NOT EXISTS generation_jobs (
   seed INTEGER,
   status TEXT NOT NULL DEFAULT 'queued' CHECK (status IN ('queued','policy_check','running','succeeded','failed','blocked','canceled')),
   content_class TEXT NOT NULL DEFAULT 'general' CHECK (content_class IN ('general','adult')),
+  storage_zone TEXT NOT NULL DEFAULT 'general' CHECK (storage_zone IN ('general','adult_private')),
   adult_access_verified INTEGER NOT NULL DEFAULT 0 CHECK (adult_access_verified IN (0,1)),
   policy_decision TEXT,
   provider TEXT,
@@ -45,18 +46,25 @@ CREATE TABLE IF NOT EXISTS generation_jobs (
   created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
   started_at TEXT,
   completed_at TEXT,
-  FOREIGN KEY (model_id) REFERENCES model_registry(model_id)
+  FOREIGN KEY (model_id) REFERENCES model_registry(model_id),
+  CHECK (
+    (content_class = 'general' AND storage_zone = 'general') OR
+    (content_class = 'adult' AND storage_zone = 'adult_private')
+  )
 );
 
 CREATE INDEX IF NOT EXISTS idx_generation_jobs_member_created
   ON generation_jobs(member_id, created_at DESC);
 CREATE INDEX IF NOT EXISTS idx_generation_jobs_status_created
   ON generation_jobs(status, created_at ASC);
+CREATE INDEX IF NOT EXISTS idx_generation_jobs_storage_zone
+  ON generation_jobs(storage_zone, created_at DESC);
 
 CREATE TABLE IF NOT EXISTS generation_audit_log (
   audit_id TEXT PRIMARY KEY,
   job_id TEXT,
   member_id TEXT,
+  content_class TEXT CHECK (content_class IN ('general','adult')),
   event_name TEXT NOT NULL,
   decision TEXT,
   reason_code TEXT,
@@ -71,6 +79,7 @@ CREATE INDEX IF NOT EXISTS idx_generation_audit_job
 CREATE TABLE IF NOT EXISTS generation_outputs (
   output_id TEXT PRIMARY KEY,
   job_id TEXT NOT NULL,
+  storage_zone TEXT NOT NULL CHECK (storage_zone IN ('general','adult_private')),
   storage_uri TEXT NOT NULL,
   mime_type TEXT NOT NULL DEFAULT 'image/png',
   sha256 TEXT,
@@ -80,3 +89,6 @@ CREATE TABLE IF NOT EXISTS generation_outputs (
   created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (job_id) REFERENCES generation_jobs(job_id)
 );
+
+CREATE INDEX IF NOT EXISTS idx_generation_outputs_storage_zone
+  ON generation_outputs(storage_zone, created_at DESC);
