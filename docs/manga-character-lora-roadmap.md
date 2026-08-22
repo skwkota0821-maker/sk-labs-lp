@@ -107,13 +107,100 @@ Creator Studio の Character ID を、単なる参照画像ではなく再利用
 
 対策: QA で不良画像を学習前に除外する。
 
+## ComfyUI Integration
+
+ComfyUI は推論・ワークフロー実行層として扱う。
+
+基本フロー:
+
+```text
+Load Checkpoint
+  ↓
+Load LoRA
+  ↓
+CLIP Text Encode
+  ↓
+KSampler
+  ↓
+VAE Decode
+  ↓
+Save Image
+```
+
+LoRA ファイルは通常 `ComfyUI/models/loras/` 配下で管理する。
+
+初期推論値の候補:
+
+- LoRA strength_model: 0.7〜0.9
+- LoRA strength_clip: 0.7〜0.9
+- CFG: 5〜7 を初期候補
+- Steps: 25〜35 を初期候補
+- Sampler: DPM++ 2M Karras 系を候補
+
+これらは固定仕様ではなく、ベースモデルごとに A/B テストして決める。
+
+### 推奨ノード / 機能
+
+- Load Checkpoint: ベースモデル読込
+- Load LoRA: Character LoRA 適用
+- CLIP Text Encode: プロンプト処理
+- KSampler: 生成中心
+- Save Image: 保存
+- IPAdapter: Master Image の参照保持
+- ControlNet: ポーズ・構図制御
+- FaceDetailer: 顔領域の補正候補
+- Impact Pack: 顔検出・領域補正候補
+- Image Compare 系: QA目視支援
+
+外部カスタムノードはバージョン固定・ライセンス・更新停止リスクを確認して採用する。
+
+## 漫画向け推論パイプライン
+
+```text
+Character ID
+  ↓
+Master Image / Character DNA
+  ↓
+IPAdapter
+  ↓
+Character LoRA
+  ↓
+ControlNet（必要時）
+  ↓
+KSampler
+  ↓
+Face / Hair / Body / Age QA
+  ↓
+Auto Repair
+  ↓
+Comic Panel Renderer
+```
+
+LoRA は「人物の学習済み特徴」、IPAdapter は「今回の Master Image への寄せ」、ControlNet は「ポーズ・構図」を担当させ、役割を分離する。
+
+## LoRA適用テスト
+
+最低限、次の条件で同一 Character ID を検証する。
+
+- 正面
+- 横顔
+- 笑顔
+- 怒り
+- 全身
+- 走る
+- 座る
+- 夜景 / 室内 / 雨天など背景変更
+- 衣装変更可能設定時の別衣装
+
+各ケースで Face / Hair / Body / Age / Aura を採点する。
+
 ## 推奨構成
 
 学習と推論は分ける。
 
 - 学習: Kohya_ss / AI-Toolkit 等を候補
 - 推論・ワークフロー: ComfyUI
-- 本番アプリ: Character ID → LoRA 選択 → 生成 → QA → Auto Repair
+- 本番アプリ: Character ID → LoRA 選択 → IPAdapter → 生成 → QA → Auto Repair
 
 ComfyUI 自体を LoRA 学習の唯一の中核とせず、ワークフロー / 推論オーケストレーションの役割として扱う。
 
@@ -134,13 +221,14 @@ LoRA を「合格保証」ではなく「初回生成の成功率を上げる層
 
 1. 現行 v3 系で4〜8コマ実測
 2. Dataset Gate を通る Master 画像群を自動生成・選別
-3. Character LoRA PoC
-4. LoRA有無の A/B 比較
-5. Identity Score 95+ の安定率を計測
-6. Face Embedding 追加
-7. QA + Auto Repair 統合
-8. Speech / Aura / Behavior DNA 追加
-9. Character ID 資産として再利用可能にする
+3. ComfyUI 推論PoC
+4. Character LoRA PoC
+5. LoRAのみ / LoRA+IPAdapter / LoRA+IPAdapter+QA の A/B 比較
+6. Identity Score 95+ の安定率を計測
+7. Face Embedding 追加
+8. QA + Auto Repair 統合
+9. Speech / Aura / Behavior DNA 追加
+10. Character ID 資産として再利用可能にする
 
 ## Success Criteria
 
