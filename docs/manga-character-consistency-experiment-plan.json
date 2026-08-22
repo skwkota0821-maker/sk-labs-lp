@@ -1,6 +1,6 @@
 {
   "title": "SK LABS Manga Character Consistency Experiment Plan",
-  "version": "1.0",
+  "version": "1.1",
   "status": "ready_for_execution",
   "primary_kpi": "character_consistency_rate",
   "definition": "approved_panels / total_generated_panels",
@@ -18,45 +18,69 @@
     "body_score",
     "age_score",
     "aura_score",
+    "first_pass_success",
     "repair_count",
     "repair_level",
+    "total_generation_attempts",
     "generation_time_seconds",
     "failure_tags",
     "hard_fail",
     "qa_status",
     "user_rating"
   ],
+  "derived_metrics": {
+    "first_pass_success_rate": "first_pass_approved / initial_generations",
+    "repair_cost": "total_generation_attempts / approved_panels",
+    "repair_rate": "panels_requiring_repair / total_generated_panels",
+    "hard_fail_rate": "hard_fail_panels / total_generated_panels",
+    "drift_heatmap": "failure_tag_count / total_failure_tags"
+  },
   "experiments": [
     {
       "id": "AB-1",
       "a": "lora_only",
       "b": "lora_plus_ipadapter",
-      "measure": ["character_consistency_rate","identity_score","repair_rate","average_repair_count","generation_time_seconds"]
+      "measure": ["character_consistency_rate","identity_score","first_pass_success_rate","repair_rate","repair_cost","average_repair_count","hard_fail_rate","generation_time_seconds"]
     },
     {
       "id": "AB-2",
       "a": "lora_plus_ipadapter",
       "b": "lora_plus_ipadapter_plus_facedetailer",
-      "measure": ["face_score","character_consistency_rate","hard_fail_rate","average_repair_count","generation_time_seconds"]
+      "measure": ["face_score","character_consistency_rate","first_pass_success_rate","hard_fail_rate","repair_cost","average_repair_count","generation_time_seconds"]
     },
     {
       "id": "AB-3",
       "a": "controlnet_off",
       "b": "controlnet_on",
-      "measure": ["pose_consistency","identity_score","character_consistency_rate","generation_time_seconds"]
+      "measure": ["pose_consistency","identity_score","character_consistency_rate","repair_cost","generation_time_seconds"]
     }
   ],
   "drift_memory": {
     "enabled": true,
     "aggregate_by": ["character_id","failure_tag"],
     "minimum_samples_before_prevention": 30,
+    "heatmap_enabled": true,
     "prevention_rule": "inject top recurring failure tags into Level0 prompt before generation"
   },
   "acceptance": {
-    "identity_score_min": 95,
-    "hard_fail_rate_max": 0.0,
-    "average_repair_count_max": 1.0,
-    "character_consistency_rate_min": 0.95
+    "minimum": {
+      "character_consistency_rate": 0.90,
+      "identity_score": 92,
+      "hard_fail_rate_max": 0.10,
+      "average_repair_count_max": 2.0
+    },
+    "target": {
+      "character_consistency_rate": 0.95,
+      "identity_score": 95,
+      "hard_fail_rate_max": 0.03,
+      "average_repair_count_max": 1.2,
+      "repair_cost_max": 1.2
+    }
+  },
+  "ipadapter_promotion_rule": {
+    "identity_score_improvement_min_points": 5,
+    "repair_reduction_min": 0.30,
+    "decision": "promote LoRA + IPAdapter to canonical workflow when both thresholds are met"
   },
   "next_action": "Resolve executable ComfyUI environment and run AB-1 first"
 }
