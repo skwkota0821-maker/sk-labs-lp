@@ -1,18 +1,24 @@
 import type { Config, Context } from '@netlify/functions';
 import { getUser } from '@netlify/identity';
 
+const CLIENT_EVENT_ALLOWLIST = new Set([
+  'content.viewed',
+  'cta.clicked',
+  'adult.external_link_clicked',
+]);
+
 function json(body: unknown, status = 200) {
-  return Response.json(body, { status });
+  return Response.json(body, { status, headers: { 'cache-control': 'no-store' } });
 }
 
 async function coreRequest(path: string, init: RequestInit = {}) {
   const base = Netlify.env.get('HARNESS_CORE_API_URL');
   const apiKey = Netlify.env.get('HARNESS_CORE_API_KEY');
-  if (!base) return { ok: false, status: 503, body: { error: 'core_not_configured' } };
+  if (!base || !apiKey) return { ok: false, status: 503, body: { error: 'core_not_configured' } };
 
   const headers = new Headers(init.headers);
   headers.set('content-type', 'application/json');
-  if (apiKey) headers.set('authorization', `Bearer ${apiKey}`);
+  headers.set('authorization', `Bearer ${apiKey}`);
 
   const response = await fetch(`${base.replace(/\/$/, '')}${path}`, { ...init, headers });
   let body: unknown = null;
@@ -23,26 +29,31 @@ async function coreRequest(path: string, init: RequestInit = {}) {
 async function ensureMember(user: Awaited<ReturnType<typeof getUser>>) {
   if (!user) return null;
 
+  const identityPath = `/v1/identities/web/${encodeURIComponent(user.id)}`;
+  const resolved = await coreRequest(identityPath, { method: 'GET' });
+  if (resolved.ok) {
+    const memberId = (resolved.body as { member_id?: string })?.member_id;
+    if (!memberId) return { ok: false, status: 502, body: { error: 'member_id_missing' } };
+    return { ok: true, status: 200, body: { member_id: memberId } };
+  }
+  if (resolved.status !== 404) return resolved;
+
   const created = await coreRequest('/v1/members', {
     method: 'POST',
     body: JSON.stringify({ email: user.email ?? null, source: 'web' }),
   });
+  if (!created.ok) return created;
 
-  if (!created.ok && created.status !== 409) return created;
+  const memberId = (created.body as { member_id?: string })?.member_id;
+  if (!memberId) return { ok: false, status: 502, body: { error: 'member_id_missing' } };
 
-  const member = (created.body as { member_id?: string })?.member_id;
-  if (!member && created.status === 409) {
-    return { ok: false, status: 409, body: { error: 'member_lookup_required' } };
-  }
-  if (!member) return { ok: false, status: 502, body: { error: 'member_id_missing' } };
-
-  const linked = await coreRequest(`/v1/members/${encodeURIComponent(member)}/identities`, {
+  const linked = await coreRequest(`/v1/members/${encodeURIComponent(memberId)}/identities`, {
     method: 'POST',
     body: JSON.stringify({ provider: 'web', external_id: user.id }),
   });
+  if (!linked.ok) return linked;
 
-  if (!linked.ok && linked.status !== 409) return linked;
-  return { ok: true, status: 200, body: { member_id: member } };
+  return { ok: true, status: 200, body: { member_id: memberId } };
 }
 
 export default async (req: Request, _context: Context) => {
@@ -59,16 +70,24 @@ export default async (req: Request, _context: Context) => {
   }
 
   if (req.method === 'POST') {
-    const input = await req.json().catch(() => ({})) as { event_name?: string; payload?: Record<string, unknown> };
+    const input = await req.json().catch(() => ({})) as {
+      event_name?: string;
+      idempotency_key?: string;
+      payload?: Record<string, unknown>;
+    };
     if (!input.event_name) return json({ error: 'event_name_required' }, 400);
+    if (!CLIENT_EVENT_ALLOWLIST.has(input.event_name)) return json({ error: 'event_not_allowed' }, 403);
 
-    const recorded = await coreRequest('/v1/events', {
+    const idempotencyKey = input.idempotency_key?.trim() || crypto.randomUUID();
+    const recorded = await coreRequest('/v1/events/client', {
       method: 'POST',
       body: JSON.stringify({
         member_id: memberId,
         event_name: input.event_name,
         source: 'web',
         occurred_at: new Date().toISOString(),
+        event_version: 1,
+        idempotency_key: idempotencyKey,
         payload: input.payload ?? {},
       }),
     });
