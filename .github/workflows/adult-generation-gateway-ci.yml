@@ -1,0 +1,36 @@
+name: Adult Generation Gateway CI
+
+on:
+  pull_request:
+    paths:
+      - 'services/adult-generation-gateway/**'
+      - '.github/workflows/adult-generation-gateway-ci.yml'
+  push:
+    branches:
+      - feature/adult-generation-gateway
+    paths:
+      - 'services/adult-generation-gateway/**'
+      - '.github/workflows/adult-generation-gateway-ci.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: services/adult-generation-gateway
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: services/adult-generation-gateway/package-lock.json
+      - name: Install
+        run: npm ci
+      - name: Typecheck and test
+        run: npm run check
