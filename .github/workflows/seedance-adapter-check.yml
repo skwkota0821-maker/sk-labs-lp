@@ -1,0 +1,24 @@
+name: Seedance Adapter Check
+
+on:
+  pull_request:
+    paths:
+      - "docs/seedance-2-5-adapter-spec.md"
+      - "tools/seedance_probe.py"
+      - "tests/test_seedance_probe.py"
+      - ".github/workflows/seedance-adapter-check.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Rights gate unit tests
+        run: python -m unittest tests/test_seedance_probe.py -v
