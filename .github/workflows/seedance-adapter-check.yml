@@ -25,3 +25,13 @@ jobs:
         run: python -m unittest tests/test_seedance_probe.py -v
       - name: 参照パックdry-run検証
         run: python tools/seedance_probe.py --reference-pack examples/seedance-reference-pack.example.json
+      - name: LAS_API_KEY設定状態確認
+        env:
+          LAS_API_KEY: ${{ secrets.LAS_API_KEY }}
+        shell: bash
+        run: |
+          if [ -n "$LAS_API_KEY" ]; then
+            echo "LAS_API_KEY_CONFIGURED=true"
+          else
+            echo "LAS_API_KEY_CONFIGURED=false"
+          fi
