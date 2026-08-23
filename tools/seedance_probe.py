@@ -8,7 +8,7 @@ import urllib.error
 import urllib.request
 
 MODEL = "dreamina-seedance-2-5-260628"
-BASE_URL = "https://ark.ap-southeast.bytepluses.com/api/v3/contents/generations/tasks"
+BASE_URL = "https://operator.las.ap-southeast-1.bytepluses.com/api/v1/contents/generations/tasks"
 ALLOWED_RIGHTS = {"self_owned", "licensed"}
 ALLOWED_CONSENT = {"not_applicable", "obtained"}
 
@@ -27,22 +27,32 @@ def validate_reference_pack(pack):
         errors.append("voice_rights_status is not allowed")
     if pack.get("reference_images") and pack.get("portrait_rights_status") not in ALLOWED_RIGHTS:
         errors.append("portrait_rights_status is not allowed")
+    if pack.get("contains_real_human_face") is True and not pack.get("las_asset_library_authorized"):
+        errors.append("real human face references require authorized LAS asset library flow")
     return errors
 
 
-def build_payload(pack, prompt, duration=5, ratio="16:9"):
+def build_payload(pack, prompt, duration=5, ratio="16:9", resolution="720p"):
     images = pack.get("reference_images") or []
     if not images:
-        raise ValueError("reference_images requires at least one image URL")
+        raise ValueError("reference_images requires at least one image URL or asset:// ID")
+    if not 4 <= duration <= 30:
+        raise ValueError("Seedance 2.5 duration must be between 4 and 30 seconds")
+    if resolution not in {"480p", "720p"}:
+        raise ValueError("Seedance 2.5 supports 480p or 720p")
     content = [{"type": "text", "text": prompt}]
     for url in images[:30]:
         content.append({"type": "image_url", "image_url": {"url": url}, "role": "reference_image"})
     return {
         "model": MODEL,
         "content": content,
+        "generate_audio": True,
+        "resolution": resolution,
         "ratio": ratio,
         "duration": duration,
+        "seed": 42,
         "watermark": False,
+        "return_last_frame": True,
     }
 
 
@@ -74,10 +84,10 @@ def get_task(api_key, task_id):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="SK LABS Seedance 2.5 probe")
+    parser = argparse.ArgumentParser(description="SK LABS Seedance 2.5 LAS probe")
     parser.add_argument("--reference-pack", required=True)
     parser.add_argument("--prompt", default="Natural five-second performance. Preserve identity, hairstyle and outfit from the reference image.")
-    parser.add_argument("--execute", action="store_true", help="Actually call ModelArk. Default is dry-run.")
+    parser.add_argument("--execute", action="store_true", help="Actually call BytePlus LAS. Default is dry-run.")
     parser.add_argument("--poll", action="store_true", help="Poll task until terminal status.")
     args = parser.parse_args()
 
@@ -94,9 +104,9 @@ def main():
         print(json.dumps({"ok": True, "mode": "dry-run", "payload": payload}, ensure_ascii=False, indent=2))
         return 0
 
-    api_key = os.environ.get("MODELARK_API_KEY")
+    api_key = os.environ.get("LAS_API_KEY")
     if not api_key:
-        print("MODELARK_API_KEY is required for --execute", file=sys.stderr)
+        print("LAS_API_KEY is required for --execute", file=sys.stderr)
         return 3
 
     result = submit(api_key, payload)
@@ -104,12 +114,12 @@ def main():
     if not args.poll:
         return 0
 
-    task_id = result.get("id") or result.get("task_id")
+    task_id = result.get("id")
     if not task_id:
         print("No task id returned; cannot poll", file=sys.stderr)
         return 4
 
-    terminal = {"succeeded", "failed", "cancelled", "expired"}
+    terminal = {"succeeded", "failed", "expired"}
     while True:
         task = get_task(api_key, task_id)
         print(json.dumps(task, ensure_ascii=False, indent=2))
