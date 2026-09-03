@@ -7,6 +7,11 @@
   status = 200
 
 [[redirects]]
+  from = "/"
+  to = "/index-v2.html"
+  status = 200
+
+[[redirects]]
   from = "/*"
-  to = "/index.html"
+  to = "/index-v2.html"
   status = 200
