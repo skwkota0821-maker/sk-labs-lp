@@ -1,0 +1,55 @@
+{
+  "name": "SK LABS Character Consistency Baseline v1",
+  "purpose": "Character ID based manga panel generation benchmark",
+  "version": "1.0",
+  "notes": [
+    "This is a canonical workflow specification, not a guaranteed import-ready ComfyUI graph until exact installed node IDs and model filenames are resolved.",
+    "Use as the SSOT for building the first executable ComfyUI PoC.",
+    "Do not hardcode model filenames before the target ComfyUI environment is inspected."
+  ],
+  "pipeline": [
+    {"step": 1, "node": "Load Checkpoint", "role": "base_model"},
+    {"step": 2, "node": "Load LoRA", "role": "character_lora", "defaults": {"strength_model": 0.8, "strength_clip": 0.8}},
+    {"step": 3, "node": "IPAdapter", "role": "master_reference", "defaults": {"weight": 0.8, "fallback_weight": 0.9, "stable_weight": 0.75}},
+    {"step": 4, "node": "CLIP Text Encode", "role": "scene_prompt"},
+    {"step": 5, "node": "ControlNet", "role": "optional_pose_composition_control", "optional": true},
+    {"step": 6, "node": "KSampler", "role": "generation", "defaults": {"cfg": 5.5, "steps": 30, "sampler": "DPM++ 2M Karras"}},
+    {"step": 7, "node": "VAE Decode", "role": "decode"},
+    {"step": 8, "node": "FaceDetailer", "role": "identity_preserving_face_repair", "defaults": {"detector": "face_yolov8m.pt", "confidence": 0.5, "denoise": 0.2, "steps": 15, "cfg": 5, "force_inpaint": true, "mask_blur": 6, "feather": 8}},
+    {"step": 9, "node": "External QA Engine", "role": "identity_and_soul_scoring"},
+    {"step": 10, "node": "Save Router", "role": "qa_based_storage"}
+  ],
+  "qa_policy": {
+    "approved": {"min_score": 95},
+    "repair": {"min_score": 90, "max_score": 94},
+    "rejected": {"max_score": 89},
+    "metrics": ["face", "hair", "body", "age", "identity_total", "repair_count", "generation_time_ms", "user_rating"]
+  },
+  "storage": {
+    "pattern": "characters/{character_id}/{status}/chapter{chapter}/scene{scene}/v{version}.png",
+    "qa_metadata": "characters/{character_id}/qa/chapter{chapter}_scene{scene}_v{version}.json"
+  },
+  "benchmark": {
+    "variants": [
+      "lora_only",
+      "lora_plus_ipadapter",
+      "lora_plus_ipadapter_plus_facedetailer",
+      "full_stack_plus_qa"
+    ],
+    "primary_kpi": "character_consistency_rate",
+    "secondary_kpis": ["average_identity_score", "average_repair_count", "hard_fail_rate", "generation_time_ms"]
+  },
+  "character_register": {
+    "fields": [
+      "character_id",
+      "master_images",
+      "character_dna",
+      "lora_model",
+      "face_embedding",
+      "speech_dna",
+      "aura_dna",
+      "behavior_dna",
+      "qa_history"
+    ]
+  }
+}
