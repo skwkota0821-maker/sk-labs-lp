@@ -28,5 +28,6 @@ export default async (req: Request, context: any) => {
 };
 
 export const config = {
-  path: "/",
+  path: "/*",
+  excludedPath: ["/api/*", "/downloads/*", "/data/*", "/assets/*", "/measurement.js", "/sitemap.xml", "/robots.txt"],
 };

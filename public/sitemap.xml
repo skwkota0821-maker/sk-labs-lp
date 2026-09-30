@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://sk-labs.net/</loc>
-  </url>
-  <url>
-    <loc>https://sk-labs.net/starter-kit</loc>
-  </url>
+  <url><loc>https://sk-labs.net/</loc></url>
+  <url><loc>https://sk-labs.net/starter-kit</loc></url>
+  <url><loc>https://sk-labs.net/start/</loc></url>
+  <url><loc>https://sk-labs.net/articles/</loc></url>
+  <url><loc>https://sk-labs.net/resources/</loc></url>
+  <url><loc>https://sk-labs.net/tools/</loc></url>
+  <url><loc>https://sk-labs.net/ai-team/</loc></url>
+  <url><loc>https://sk-labs.net/works/</loc></url>
+  <url><loc>https://sk-labs.net/space/</loc></url>
+  <url><loc>https://sk-labs.net/search/</loc></url>
+  <url><loc>https://sk-labs.net/articles/ai-team-design/</loc></url>
+  <url><loc>https://sk-labs.net/articles/stargazing-checklist/</loc></url>
+  <url><loc>https://sk-labs.net/articles/starter-kit-guide/</loc></url>
 </urlset>

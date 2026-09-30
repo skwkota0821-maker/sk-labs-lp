@@ -1,0 +1,576 @@
+{
+  "_readme": "SK LABS公式サイトのコンテンツ正本データ（サイト配信用ミラー）。正本はGoogle Drive。ここを編集して `node scripts/build-pages.mjs` を実行すると、各ハブページ・検索索引・新着・sitemap.xml が再生成される。URLが一次資料で確認できないものは url を null にし、unresolved に記録する（推測URL禁止）。",
+  "site": {
+    "name": "SK LABS",
+    "url": "https://sk-labs.net",
+    "email": "info@sk-labs.net",
+    "consultMail": "mailto:info@sk-labs.net?subject=SK%20LABS%E7%84%A1%E6%96%99%E7%9B%B8%E8%AB%87",
+    "sns": {
+      "x": "https://x.com/sk_labs_jp",
+      "instagram": "https://www.instagram.com/sklabs_official",
+      "note": "https://note.com/sklabs_official"
+    }
+  },
+  "resources": [
+    {
+      "id": "starter-vol1",
+      "title": "SK LABS紹介資料（スターターキット2026 Vol.1）",
+      "summary": "SK LABSの考え方、使命、提供領域、制作方針をまとめた紹介資料です。",
+      "audience": "SK LABSの事業内容を知りたい方、AIと自動化を組み合わせた支援を検討している方",
+      "format": "PDF・11ページ",
+      "url": "/downloads/sklabs-starter-kit-vol1.pdf",
+      "cta": "PDFを受け取る",
+      "layer": "education",
+      "tags": [
+        "SK LABS",
+        "会社紹介",
+        "AI活用"
+      ],
+      "date": "2026-07-30",
+      "source": "Drive: SK LABS スターターキット2026 / 本文に『LPから無料で受け取れる4つの資料シリーズ』と明記"
+    },
+    {
+      "id": "starter-vol2",
+      "title": "AI活用ガイド【無料版】（スターターキット2026 Vol.2）",
+      "summary": "AIの基本、代表的な活用方法、指示の出し方、安全に使うための注意点を初心者向けに整理したガイドです。",
+      "audience": "AIを初めて使う方、AIへの指示方法を整理したい方",
+      "format": "PDF・31ページ",
+      "url": "/downloads/sklabs-starter-kit-vol2.pdf",
+      "cta": "PDFを受け取る",
+      "layer": "education",
+      "tags": [
+        "AI活用ガイド",
+        "プロンプト",
+        "初心者"
+      ],
+      "date": "2026-07-30",
+      "source": "Drive: SK LABS スターターキット2026"
+    },
+    {
+      "id": "starter-vol3",
+      "title": "AI活用事例集（スターターキット2026 Vol.3）",
+      "summary": "文章作成・情報整理・制作・業務改善・自動化で、AIをどの工程に使い、人がどこを確認するのかを具体例で紹介します。",
+      "audience": "具体的な活用場面を知りたい方、自分の仕事へ応用したい方",
+      "format": "PDF・36ページ",
+      "url": "/downloads/sklabs-starter-kit-vol3.pdf",
+      "cta": "PDFを受け取る",
+      "layer": "education",
+      "tags": [
+        "AI活用事例",
+        "業務改善",
+        "自動化"
+      ],
+      "date": "2026-07-30",
+      "source": "Drive: SK LABS スターターキット2026"
+    },
+    {
+      "id": "starter-vol4",
+      "title": "AI実践チェックリスト集（スターターキット2026 Vol.4）",
+      "summary": "AI導入、毎日の活用、プロンプト作成、公開前確認、週間・月間レビューまでを確認できるチェックリストです。",
+      "audience": "AI活用の抜け漏れを減らしたい方、公開前の確認手順を整えたい方",
+      "format": "PDF・28ページ",
+      "url": "/downloads/sklabs-starter-kit-vol4.pdf",
+      "cta": "PDFを受け取る",
+      "layer": "education",
+      "tags": [
+        "チェックリスト",
+        "公開前確認",
+        "プロンプト"
+      ],
+      "date": "2026-07-30",
+      "source": "Drive: SK LABS スターターキット2026"
+    }
+  ],
+  "articles": [
+    {
+      "slug": "ai-team-design",
+      "type": "site",
+      "title": "AIを「ツール」ではなく「チーム」として使う：SK LABSの役割分担",
+      "description": "どのAIが一番かではなく、どの仕事をどのAIに任せ、どこを人が判断するか。SK LABSが実際に使っているAIの役割分担と進め方をまとめます。",
+      "category": "AI活用",
+      "published": "2026-09-30",
+      "updated": "2026-09-30",
+      "related": [
+        "ai-tools-guide",
+        "starter-kit-guide"
+      ],
+      "cta": [
+        "resources",
+        "consult"
+      ],
+      "body": [
+        [
+          "p",
+          "AIを使い始めると、「ChatGPTとClaudeはどちらが優秀か」「新しいAIを全部試さなければ」と考えがちです。しかしSK LABSでは、AIを性能で競わせるのではなく、会社の組織と同じように役割を分けて使っています。"
+        ],
+        [
+          "h2",
+          "AIごとに担当を決める"
+        ],
+        [
+          "p",
+          "SK LABSの全AI共通指示（2026年9月29日版）で定めている、現在の主な役割は次のとおりです。"
+        ],
+        [
+          "ul",
+          [
+            "ChatGPT：全体統括、経営判断の支援、タスク推進、知識の統合",
+            "Claude：長文の分析、編集、設計レビュー、文書品質の向上",
+            "Gemini：Google Drive・ドキュメント・スプレッドシートを中心とした情報の参照と整理",
+            "Microsoft Copilot：Microsoft 365上の文書・表計算・メールなどの作業支援",
+            "Grok・Perplexity：外部情報の探索、時事確認、競合・市場調査"
+          ]
+        ],
+        [
+          "p",
+          "画像・図解・サムネイルなどのデザイン制作にはCanvaを使っています。"
+        ],
+        [
+          "h2",
+          "人が持つのは「判断」"
+        ],
+        [
+          "p",
+          "AIに任せるのは調査・下書き・整理・チェックなどの作業です。何を作るか、公開してよいか、事実として正しいかといった最終判断は人が持ちます。確認できない情報は「確認できない」と扱い、推測で埋めないことを全AI共通のルールにしています。"
+        ],
+        [
+          "h2",
+          "正本を一か所に置く"
+        ],
+        [
+          "p",
+          "複数のAIを使うと、どのAIがどの前提で動いたかが分からなくなりがちです。SK LABSではGoogle Driveを唯一の正本とし、各AIは作業前に正本を確認してから動きます。成果物もAIの会話の中に残さず、正本へ回収します。"
+        ],
+        [
+          "h2",
+          "まずは1つの業務から"
+        ],
+        [
+          "p",
+          "最初から全業務をAI化する必要はありません。毎週くり返す作業を1つ選び、AIに任せる部分と人が確認する部分を決めるところから始めるのが確実です。具体的な進め方は、無料のスターターキットでも紹介しています。"
+        ]
+      ]
+    },
+    {
+      "slug": "stargazing-checklist",
+      "type": "site",
+      "title": "今夜、星は見える？ 星空観測の前に確認したい4つの情報",
+      "description": "天気、月明かり、流星群の極大日、観測場所の暗さ。星空を見に行く前に確認したい4つの情報と、SK LABSの宇宙情報ページの使い方をまとめます。",
+      "category": "宇宙・星空",
+      "published": "2026-09-30",
+      "updated": "2026-09-30",
+      "related": [
+        "ai-team-design"
+      ],
+      "cta": [
+        "space",
+        "resources"
+      ],
+      "body": [
+        [
+          "p",
+          "星空観測の成否は、当日の条件でほぼ決まります。出かける前に次の4つを確認しておくと、「行ったのに何も見えなかった」を減らせます。"
+        ],
+        [
+          "h2",
+          "1. 天気と雲の予報"
+        ],
+        [
+          "p",
+          "晴れの予報でも、夜にくもる予報になっていることがあります。夜の時間帯の天気と降水確率を確認しましょう。SK LABSの宇宙情報ページでは、気象庁の地域予報を都道府県ごとに確認できます。"
+        ],
+        [
+          "h2",
+          "2. 月明かり"
+        ],
+        [
+          "p",
+          "満月に近いほど夜空が明るくなり、暗い星や流星が見えにくくなります。月齢と輝面比（月の光っている面の割合）を目安にしてください。"
+        ],
+        [
+          "h2",
+          "3. 流星群の極大日"
+        ],
+        [
+          "p",
+          "流星群には毎年、流星が最も多くなる「極大」の時期があります。極大日の前後で、月明かりの影響が少ない夜ほど好条件です。紹介している出現数は、条件の良い暗い空での目安であり、実際に見える数は場所と天候で大きく変わります。"
+        ],
+        [
+          "h2",
+          "4. 観測場所の暗さ"
+        ],
+        [
+          "p",
+          "街明かりの少ない場所ほど多くの星が見えます。日本国内では、国際ダークスカイ協会（DarkSky International）の星空保護区に認定された地域もあります。夜間に出かける際は、足元の安全と、私有地・立入禁止区域に入らないことを優先してください。"
+        ]
+      ]
+    },
+    {
+      "slug": "starter-kit-guide",
+      "type": "site",
+      "title": "無料スターターキット2026の使い方：4つの資料を読む順番",
+      "description": "SK LABSの無料資料4点（紹介資料・AI活用ガイド・事例集・チェックリスト）を、どの順番でどう使うと実務につながるかを解説します。",
+      "category": "無料資料",
+      "published": "2026-09-30",
+      "updated": "2026-09-30",
+      "related": [
+        "ai-team-design"
+      ],
+      "cta": [
+        "resources",
+        "products"
+      ],
+      "body": [
+        [
+          "p",
+          "SK LABSスターターキット2026は、AIの基本から実践、業務への応用、公開前の確認までを4つのPDFにまとめた無料資料です。登録不要でダウンロードできます。"
+        ],
+        [
+          "h2",
+          "読む順番"
+        ],
+        [
+          "ol",
+          [
+            "Vol.1 SK LABS紹介資料：SK LABSの考え方と提供領域を知る",
+            "Vol.2 AI活用ガイド【無料版】：AIの基本と正しい使い方を学ぶ",
+            "Vol.3 AI活用事例集：自分の仕事へ置き換える",
+            "Vol.4 AI実践チェックリスト集：行動・確認・改善を習慣にする"
+          ]
+        ],
+        [
+          "h2",
+          "読んだあとに"
+        ],
+        [
+          "p",
+          "資料で全体像をつかんだら、1つの業務を選んで実際に試してください。記事制作にAIを使いたい方はnoteの実践記事、自社の業務に合わせて設計したい方は無料相談が次のステップです。"
+        ],
+        [
+          "h2",
+          "公開していないもの"
+        ],
+        [
+          "p",
+          "スターターキットでは、SK LABSの内部プロンプト、AI共通運用ルール、自動化設計、非公開の業務データなどは掲載していません。"
+        ]
+      ]
+    },
+    {
+      "slug": "tomawari-no-kyokasho",
+      "type": "note",
+      "title": "遠回りの教科書　AIを学ぶだけの時代は、今日で終わり。",
+      "description": "AIを「学ぶこと」が目的になっている状態から抜け出し、仕事の仕組みとして使う側へ。SK LABSの考え方の土台をまとめた記事です（noteで公開）。",
+      "category": "AI活用",
+      "url": "https://note.com/sklabs_official/n/na75363454d12",
+      "published": null,
+      "publishedNote": "note公開日は未確認（2026年7月26日のnote通知で公開を確認）",
+      "related": [
+        "ai-team-design"
+      ],
+      "cta": [
+        "resources"
+      ]
+    }
+  ],
+  "products": [
+    {
+      "id": "P001",
+      "stage": "入口商品",
+      "title": "AIに記事を書かせる前に決める5項目",
+      "summary": "「薄い文章」を減らすための最小設計。AIへ渡す前に決める5項目を、そのまま埋めて使える形にまとめたnoteです。",
+      "channel": "note",
+      "url": null,
+      "fallbackUrl": "https://note.com/sklabs_official",
+      "status": "公開記録あり（2026年8月27日 note公式ピックアップ）"
+    },
+    {
+      "id": "NOTE980",
+      "stage": "中価格商品",
+      "title": "AIに8割任せても売れる「ひとり編集部」の作り方",
+      "summary": "企画・調査・構成・執筆・編集・販売導線までの制作工程と、ChatGPT・Claude・Geminiなどの役割分担をまとめた実践ガイドです。",
+      "channel": "note",
+      "url": null,
+      "fallbackUrl": "https://note.com/sklabs_official",
+      "status": "公開記録あり（2026年9月8日 販売投稿文書）"
+    }
+  ],
+  "tools": {
+    "updated": "2026-09-30",
+    "basis": "SK LABS 全AI共通指示セット v3.2（2026年9月29日）の役割定義。Canvaは制作ツールとしての使用実態に基づく",
+    "items": [
+      {
+        "name": "ChatGPT",
+        "role": "統括・企画",
+        "use": "全体の方針整理、企画の意思決定の支援、タスクの推進、複数の情報の統合",
+        "flow": "企画・進行管理",
+        "caution": "最終判断は人が行う。数字や固有名詞は一次情報で確認する。"
+      },
+      {
+        "name": "Claude",
+        "role": "編集・監査",
+        "use": "長文の分析、文章の編集・添削、設計や成果物のレビュー",
+        "flow": "執筆・品質確認",
+        "caution": "引用や事実関係は原典で確認する。"
+      },
+      {
+        "name": "Gemini",
+        "role": "Google領域の情報整理",
+        "use": "Google Drive・ドキュメント・スプレッドシートを中心とした情報の参照と整理",
+        "flow": "調査・資料整理",
+        "caution": "共有範囲と機密情報の扱いを事前に決める。"
+      },
+      {
+        "name": "Microsoft Copilot",
+        "role": "Office業務の支援",
+        "use": "Microsoft 365上の文書・表計算・メールなど日常業務の作業支援",
+        "flow": "資料作成・定型業務",
+        "caution": "社内データの取り扱いルールに従う。"
+      },
+      {
+        "name": "Grok・Perplexity",
+        "role": "外部調査",
+        "use": "外部情報の探索、時事確認、競合・市場調査",
+        "flow": "市場調査",
+        "caution": "出典を確認し、未確認情報を事実として扱わない。"
+      },
+      {
+        "name": "Canva",
+        "role": "デザイン",
+        "use": "画像・図解・サムネイルなどのデザイン制作",
+        "flow": "制作",
+        "caution": "素材の利用条件と商用可否を確認する。"
+      }
+    ]
+  },
+  "workflow": [
+    {
+      "step": "調査",
+      "ai": "Grok・Perplexity／Gemini",
+      "human": "調べる目的と範囲を決める"
+    },
+    {
+      "step": "企画",
+      "ai": "ChatGPT",
+      "human": "誰に何を届けるかを決める"
+    },
+    {
+      "step": "制作",
+      "ai": "Claude／Canva",
+      "human": "一次情報・実体験を提供する"
+    },
+    {
+      "step": "品質確認",
+      "ai": "Claude",
+      "human": "事実確認と公開可否を判断する"
+    },
+    {
+      "step": "公開",
+      "ai": "GitHub・Netlify等の自動化",
+      "human": "最終承認"
+    },
+    {
+      "step": "計測",
+      "ai": "GA4等の計測基盤",
+      "human": "数字を見て次の一手を決める"
+    },
+    {
+      "step": "改善",
+      "ai": "ChatGPT",
+      "human": "ボトルネックを1つ選んで直す"
+    }
+  ],
+  "works": [
+    {
+      "title": "SK LABS公式サイト（sk-labs.net）",
+      "kind": "自社プロジェクト",
+      "category": "Web制作・運用",
+      "summary": "宇宙の世界観と、記事・無料資料・宇宙情報・相談導線を一つにまとめた公式サイト。気象庁・NASA・NOAAの公開データを取得して表示する機能を含みます。",
+      "tags": [
+        "Web",
+        "Netlify",
+        "Edge Functions"
+      ],
+      "url": "/"
+    },
+    {
+      "title": "SK LABSスターターキット2026",
+      "kind": "自社プロジェクト",
+      "category": "資料制作",
+      "summary": "AIの基本から実践・公開前確認までをまとめた無料PDF資料4点（計106ページ）。",
+      "tags": [
+        "資料制作",
+        "AI活用"
+      ],
+      "url": "/resources/"
+    },
+    {
+      "title": "SK LABS note OS",
+      "kind": "自社プロジェクト",
+      "category": "AI運用・自動化",
+      "summary": "note企画、テーマ審査、生成、品質確認、KPI記録、自動化をつなぐコンテンツ運用基盤。人の最終判断を残した半自動運用を前提に設計。",
+      "tags": [
+        "AI",
+        "n8n",
+        "GitHub",
+        "KPI"
+      ],
+      "url": null
+    },
+    {
+      "title": "BAR ALEXY Hub",
+      "kind": "自社プロジェクト",
+      "category": "Webアプリ",
+      "summary": "店舗の世界観をWebへ変換し、管理者機能やデータ基盤まで含めて構築する実店舗向けWebアプリプロジェクト。",
+      "tags": [
+        "Web App",
+        "Admin",
+        "Supabase"
+      ],
+      "url": null
+    },
+    {
+      "title": "小熊のコウ",
+      "kind": "自社プロジェクト",
+      "category": "キャラクターIP・コンテンツ",
+      "summary": "「朝5分で、今日の運を整えよう。」を軸に、note・X・有料コンテンツへ展開するキャラクターIP。",
+      "tags": [
+        "IP",
+        "note",
+        "X"
+      ],
+      "url": null
+    },
+    {
+      "title": "『管鮑の交わり』",
+      "kind": "自社プロジェクト",
+      "category": "出版",
+      "summary": "執筆・編集・表紙・LP・販売導線までを一つの出版プロジェクトとして管理。",
+      "tags": [
+        "執筆",
+        "編集",
+        "KDP"
+      ],
+      "url": null
+    }
+  ],
+  "affiliates": [
+    {
+      "id": "lancers",
+      "advertiser": "ランサーズ",
+      "label": "クラウドソーシング「ランサーズ」",
+      "context": "AIスキルを使って仕事を受けたい方向け。クラウドソーシングで案件を探せます。",
+      "url": "https://www.lancers.jp/affiliate/track?id=3642047&link=%2F",
+      "placement": [
+        "start:side-business"
+      ],
+      "source": "Drive: 🟢【アフィリエイト】ランサーズ公式リンク正本｜2026年9月10日（用途：SK LABSのWebサイト等からの送客）"
+    }
+  ],
+  "space": {
+    "title": "宇宙・星空情報",
+    "sources": [
+      "気象庁 予報データ",
+      "NASA APOD",
+      "NOAA SWPC"
+    ]
+  },
+  "unresolved": [
+    {
+      "target": "P001 note商品ページURL",
+      "checked": "Gmail（note通知は2026年7月30日以降なし）、Drive、GitHub全ブランチ、Slack、Asana",
+      "missing": "note記事の個別URL",
+      "next": "ボスからURL共有 → products[P001].url へ設定"
+    },
+    {
+      "target": "『ひとり編集部』980円note URL",
+      "checked": "同上",
+      "missing": "note記事の個別URL",
+      "next": "ボスからURL共有 → products[NOTE980].url へ設定"
+    },
+    {
+      "target": "AIを導入しても仕事が楽にならない理由（無料記事）",
+      "checked": "同上",
+      "missing": "公開状態と個別URL",
+      "next": "公開済みならURL共有 → articles へ追加"
+    },
+    {
+      "target": "P002〜P004",
+      "checked": "Drive（2026年9月15日 公開台帳で『公開状態要確認』）",
+      "missing": "公開状態と個別URL",
+      "next": "公開後にURLを登録"
+    },
+    {
+      "target": "AI業務定着スターターキット（上位商品）",
+      "checked": "Drive（販売原稿のみ）",
+      "missing": "販売ページ・価格の確定",
+      "next": "販売開始の決裁後に登録"
+    }
+  ],
+  "diagnosis": {
+    "question": "AIで何をしたいですか？",
+    "options": [
+      {
+        "id": "efficiency",
+        "label": "仕事を効率化したい",
+        "lead": "まずは1つの業務を選び、AIに任せる部分と人が確認する部分を分けるところから始めましょう。",
+        "links": [
+          "article:ai-team-design",
+          "resource:starter-vol2",
+          "resource:starter-vol4",
+          "consult"
+        ]
+      },
+      {
+        "id": "side-business",
+        "label": "AI副業を始めたい",
+        "lead": "AIの基本と指示の出し方を押さえてから、記事制作など小さな仕事で試すのが確実です。",
+        "links": [
+          "resource:starter-vol2",
+          "product:P001",
+          "affiliate:lancers"
+        ]
+      },
+      {
+        "id": "content",
+        "label": "記事・コンテンツを作りたい",
+        "lead": "AIに書かせる前の設計と、公開前の確認手順を先に固めると品質が安定します。",
+        "links": [
+          "product:P001",
+          "product:NOTE980",
+          "resource:starter-vol4"
+        ]
+      },
+      {
+        "id": "tools",
+        "label": "AIツールを使い分けたい",
+        "lead": "「どれが一番か」ではなく、仕事ごとに担当を決めるのがSK LABSの考え方です。",
+        "links": [
+          "page:/tools/",
+          "article:ai-team-design",
+          "resource:starter-vol3"
+        ]
+      },
+      {
+        "id": "team",
+        "label": "AIチームを作りたい",
+        "lead": "工程ごとにAIと人の役割を決め、正本を一か所に置くことが出発点です。",
+        "links": [
+          "page:/ai-team/",
+          "product:NOTE980",
+          "consult"
+        ]
+      },
+      {
+        "id": "consult",
+        "label": "SK LABSへ相談したい",
+        "lead": "AI導入・業務自動化・Web/LP制作・コンテンツ制作のご相談を受け付けています。",
+        "links": [
+          "consult",
+          "page:/works/",
+          "resource:starter-vol1"
+        ]
+      }
+    ]
+  }
+}

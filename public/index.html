@@ -19,9 +19,10 @@
     favicon:  ""    // 未確定のため空欄のまま(確定後にここへ入力)
   };
   // SK LABS公式SNS URL（本人より提供済み。共有トラッキング用クエリのみ除去）
+  // X: 2026年8月5日のX公式通知で @sklabs_jp → @SK_labs_jp への変更を確認済み
   window.SKLABS_LINKS = {
-    x:         "https://x.com/sk_labs_jp?s=11",
-    instagram: "https://www.instagram.com/sklabs_official?igsi=enF0NGh6ODhpdGRt&utm_source=qr",
+    x:         "https://x.com/sk_labs_jp",
+    instagram: "https://www.instagram.com/sklabs_official",
     note:      "https://note.com/sklabs_official"
   };
 </script>
@@ -59,7 +60,7 @@
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
-#hero,#svc,#ftr,#aiteam{scroll-margin-top:58px;}
+#hero,#svc,#ftr,#aiteam,#contents,#gift,#products,#stargazing{scroll-margin-top:58px;}
 body{
   background:#050118;color:#fff;
   font-family:'Hiragino Sans','Noto Sans JP','Yu Gothic',sans-serif;
@@ -111,7 +112,7 @@ a{color:inherit;text-decoration:none;}
 #mobileNav .mnav-cta a{border-bottom:none;padding:12px 16px;border-radius:8px;text-align:center;font-size:13.5px;}
 #mobileNav .mnav-cta a.hp{background:linear-gradient(135deg,#1a6cff,#7c3aed);}
 #mobileNav .mnav-cta a.hg{display:block;border:1px solid rgba(255,255,255,.22);}
-@media(max-width:1100px){.hbg{display:flex;}}
+@media(max-width:1320px){.hbg{display:flex;}.hnav{display:none!important;}.hdr-sns{display:none!important;}}
 .hp{display:inline-flex;align-items:center;gap:6px;padding:8px 18px;border-radius:6px;background:linear-gradient(135deg,#1a6cff,#7c3aed);font-size:12px;font-weight:700;box-shadow:0 0 16px rgba(124,58,237,.5);transition:opacity .2s;}
 .hp:hover{opacity:.85;}
 .hg{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:6px;border:1px solid rgba(255,255,255,.22);font-size:12px;transition:border-color .2s,background .2s;}
@@ -383,7 +384,8 @@ a{color:inherit;text-decoration:none;}
 /* 【最終修正】地球を縮小・下方移動した位置に合わせ、bottom%指定(hero全体基準で
    下部セクションと衝突していた)から、地球の見える位置に連動するtop%指定へ変更 */
 #clockPanel{
-  position:absolute;right:5%;top:80%;z-index:11;
+  /* 【2026年9月30日】星空観測ガイド追加でヒーローが縦に伸びたため、従来と同じ位置関係を保つよう下端基準へ */
+  position:absolute;right:5%;top:auto;bottom:132px;z-index:11;
   min-width:180px;padding:14px 18px;border-radius:12px;
   background:rgba(6,10,30,.72);border:1px solid rgba(120,160,255,.32);
   backdrop-filter:blur(8px);pointer-events:none;
@@ -396,7 +398,7 @@ a{color:inherit;text-decoration:none;}
 @keyframes cpPulse{0%,100%{opacity:1;}50%{opacity:.25;}}
 #clockPanel .cp-row{display:flex;justify-content:space-between;align-items:center;font-size:10px;color:rgba(255,255,255,.55);padding-top:6px;border-top:1px solid rgba(255,255,255,.12);margin-top:6px;gap:10px;}
 #clockPanel .cp-row b{color:rgba(150,210,255,.95);font-weight:700;}
-@media(max-width:1100px){#clockPanel{right:4%;top:82%;min-width:150px;padding:11px 14px;}
+@media(max-width:1100px){#clockPanel{right:4%;top:auto;bottom:248px;min-width:150px;padding:11px 14px;}
   #clockPanel .cp-time{font-size:19px;}}
 @media(max-width:600px){#clockPanel{display:none;}}
 
@@ -470,6 +472,18 @@ a{color:inherit;text-decoration:none;}
 .space-card a.sc-link{font-size:10px;color:rgba(150,200,255,.9);}
 @media(max-width:1100px){.space-cards{grid-template-columns:repeat(3,1fr);}.space-zone{padding:0 24px;}}
 @media(max-width:600px){.space-cards{grid-template-columns:repeat(2,1fr);}.space-zone{padding:0 14px;}}
+/* 【2026年9月30日追加】星空観測ガイド（天気・流星群・観測スポット） */
+.space-cards.sc-row2{grid-template-columns:repeat(3,1fr);margin-top:14px;}
+.space-card .sc-badge.is-na{background:rgba(255,190,90,.14);color:#ffd08a;border-color:rgba(255,190,90,.45);}
+.space-card .sc-big.sc-mid{font-size:18px;line-height:1.35;}
+.space-card .sc-sub{font-size:10px;color:rgba(255,255,255,.52);margin-top:6px;}
+.space-card .sc-list{list-style:none;margin-top:6px;display:flex;flex-direction:column;gap:6px;}
+.space-card .sc-list li{font-size:10.5px;line-height:1.55;color:rgba(255,255,255,.78);padding:6px 8px;border-radius:8px;background:rgba(255,255,255,.05);}
+.space-card .sc-list li b{display:block;color:#fff;font-size:11px;}
+.space-card .sc-spots li span{display:block;color:rgba(255,255,255,.55);font-size:9.5px;}
+.space-card .sc-spots li em{display:block;font-style:normal;color:#9fd0ff;font-size:10.5px;margin-top:2px;}
+.space-card a.sc-link{display:inline-block;margin-top:6px;text-decoration:underline;text-underline-offset:2px;}
+@media(max-width:900px){.space-cards.sc-row2{grid-template-columns:1fr;}}
 
 /* ══ INTRO CANVAS ══ */
 #introCanvas{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:500;}
@@ -554,6 +568,58 @@ a{color:inherit;text-decoration:none;}
   #ftr{padding:36px 20px 20px;}
   .ftr-top{grid-template-columns:1fr;gap:24px;}
 }
+/* ══ 【2026年9月30日追加】集客・収益ハブ（記事・無料プレゼント・商品） ══ */
+.rev-hub{position:relative;z-index:10;background:linear-gradient(180deg,#07031f 0%,#050118 100%);}
+.rh-sec{padding:72px 48px 8px;}
+.rh-sec:last-child{padding-bottom:72px;}
+.rh-wrap{max-width:1280px;margin:0 auto;}
+.rh-head{max-width:760px;margin-bottom:26px;}
+.rh-eyebrow{font-size:11px;font-weight:800;letter-spacing:.2em;color:#9fc2ff;}
+.rh-head h2{font-size:clamp(22px,3.2vw,34px);line-height:1.3;margin:8px 0 10px;color:#fff;}
+.rh-head p{font-size:13.5px;line-height:1.85;color:rgba(255,255,255,.72);}
+.rh-grid{display:grid;gap:14px;}
+.rh-grid-2{grid-template-columns:repeat(2,1fr);}
+.rh-grid-4{grid-template-columns:repeat(4,1fr);}
+.rh-card{background:rgba(12,18,62,.78);border:1px solid rgba(120,150,255,.28);border-radius:16px;padding:22px 20px;display:flex;flex-direction:column;gap:8px;}
+.rh-card h3{font-size:16px;line-height:1.45;color:#fff;}
+.rh-card p{font-size:12.5px;line-height:1.8;color:rgba(255,255,255,.72);flex:1;}
+.rh-cat{font-size:10.5px;font-weight:700;letter-spacing:.06em;color:#c4b5fd;}
+.rh-btn{align-self:flex-start;margin-top:6px;display:inline-flex;align-items:center;gap:6px;padding:10px 18px;border-radius:999px;font-size:12.5px;font-weight:800;color:#fff;background:linear-gradient(90deg,#1467f0,#7030e8,#e030a0);box-shadow:0 8px 22px rgba(112,48,232,.28);transition:transform .2s,box-shadow .2s;}
+.rh-btn:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(230,50,160,.34);}
+.rh-btn-ghost{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.28);box-shadow:none;}
+.gift-meta{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px;}
+.gift-meta div{padding:14px 16px;border-left:3px solid #7030e8;background:rgba(255,255,255,.04);border-radius:0 10px 10px 0;}
+.gift-meta b{display:block;font-size:12px;color:#fff;margin-bottom:4px;}
+.gift-meta span{font-size:12px;line-height:1.7;color:rgba(255,255,255,.7);}
+.rh-more{margin-top:14px;font-size:13px;}
+.rh-more a{color:#9fc2ff;text-decoration:underline;text-underline-offset:3px;}
+.step-list{list-style:none;display:grid;grid-template-columns:repeat(4,1fr);gap:14px;counter-reset:none;}
+.step-no{font-size:11px;font-weight:900;letter-spacing:.14em;color:#7dd3fc;}
+.step-card-strong{border-color:rgba(236,72,153,.55);box-shadow:0 0 22px rgba(236,72,153,.18);}
+.rh-note{margin-top:12px;font-size:10.5px;color:rgba(255,255,255,.42);}
+.rh-grid-3{grid-template-columns:repeat(3,1fr);}
+.diag-opts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+.diag-opts button{font:inherit;font-weight:700;font-size:14px;color:#fff;text-align:left;padding:14px 16px;border-radius:14px;border:1px solid rgba(120,150,255,.35);background:rgba(12,18,62,.78);cursor:pointer;transition:border-color .2s,transform .2s;}
+.diag-opts button:hover{transform:translateY(-2px);border-color:#9fc2ff;}
+.diag-opts button[aria-pressed="true"]{border-color:#e030a0;box-shadow:0 0 0 1px #e030a0 inset;}
+.diag-result{margin-top:16px;}.diag-result[hidden]{display:none;}.diag-result .lead{margin-bottom:12px;color:rgba(255,255,255,.85);font-size:13.5px;}
+.rev-hub .pr{display:inline-block;font-size:10.5px;font-weight:800;color:#ffd08a;border:1px solid rgba(255,190,90,.5);border-radius:6px;padding:0 6px;margin-right:6px;}
+.rev-hub .tag{font-size:10.5px;font-weight:700;color:#c4b5fd;}
+.news-list{list-style:none;display:grid;gap:8px;}
+.news-list li{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:baseline;padding:12px 14px;border-radius:12px;background:rgba(12,18,62,.6);border:1px solid rgba(120,150,255,.2);font-size:13.5px;}
+.news-list time{font-size:12px;color:#9fc2ff;font-variant-numeric:tabular-nums;}
+.news-list a{color:#fff;text-decoration:underline;text-underline-offset:3px;}
+.tool-chips{list-style:none;display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-bottom:14px;}
+.tool-chips li{padding:12px;border-radius:12px;background:rgba(12,18,62,.72);border:1px solid rgba(120,150,255,.26);font-size:12px;color:rgba(255,255,255,.72);}
+.tool-chips b{display:block;color:#fff;font-size:14px;}
+.flow-mini{list-style:none;display:grid;grid-template-columns:repeat(7,1fr);gap:8px;counter-reset:fm;}
+.flow-mini li{padding:10px;border-radius:12px;border:1px dashed rgba(160,180,255,.3);font-size:11px;color:rgba(255,255,255,.65);}
+.flow-mini b{display:block;color:#fff;font-size:13px;}
+.flow-mini b::before{counter-increment:fm;content:counter(fm,decimal-leading-zero) ' ';color:#7dd3fc;font-size:10px;}
+@media(max-width:1100px){.rh-grid-3,.diag-opts{grid-template-columns:repeat(2,1fr);}.tool-chips{grid-template-columns:repeat(3,1fr);}.flow-mini{grid-template-columns:repeat(4,1fr);}}
+@media(max-width:700px){.rh-grid-3,.diag-opts{grid-template-columns:1fr;}.tool-chips{grid-template-columns:repeat(2,1fr);}.flow-mini{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:1100px){.rh-grid-4,.step-list{grid-template-columns:repeat(2,1fr);}.rh-sec{padding:60px 24px 8px;}}
+@media(max-width:700px){.rh-grid-2,.rh-grid-4,.step-list,.gift-meta{grid-template-columns:1fr;}.rh-sec{padding:52px 16px 4px;}.rh-sec:last-child{padding-bottom:56px;}.rh-btn{align-self:stretch;justify-content:center;padding:12px 18px;}}
 </style>
 </head>
 <body>
@@ -582,9 +648,13 @@ a{color:inherit;text-decoration:none;}
     <a href="#ftr">私たちについて</a>
     <a href="#svc">サービス</a>
     <a href="#aiteam">AI TEAM</a>
-    <a href="#svc">制作実績</a>
+    <a href="/works/">制作実績</a>
     <a href="#ftr">会社概要</a>
-    <a href="/starter-kit">無料資料</a>
+    <a href="/articles/">記事</a>
+    <a href="/resources/">無料資料</a>
+    <a href="#products">商品</a>
+    <a href="/space/">宇宙情報</a>
+    <a href="/search/">検索</a>
   </nav>
   <!-- 【v6追加】SNSプロフィール導線（ヘッダー）。既存CTA（無料相談・資料ダウンロード）は変更しない -->
   <div class="hdr-sns sns-row" data-sns-group></div>
@@ -604,9 +674,14 @@ a{color:inherit;text-decoration:none;}
   <a href="#ftr">私たちについて</a>
   <a href="#svc">サービス</a>
   <a href="#aiteam">AI TEAM</a>
-  <a href="#svc">制作実績</a>
+  <a href="/works/">制作実績</a>
   <a href="#ftr">会社概要</a>
-  <a href="/starter-kit">無料資料</a>
+  <a href="#start">あなたに合う入口</a>
+  <a href="/articles/">記事</a>
+  <a href="/resources/">無料資料</a>
+  <a href="#products">商品</a>
+  <a href="/space/">宇宙情報</a>
+  <a href="/search/">検索</a>
   <div class="mnav-cta">
     <a href="mailto:info@sk-labs.net?subject=SK+LABS無料相談" class="hp">✉ 無料相談する →</a>
     <a href="/starter-kit" class="hg">📄 4つの無料資料を見る</a>
@@ -631,7 +706,7 @@ a{color:inherit;text-decoration:none;}
     if(nav.classList.contains('is-open')) closeNav(); else openNav();
   });
   nav.querySelectorAll('a').forEach(a=>a.addEventListener('click', closeNav));
-  window.addEventListener('resize', ()=>{ if(innerWidth >= 1100) closeNav(); });
+  window.addEventListener('resize', ()=>{ if(innerWidth > 1320) closeNav(); });
 })();
 </script>
 
@@ -690,6 +765,7 @@ a{color:inherit;text-decoration:none;}
       <div class="hero-btns">
         <a href="mailto:info@sk-labs.net?subject=SK+LABS無料相談" class="hbtn hbtn-p">✉ 無料相談する →</a>
         <a href="#svc" class="hbtn hbtn-g">サービスを見る →</a>
+        <a href="#gift" class="hbtn hbtn-g">📄 無料資料を受け取る</a>
       </div>
     </div>
 
@@ -799,7 +875,8 @@ a{color:inherit;text-decoration:none;}
   <!-- ══ 【v7追加】リアルタイム宇宙情報セクション ══
        月齢・今日の星空は自前で実計算（本物）。宇宙写真/太陽フレア/オーロラ予報は
        NASA・NOAAの公開JSON APIへ実際にfetchし、取得成功時はLIVE、
-       失敗時（オフライン等）はSAMPLE表示に切り替える（コード内JSで実装、後述の注記も参照） -->
+       失敗時は「未取得」と表示し、サンプル値・推測値は出さない（2026年9月30日改修）
+       天気予報・観測スポットは気象庁の予報JSON、流星群は例年の極大日から算出 -->
   <div class="space-zone">
     <div class="svc-hdr">
       <div class="svc-hdr-line"></div>
@@ -832,8 +909,33 @@ a{color:inherit;text-decoration:none;}
         <p data-sky-text>計算中…</p>
       </div>
     </div>
+    <!-- 【2026年9月30日追加】星空観測ガイド：天気予報・流星群予報・観測スポット -->
+    <div class="space-cards sc-row2" id="stargazing">
+      <div class="space-card" data-card="weather">
+        <h4>天気予報（横浜） <span class="sc-badge is-sample" data-badge>—</span></h4>
+        <div class="sc-big sc-mid" data-weather-main>—</div>
+        <p data-weather-text>読み込み中…</p>
+        <p class="sc-sub" data-weather-pop></p>
+      </div>
+      <div class="space-card" data-card="meteor">
+        <h4>流星群予報 <span class="sc-badge">計算値</span></h4>
+        <div class="sc-big sc-mid" data-meteor-main>—</div>
+        <p data-meteor-text>計算中…</p>
+        <ul class="sc-list" data-meteor-list></ul>
+      </div>
+      <div class="space-card" data-card="spots">
+        <h4>観測スポット <span class="sc-badge is-sample" data-badge>—</span></h4>
+        <ul class="sc-list sc-spots" data-spots-list>
+          <li data-spot="kozushima"><b>神津島（東京都）</b><span>星空保護区（2020年認定）</span><em data-spot-weather>—</em></li>
+          <li data-spot="bisei"><b>井原市美星町（岡山県）</b><span>星空保護区（2021年認定）</span><em data-spot-weather>—</em></li>
+          <li data-spot="yaeyama"><b>石垣島・西表島（沖縄県）</b><span>西表石垣国立公園・星空保護区（2018年認定）</span><em data-spot-weather>—</em></li>
+        </ul>
+        <p class="sc-sub">国際ダークスカイ協会（DarkSky International）認定地。天気は気象庁の地域予報です。</p>
+      </div>
+    </div>
     <p style="font-size:9.5px;color:rgba(255,255,255,.35);margin-top:10px;">
-      ※宇宙写真・太陽フレア・オーロラ予報はNASA/NOAAの公開データへ接続を試み、取得できない場合はサンプル値を表示します（SAMPLE表示）。月齢・星空は本ページ内でリアルタイム計算した実データです。
+      <a href="/space/" style="color:#9fc2ff;text-decoration:underline">都道府県別の天気・次の流星群・オーロラをまとめて見る（宇宙・星空情報ページ）→</a><br>
+      ※宇宙写真・太陽フレア・オーロラ予報はNASA/NOAAの公開データ、天気予報・観測スポットの天気は気象庁の予報データを取得して表示します。取得できない場合は「未取得」と表示し、推測値は表示しません。月齢・星空・流星群は本ページ内で計算した値です（流星群の極大日は例年の目安）。
     </p>
   </div>
 
@@ -858,6 +960,221 @@ a{color:inherit;text-decoration:none;}
   </div>
 
 </section><!-- /hero -->
+
+<!-- ══ 【2026年9月30日追加】集客・収益ハブ：記事 → 無料プレゼント → 商品 → 無料相談 ══
+     掲載基準：Drive正本・note公式通知等の一次資料で公開とURLを確認できたものだけをリンクする。
+     個別URL未確認の商品はnote公式アカウントのトップへ案内し、価格は表示しない。 -->
+<div class="rev-hub">
+
+  <!-- 入口診断（content/site.json の diagnosis から生成） -->
+  <section id="start" class="rh-sec">
+    <div class="rh-wrap">
+      <div class="rh-head">
+        <span class="rh-eyebrow">START HERE</span>
+        <h2>あなたに合う入口</h2>
+        <p>目的を1つ選ぶと、最初に見るべきページをご案内します。</p>
+      </div>
+<!-- BUILD:diagnosis -->
+<div class="diag" data-diag-root><p style="font-weight:800;margin-bottom:10px">AIで何をしたいですか？</p><div class="diag-opts"><button type="button" data-diag="efficiency" aria-pressed="false">仕事を効率化したい</button><button type="button" data-diag="side-business" aria-pressed="false">AI副業を始めたい</button><button type="button" data-diag="content" aria-pressed="false">記事・コンテンツを作りたい</button><button type="button" data-diag="tools" aria-pressed="false">AIツールを使い分けたい</button><button type="button" data-diag="team" aria-pressed="false">AIチームを作りたい</button><button type="button" data-diag="consult" aria-pressed="false">SK LABSへ相談したい</button></div><div class="diag-result" id="top-d-efficiency" data-diag-result="efficiency" hidden><p class="lead">まずは1つの業務を選び、AIに任せる部分と人が確認する部分を分けるところから始めましょう。</p><div class="rh-grid rh-grid-3"><article class="rh-card"><span class="tag">記事</span>
+<h3>AIを「ツール」ではなく「チーム」として使う：SK LABSの役割分担</h3><p>どのAIが一番かではなく、どの仕事をどのAIに任せ、どこを人が判断するか。SK LABSが実際に使っているAIの役割分担と進め方をまとめます。</p>
+<a class="rh-btn" href="/articles/ai-team-design/" data-track="article_click" data-track-label="AIを「ツール」ではなく「チーム」として使う：SK LABSの役割分担">記事を読む →</a></article><article class="rh-card"><span class="tag">無料資料</span>
+<h3>AI活用ガイド【無料版】（スターターキット2026 Vol.2）</h3><p>AIの基本、代表的な活用方法、指示の出し方、安全に使うための注意点を初心者向けに整理したガイドです。</p>
+<a class="rh-btn" href="/downloads/sklabs-starter-kit-vol2.pdf" download data-track="file_download" data-track-label="AI活用ガイド【無料版】（スターターキット2026 Vol.2）">PDFを受け取る →</a></article><article class="rh-card"><span class="tag">無料資料</span>
+<h3>AI実践チェックリスト集（スターターキット2026 Vol.4）</h3><p>AI導入、毎日の活用、プロンプト作成、公開前確認、週間・月間レビューまでを確認できるチェックリストです。</p>
+<a class="rh-btn" href="/downloads/sklabs-starter-kit-vol4.pdf" download data-track="file_download" data-track-label="AI実践チェックリスト集（スターターキット2026 Vol.4）">PDFを受け取る →</a></article><article class="rh-card"><span class="tag">相談</span>
+<h3>無料相談（メール）</h3><p>AI導入・業務自動化・Web/LP制作・コンテンツ制作のご相談を受け付けています。</p>
+<a class="rh-btn" href="mailto:info@sk-labs.net?subject=SK%20LABS%E7%84%A1%E6%96%99%E7%9B%B8%E8%AB%87" data-track="consult_click" data-track-label="無料相談（メール）">無料相談する →</a></article></div></div><div class="diag-result" id="top-d-side-business" data-diag-result="side-business" hidden><p class="lead">AIの基本と指示の出し方を押さえてから、記事制作など小さな仕事で試すのが確実です。</p><div class="rh-grid rh-grid-3"><article class="rh-card"><span class="tag">無料資料</span>
+<h3>AI活用ガイド【無料版】（スターターキット2026 Vol.2）</h3><p>AIの基本、代表的な活用方法、指示の出し方、安全に使うための注意点を初心者向けに整理したガイドです。</p>
+<a class="rh-btn" href="/downloads/sklabs-starter-kit-vol2.pdf" download data-track="file_download" data-track-label="AI活用ガイド【無料版】（スターターキット2026 Vol.2）">PDFを受け取る →</a></article><article class="rh-card"><span class="tag">入口商品</span>
+<h3>AIに記事を書かせる前に決める5項目</h3><p>「薄い文章」を減らすための最小設計。AIへ渡す前に決める5項目を、そのまま埋めて使える形にまとめたnoteです。</p>
+<a class="rh-btn" href="https://note.com/sklabs_official" target="_blank" rel="noopener noreferrer" data-track="product_click" data-track-label="AIに記事を書かせる前に決める5項目">noteで見る →</a></article><article class="rh-card"><span><span class="pr">PR</span><span class="tag">広告・アフィリエイトリンク</span></span>
+<h3>クラウドソーシング「ランサーズ」</h3><p>AIスキルを使って仕事を受けたい方向け。クラウドソーシングで案件を探せます。</p>
+<a class="rh-btn" href="https://www.lancers.jp/affiliate/track?id=3642047&amp;link=%2F" target="_blank" rel="noopener noreferrer sponsored nofollow" data-track="affiliate_click" data-track-label="クラウドソーシング「ランサーズ」">サイトを見る →</a></article></div></div><div class="diag-result" id="top-d-content" data-diag-result="content" hidden><p class="lead">AIに書かせる前の設計と、公開前の確認手順を先に固めると品質が安定します。</p><div class="rh-grid rh-grid-3"><article class="rh-card"><span class="tag">入口商品</span>
+<h3>AIに記事を書かせる前に決める5項目</h3><p>「薄い文章」を減らすための最小設計。AIへ渡す前に決める5項目を、そのまま埋めて使える形にまとめたnoteです。</p>
+<a class="rh-btn" href="https://note.com/sklabs_official" target="_blank" rel="noopener noreferrer" data-track="product_click" data-track-label="AIに記事を書かせる前に決める5項目">noteで見る →</a></article><article class="rh-card"><span class="tag">中価格商品</span>
+<h3>AIに8割任せても売れる「ひとり編集部」の作り方</h3><p>企画・調査・構成・執筆・編集・販売導線までの制作工程と、ChatGPT・Claude・Geminiなどの役割分担をまとめた実践ガイドです。</p>
+<a class="rh-btn" href="https://note.com/sklabs_official" target="_blank" rel="noopener noreferrer" data-track="product_click" data-track-label="AIに8割任せても売れる「ひとり編集部」の作り方">noteで見る →</a></article><article class="rh-card"><span class="tag">無料資料</span>
+<h3>AI実践チェックリスト集（スターターキット2026 Vol.4）</h3><p>AI導入、毎日の活用、プロンプト作成、公開前確認、週間・月間レビューまでを確認できるチェックリストです。</p>
+<a class="rh-btn" href="/downloads/sklabs-starter-kit-vol4.pdf" download data-track="file_download" data-track-label="AI実践チェックリスト集（スターターキット2026 Vol.4）">PDFを受け取る →</a></article></div></div><div class="diag-result" id="top-d-tools" data-diag-result="tools" hidden><p class="lead">「どれが一番か」ではなく、仕事ごとに担当を決めるのがSK LABSの考え方です。</p><div class="rh-grid rh-grid-3"><article class="rh-card"><span class="tag">ページ</span>
+<h3>AIツール</h3>
+<a class="rh-btn" href="/tools/" data-track="internal_click" data-track-label="AIツール">ページを見る →</a></article><article class="rh-card"><span class="tag">記事</span>
+<h3>AIを「ツール」ではなく「チーム」として使う：SK LABSの役割分担</h3><p>どのAIが一番かではなく、どの仕事をどのAIに任せ、どこを人が判断するか。SK LABSが実際に使っているAIの役割分担と進め方をまとめます。</p>
+<a class="rh-btn" href="/articles/ai-team-design/" data-track="article_click" data-track-label="AIを「ツール」ではなく「チーム」として使う：SK LABSの役割分担">記事を読む →</a></article><article class="rh-card"><span class="tag">無料資料</span>
+<h3>AI活用事例集（スターターキット2026 Vol.3）</h3><p>文章作成・情報整理・制作・業務改善・自動化で、AIをどの工程に使い、人がどこを確認するのかを具体例で紹介します。</p>
+<a class="rh-btn" href="/downloads/sklabs-starter-kit-vol3.pdf" download data-track="file_download" data-track-label="AI活用事例集（スターターキット2026 Vol.3）">PDFを受け取る →</a></article></div></div><div class="diag-result" id="top-d-team" data-diag-result="team" hidden><p class="lead">工程ごとにAIと人の役割を決め、正本を一か所に置くことが出発点です。</p><div class="rh-grid rh-grid-3"><article class="rh-card"><span class="tag">ページ</span>
+<h3>AI TEAM</h3>
+<a class="rh-btn" href="/ai-team/" data-track="internal_click" data-track-label="AI TEAM">ページを見る →</a></article><article class="rh-card"><span class="tag">中価格商品</span>
+<h3>AIに8割任せても売れる「ひとり編集部」の作り方</h3><p>企画・調査・構成・執筆・編集・販売導線までの制作工程と、ChatGPT・Claude・Geminiなどの役割分担をまとめた実践ガイドです。</p>
+<a class="rh-btn" href="https://note.com/sklabs_official" target="_blank" rel="noopener noreferrer" data-track="product_click" data-track-label="AIに8割任せても売れる「ひとり編集部」の作り方">noteで見る →</a></article><article class="rh-card"><span class="tag">相談</span>
+<h3>無料相談（メール）</h3><p>AI導入・業務自動化・Web/LP制作・コンテンツ制作のご相談を受け付けています。</p>
+<a class="rh-btn" href="mailto:info@sk-labs.net?subject=SK%20LABS%E7%84%A1%E6%96%99%E7%9B%B8%E8%AB%87" data-track="consult_click" data-track-label="無料相談（メール）">無料相談する →</a></article></div></div><div class="diag-result" id="top-d-consult" data-diag-result="consult" hidden><p class="lead">AI導入・業務自動化・Web/LP制作・コンテンツ制作のご相談を受け付けています。</p><div class="rh-grid rh-grid-3"><article class="rh-card"><span class="tag">相談</span>
+<h3>無料相談（メール）</h3><p>AI導入・業務自動化・Web/LP制作・コンテンツ制作のご相談を受け付けています。</p>
+<a class="rh-btn" href="mailto:info@sk-labs.net?subject=SK%20LABS%E7%84%A1%E6%96%99%E7%9B%B8%E8%AB%87" data-track="consult_click" data-track-label="無料相談（メール）">無料相談する →</a></article><article class="rh-card"><span class="tag">ページ</span>
+<h3>制作実績</h3>
+<a class="rh-btn" href="/works/" data-track="internal_click" data-track-label="制作実績">ページを見る →</a></article><article class="rh-card"><span class="tag">無料資料</span>
+<h3>SK LABS紹介資料（スターターキット2026 Vol.1）</h3><p>SK LABSの考え方、使命、提供領域、制作方針をまとめた紹介資料です。</p>
+<a class="rh-btn" href="/downloads/sklabs-starter-kit-vol1.pdf" download data-track="file_download" data-track-label="SK LABS紹介資料（スターターキット2026 Vol.1）">PDFを受け取る →</a></article></div></div></div>
+<!-- /BUILD:diagnosis -->
+    </div>
+  </section>
+
+  <!-- 新着・更新情報（content/site.json から生成） -->
+  <section id="news" class="rh-sec">
+    <div class="rh-wrap">
+      <div class="rh-head">
+        <span class="rh-eyebrow">NEW</span>
+        <h2>新着・更新情報</h2>
+      </div>
+<!-- BUILD:news -->
+<ul class="news-list"><li><time datetime="2026-09-30">2026年9月30日</time><span class="rh-cat">記事</span><a href="/articles/ai-team-design/">AIを「ツール」ではなく「チーム」として使う：SK LABSの役割分担</a></li><li><time datetime="2026-09-30">2026年9月30日</time><span class="rh-cat">記事</span><a href="/articles/stargazing-checklist/">今夜、星は見える？ 星空観測の前に確認したい4つの情報</a></li><li><time datetime="2026-09-30">2026年9月30日</time><span class="rh-cat">記事</span><a href="/articles/starter-kit-guide/">無料スターターキット2026の使い方：4つの資料を読む順番</a></li><li><time datetime="2026-09-30">2026年9月30日</time><span class="rh-cat">公開</span><a href="/resources/">無料コンテンツセンターを公開</a></li><li><time datetime="2026-09-30">2026年9月30日</time><span class="rh-cat">公開</span><a href="/space/">宇宙・星空情報ページを公開（天気・流星群・オーロラ・観測スポット）</a></li><li><time datetime="2026-09-30">2026年9月30日</time><span class="rh-cat">公開</span><a href="/tools/">AIツールの使い分けページを公開</a></li></ul>
+<!-- /BUILD:news -->
+    </div>
+  </section>
+
+  <!-- 記事 -->
+  <section id="contents" class="rh-sec">
+    <div class="rh-wrap">
+      <div class="rh-head">
+        <span class="rh-eyebrow">KNOWLEDGE</span>
+        <h2>記事で、考え方と手順を知る</h2>
+        <p>SK LABSがAI活用と仕組みづくりについて、実際の運用から書いている記事です。まずは無料記事からどうぞ。</p>
+      </div>
+<!-- BUILD:articles -->
+<div class="rh-grid rh-grid-3"><article class="rh-card"><span class="rh-cat">AI活用｜2026年9月30日</span><h3>AIを「ツール」ではなく「チーム」として使う：SK LABSの役割分担</h3><p>どのAIが一番かではなく、どの仕事をどのAIに任せ、どこを人が判断するか。SK LABSが実際に使っているAIの役割分担と進め方をまとめます。</p><a class="rh-btn" href="/articles/ai-team-design/" data-track="article_click" data-track-label="AIを「ツール」ではなく「チーム」として使う：SK LABSの役割分担">記事を読む →</a></article><article class="rh-card"><span class="rh-cat">宇宙・星空｜2026年9月30日</span><h3>今夜、星は見える？ 星空観測の前に確認したい4つの情報</h3><p>天気、月明かり、流星群の極大日、観測場所の暗さ。星空を見に行く前に確認したい4つの情報と、SK LABSの宇宙情報ページの使い方をまとめます。</p><a class="rh-btn" href="/articles/stargazing-checklist/" data-track="article_click" data-track-label="今夜、星は見える？ 星空観測の前に確認したい4つの情報">記事を読む →</a></article><article class="rh-card"><span class="rh-cat">無料資料｜2026年9月30日</span><h3>無料スターターキット2026の使い方：4つの資料を読む順番</h3><p>SK LABSの無料資料4点（紹介資料・AI活用ガイド・事例集・チェックリスト）を、どの順番でどう使うと実務につながるかを解説します。</p><a class="rh-btn" href="/articles/starter-kit-guide/" data-track="article_click" data-track-label="無料スターターキット2026の使い方：4つの資料を読む順番">記事を読む →</a></article></div><div class="rh-more"><a href="/articles/">記事一覧を見る →</a></div>
+<!-- /BUILD:articles -->
+      <div class="rh-grid rh-grid-2" style="margin-top:14px">
+        <article class="rh-card">
+          <span class="rh-cat">無料記事｜考え方</span>
+          <h3>遠回りの教科書　AIを学ぶだけの時代は、今日で終わり。</h3>
+          <p>AIを「学ぶこと」が目的になっている状態から抜け出し、仕事の仕組みとして使う側へ。SK LABSの考え方の土台をまとめた記事です。</p>
+          <a class="rh-btn" href="https://note.com/sklabs_official/n/na75363454d12" target="_blank" rel="noopener noreferrer">記事を読む（note） →</a>
+        </article>
+        <article class="rh-card">
+          <span class="rh-cat">note｜sklabs_official</span>
+          <h3>noteの記事一覧</h3>
+          <p>AI記事制作・AI活用の実践ノウハウを、無料記事と有料noteで公開しています。最新記事と商品はnoteで確認できます。</p>
+          <a class="rh-btn" href="https://note.com/sklabs_official" target="_blank" rel="noopener noreferrer">記事一覧を見る（note） →</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 無料プレゼント -->
+  <section id="gift" class="rh-sec">
+    <div class="rh-wrap">
+      <div class="rh-head">
+        <span class="rh-eyebrow">FREE GIFT</span>
+        <h2>無料プレゼント：SK LABS スターターキット2026</h2>
+        <p>AIの基本から実践、業務への応用、公開前の確認までをまとめた4つのPDF資料です。登録不要で、すぐにダウンロードできます。</p>
+      </div>
+      <div class="gift-meta">
+        <div><b>こんな方へ</b><span>AIを仕事・副業・コンテンツ制作に取り入れたいが、何から始めればよいか分からない方</span></div>
+        <div><b>分かること</b><span>AIの基本と指示の出し方、具体的な活用場面、AIと人の役割分担、公開前の確認手順</span></div>
+        <div><b>受け取り方</b><span>各資料のボタンからPDFを直接ダウンロード（メールアドレス登録なし）</span></div>
+      </div>
+      <div class="rh-grid rh-grid-4">
+        <article class="rh-card gift-card">
+          <span class="rh-cat">VOL.1｜11ページ</span>
+          <h3>SK LABS紹介資料</h3>
+          <p>SK LABSの考え方、提供領域、制作方針。AIと自動化を組み合わせた支援を検討している方へ。</p>
+          <a class="rh-btn" href="/downloads/sklabs-starter-kit-vol1.pdf" download>PDFを受け取る ↓</a>
+        </article>
+        <article class="rh-card gift-card">
+          <span class="rh-cat">VOL.2｜31ページ</span>
+          <h3>AI活用ガイド【無料版】</h3>
+          <p>AIの基本、代表的な活用方法、指示の出し方、安全に使うための注意点。AIを初めて使う方へ。</p>
+          <a class="rh-btn" href="/downloads/sklabs-starter-kit-vol2.pdf" download>PDFを受け取る ↓</a>
+        </article>
+        <article class="rh-card gift-card">
+          <span class="rh-cat">VOL.3｜36ページ</span>
+          <h3>AI活用事例集</h3>
+          <p>文章作成・情報整理・制作・業務改善・自動化で、AIをどの工程に使い、人がどこを確認するか。</p>
+          <a class="rh-btn" href="/downloads/sklabs-starter-kit-vol3.pdf" download>PDFを受け取る ↓</a>
+        </article>
+        <article class="rh-card gift-card">
+          <span class="rh-cat">VOL.4｜28ページ</span>
+          <h3>AI実践チェックリスト集</h3>
+          <p>AI導入、毎日の活用、プロンプト作成、公開前確認、週間・月間レビューまでのチェックリスト。</p>
+          <a class="rh-btn" href="/downloads/sklabs-starter-kit-vol4.pdf" download>PDFを受け取る ↓</a>
+        </article>
+      </div>
+      <div class="rh-more"><a href="/resources/">無料コンテンツをすべて見る →</a>　<a href="/starter-kit">各資料の詳しい内容と使い方 →</a></div>
+    </div>
+  </section>
+
+  <!-- AI TEAM・AIツール（content/site.json から生成） -->
+  <section id="aitools" class="rh-sec">
+    <div class="rh-wrap">
+      <div class="rh-head">
+        <span class="rh-eyebrow">AI TEAM / AI TOOLS</span>
+        <h2>AIに役割を持たせ、人が判断する</h2>
+        <p>SK LABSは「どのAIが一番か」ではなく、工程ごとに担当を決めて仕事を進めています。</p>
+      </div>
+<!-- BUILD:aitools -->
+<ul class="tool-chips"><li><b>ChatGPT</b><span>統括・企画</span></li><li><b>Claude</b><span>編集・監査</span></li><li><b>Gemini</b><span>Google領域の情報整理</span></li><li><b>Microsoft Copilot</b><span>Office業務の支援</span></li><li><b>Grok・Perplexity</b><span>外部調査</span></li><li><b>Canva</b><span>デザイン</span></li></ul><ol class="flow-mini"><li><b>調査</b><span>Grok・Perplexity／Gemini</span></li><li><b>企画</b><span>ChatGPT</span></li><li><b>制作</b><span>Claude／Canva</span></li><li><b>品質確認</b><span>Claude</span></li><li><b>公開</b><span>GitHub・Netlify等の自動化</span></li><li><b>計測</b><span>GA4等の計測基盤</span></li><li><b>改善</b><span>ChatGPT</span></li></ol>
+<!-- /BUILD:aitools -->
+      <div class="rh-more"><a href="/ai-team/">AI TEAMの仕組みを見る →</a>　<a href="/tools/">AIツールの使い分けを見る →</a></div>
+    </div>
+  </section>
+
+  <!-- 制作実績（content/site.json から生成） -->
+  <section id="works" class="rh-sec">
+    <div class="rh-wrap">
+      <div class="rh-head">
+        <span class="rh-eyebrow">WORKS</span>
+        <h2>制作実績・自社プロジェクト</h2>
+        <p>公開できる自社プロジェクトのみ掲載しています。</p>
+      </div>
+<!-- BUILD:works -->
+<div class="rh-grid rh-grid-4"><article class="rh-card"><span class="rh-cat">自社プロジェクト｜Web制作・運用</span><h3>SK LABS公式サイト（sk-labs.net）</h3><p>宇宙の世界観と、記事・無料資料・宇宙情報・相談導線を一つにまとめた公式サイト。気象庁・NASA・NOAAの公開データを取得して表示する機能を含みます。</p></article><article class="rh-card"><span class="rh-cat">自社プロジェクト｜資料制作</span><h3>SK LABSスターターキット2026</h3><p>AIの基本から実践・公開前確認までをまとめた無料PDF資料4点（計106ページ）。</p></article><article class="rh-card"><span class="rh-cat">自社プロジェクト｜AI運用・自動化</span><h3>SK LABS note OS</h3><p>note企画、テーマ審査、生成、品質確認、KPI記録、自動化をつなぐコンテンツ運用基盤。人の最終判断を残した半自動運用を前提に設計。</p></article><article class="rh-card"><span class="rh-cat">自社プロジェクト｜Webアプリ</span><h3>BAR ALEXY Hub</h3><p>店舗の世界観をWebへ変換し、管理者機能やデータ基盤まで含めて構築する実店舗向けWebアプリプロジェクト。</p></article></div>
+<!-- /BUILD:works -->
+      <div class="rh-more"><a href="/works/">制作実績をすべて見る →</a></div>
+    </div>
+  </section>
+
+  <!-- 商品導線 -->
+  <section id="products" class="rh-sec">
+    <div class="rh-wrap">
+      <div class="rh-head">
+        <span class="rh-eyebrow">PRODUCTS</span>
+        <h2>次の一歩：実践ノウハウと個別相談</h2>
+        <p>資料で全体像をつかんだら、手順を具体化するnote、または自社業務に合わせた個別設計へ。必要な段階から選べます。</p>
+      </div>
+      <ol class="step-list">
+        <li class="rh-card step-card">
+          <span class="step-no">STEP 1</span>
+          <span class="rh-cat">無料記事・無料資料</span>
+          <h3>考え方と全体像を知る</h3>
+          <p>上の無料記事とスターターキットで、AIを仕事の仕組みにする考え方と基本手順を確認します。</p>
+          <a class="rh-btn rh-btn-ghost" href="#gift">無料資料を受け取る →</a>
+        </li>
+        <li class="rh-card step-card">
+          <span class="step-no">STEP 2</span>
+          <span class="rh-cat">入口商品｜note</span>
+          <h3>AIに記事を書かせる前に決める5項目</h3>
+          <p>「薄い文章」を減らすための最小設計。AIへ渡す前に決める5項目を、そのまま埋めて使える形にまとめています。</p>
+          <a class="rh-btn" href="https://note.com/sklabs_official" target="_blank" rel="noopener noreferrer">noteで見る →</a>
+        </li>
+        <li class="rh-card step-card">
+          <span class="step-no">STEP 3</span>
+          <span class="rh-cat">実践ガイド｜有料note</span>
+          <h3>AIに8割任せても売れる「ひとり編集部」の作り方</h3>
+          <p>企画・調査・構成・執筆・編集・販売導線までの制作工程と、ChatGPT・Claude・Geminiなどの役割分担をまとめた実践ガイドです。</p>
+          <a class="rh-btn" href="https://note.com/sklabs_official" target="_blank" rel="noopener noreferrer">noteで見る →</a>
+        </li>
+        <li class="rh-card step-card step-card-strong">
+          <span class="step-no">STEP 4</span>
+          <span class="rh-cat">事業者向け｜無料相談</span>
+          <h3>業務に合わせて、AIの仕組みを設計する</h3>
+          <p>AI導入・業務自動化・Web/LP制作・コンテンツ制作を、現状の課題と既存資産から整理し、継続できる運用へつなげます。</p>
+          <a class="rh-btn" href="mailto:info@sk-labs.net?subject=SK+LABS無料相談">✉ 無料相談する →</a>
+        </li>
+      </ol>
+      <p class="rh-note">※note商品の価格・販売状況はnoteの各商品ページが最新です。</p>
+    </div>
+  </section>
+
+</div><!-- /rev-hub -->
 
 <!-- ══ 【v6追加】フッター: 会社情報・お問い合わせ・SNS導線・著作権 ══ -->
 <footer id="ftr">
@@ -886,6 +1203,9 @@ a{color:inherit;text-decoration:none;}
       <h4>お問い合わせ</h4>
       <a href="mailto:info@sk-labs.net?subject=SK+LABS無料相談">✉ 無料相談する</a>
       <a href="mailto:info@sk-labs.net?subject=SK+LABSお問い合わせ">✉ お問い合わせ</a>
+      <a href="#contents">記事</a>
+      <a href="/starter-kit">無料資料（スターターキット2026）</a>
+      <a href="#products">商品・サービス</a>
     </div>
     <div class="ftr-col">
       <h4>SNS・メディア</h4>
@@ -2269,7 +2589,8 @@ window.addEventListener('scroll',()=>{
      ではなく、それぞれの公開されている高度・速度の代表値を表示している
    ・宇宙写真/太陽フレア/オーロラ予報はNASA・NOAAの公開JSON APIへ実際に
      fetchする。取得できた場合はLIVE、失敗時（オフライン・レート制限等）は
-     その場でサンプル値に切り替えてSAMPLE表示にする（虚偽のLIVE表示はしない）
+     「未取得」と表示し、サンプル値・推測値は出さない（虚偽のLIVE表示もしない）
+   ・宇宙写真は自サイトのEdge Function（/api/apod・CDNキャッシュ）経由で取得する
    ══════════════════════════════════════════════════════════════════ */
 (function(){
   const canvas = document.getElementById('bgCanvas');
@@ -2333,25 +2654,56 @@ window.addEventListener('scroll',()=>{
   function setBadge(card, ok){
     const b = card.querySelector('[data-badge]');
     if(!b) return;
-    b.textContent = ok? 'LIVE' : 'SAMPLE';
-    b.classList.toggle('is-sample', !ok);
+    b.textContent = ok? 'LIVE' : '未取得';
+    b.classList.remove('is-sample');
+    b.classList.toggle('is-na', !ok);
+  }
+  /* 取得失敗時: 推測値を出さず、一次情報の公式ページへ案内する */
+  function showUnavailable(el, message, href, label){
+    el.textContent = message + ' ';
+    if(href){
+      const a = document.createElement('a');
+      a.className = 'sc-link'; a.href = href; a.target = '_blank'; a.rel = 'noopener noreferrer';
+      a.textContent = label;
+      el.appendChild(a);
+    }
+  }
+  async function getJson(url, ms){
+    const res = await withTimeout(fetch(url), ms);
+    if(!res.ok) throw new Error('http '+res.status);
+    return res.json();
   }
 
-  /* 今日の宇宙写真（NASA APOD）: DEMO_KEYは共有レート制限があるため
-     失敗時は自前のサンプル文言へ切り替える */
+  /* 今日の宇宙写真（NASA APOD）: 自サイトのEdge Function（/api/apod）経由で取得し
+     CDNでキャッシュする。関数が使えない環境ではNASAへ直接問い合わせる */
   (async function apod(){
     const card = document.querySelector('[data-card="apod"]');
     const img = card.querySelector('[data-apod-img]');
     const text = card.querySelector('[data-apod-text]');
-    try{
-      const res = await withTimeout(fetch('https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY'), 6000);
-      if(!res.ok) throw new Error('http '+res.status);
-      const d = await res.json();
-      if(d.media_type==='image' && d.url){ img.src=d.url; img.style.display='block'; }
-      text.textContent = d.title + '（' + d.date + '）';
+    function render(p){
+      img.src = p.image; img.alt = p.title; img.style.display = 'block';
+      text.textContent = p.title + '（' + p.date + '）' + (p.copyright? ' © ' + p.copyright : '') + ' ';
+      const a = document.createElement('a');
+      a.className = 'sc-link'; a.href = p.pageUrl; a.target = '_blank'; a.rel = 'noopener noreferrer';
+      a.textContent = 'NASAで見る';
+      text.appendChild(a);
       setBadge(card, true);
+    }
+    try{
+      const p = await getJson('/api/apod', 10000);
+      if(!p || !p.image) throw new Error('empty');
+      render(p);
+      return;
+    }catch(e){}
+    try{
+      const d = await getJson('https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY&thumbs=true', 8000);
+      const image = d.media_type==='image'? d.url : d.thumbnail_url;
+      if(!image || !d.title || !d.date) throw new Error('empty');
+      const [y,m,day] = d.date.split('-');
+      render({title:d.title, date:d.date, image, copyright:(d.copyright||'').trim(),
+              pageUrl:'https://apod.nasa.gov/apod/ap'+y.slice(2)+m+day+'.html'});
     }catch(e){
-      text.textContent = '本日のNASA天体写真（サンプル）：渦巻銀河M101の観測画像。回転花火銀河として知られる美しい渦巻銀河。';
+      showUnavailable(text, 'NASAの公開サーバーから本日の写真を取得できませんでした。', 'https://apod.nasa.gov/apod/astropix.html', 'NASA公式で見る');
       setBadge(card, false);
     }
   })();
@@ -2370,8 +2722,8 @@ window.addEventListener('scroll',()=>{
       text.textContent = `直近の最大クラス ${latest.max_class||'—'}（${(latest.max_time||'').replace('T',' ').replace('Z','')} UTC）`;
       setBadge(card, true);
     }catch(e){
-      cls.textContent = 'C1.0';
-      text.textContent = 'やや強いフレアが検出されています（サンプル値）。';
+      cls.textContent = '—';
+      showUnavailable(text, 'NOAAの公開データを取得できませんでした。', 'https://www.swpc.noaa.gov/products/goes-x-ray-flux', 'NOAA公式で見る');
       setBadge(card, false);
     }
   })();
@@ -2393,8 +2745,8 @@ window.addEventListener('scroll',()=>{
                         : '日本での観測は期待しにくい水準です。';
       setBadge(card, true);
     }catch(e){
-      kpEl.textContent = 'Kp 3.0';
-      text.textContent = '日本でオーロラが見える可能性は低い水準です（サンプル値）。';
+      kpEl.textContent = 'Kp —';
+      showUnavailable(text, 'NOAAの公開データを取得できませんでした。', 'https://www.swpc.noaa.gov/products/planetary-k-index', 'NOAA公式で見る');
       setBadge(card, false);
     }
   })();
@@ -2439,6 +2791,110 @@ window.addEventListener('scroll',()=>{
       if(alt>10*DEG) visible.push(s.n);
     });
     text.textContent = visible.length? visible.join('・')+'が見えています。' : '主要な星座は現在地平線の下です。';
+  })();
+
+  /* ══ 【2026年9月30日追加】星空観測ガイド ══ */
+  /* 月の輝面比（上の月齢カードと同じ近似式。任意時刻用） */
+  function moonIllum(ms){
+    const d=(ms-946728000000)/86400000;
+    const Lm=218.316+13.176396*d, Mm=(134.963+13.064993*d)*Math.PI/180;
+    const lamM=Lm+6.289*Math.sin(Mm)*180/Math.PI;
+    const Ls=280.460+.9856474*d, Ms=(357.528+.9856003*d)*Math.PI/180;
+    const lamS=Ls+1.915*Math.sin(Ms)*180/Math.PI;
+    const elong=((lamM-lamS)%360+360)%360;
+    return (1-Math.cos(elong*Math.PI/180))/2;
+  }
+  function jstParts(ms){
+    const j=new Date(ms+9*3600000);
+    return {y:j.getUTCFullYear(), m:j.getUTCMonth()+1, d:j.getUTCDate()};
+  }
+
+  /* 流星群予報：主要流星群の例年の極大日（国立天文台・国際流星機構の公表値に基づく目安）と
+     1時間あたりの出現数の目安（ZHR）。当日の天候・月明かり・観測地で実際の数は変わる */
+  (function meteor(){
+    const card = document.querySelector('[data-card="meteor"]');
+    if(!card) return;
+    const SHOWERS=[
+      {n:'しぶんぎ座流星群',m:1,d:4,zhr:80},
+      {n:'4月こと座流星群',m:4,d:22,zhr:18},
+      {n:'みずがめ座η流星群',m:5,d:6,zhr:50},
+      {n:'みずがめ座δ南流星群',m:7,d:30,zhr:25},
+      {n:'ペルセウス座流星群',m:8,d:13,zhr:100},
+      {n:'オリオン座流星群',m:10,d:21,zhr:20},
+      {n:'しし座流星群',m:11,d:17,zhr:15},
+      {n:'ふたご座流星群',m:12,d:14,zhr:150}
+    ];
+    const now=Date.now(), t=jstParts(now);
+    const today=Date.UTC(t.y,t.m-1,t.d);
+    const upcoming=[];
+    SHOWERS.forEach(sh=>{
+      [t.y,t.y+1].forEach(y=>{
+        const peak=Date.UTC(y,sh.m-1,sh.d);
+        const days=Math.round((peak-today)/86400000);
+        if(days>=0) upcoming.push(Object.assign({y,days,peak},sh));
+      });
+    });
+    upcoming.sort((a,b)=>a.days-b.days);
+    const next=upcoming.slice(0,3);
+    const main=card.querySelector('[data-meteor-main]');
+    const text=card.querySelector('[data-meteor-text]');
+    const list=card.querySelector('[data-meteor-list]');
+    const n0=next[0];
+    // 極大日の夜（日本時間22時）の月明かり
+    const moon=moonIllum(n0.peak-9*3600000+22*3600000);
+    const moonTxt= moon<.3? '月明かりの影響が少ない好条件' : moon<.7? '月明かりの影響がやや出る条件' : '月明かりの影響が大きい条件';
+    main.textContent = n0.n;
+    text.textContent = (n0.days===0? '今夜が極大の目安' : `極大 ${n0.m}月${n0.d}日頃（あと${n0.days}日）`) + `・1時間あたり最大${n0.zhr}個程度が目安・${moonTxt}`;
+    list.innerHTML='';
+    next.slice(1).forEach(sh=>{
+      const li=document.createElement('li');
+      li.textContent = `${sh.n}｜${sh.m}月${sh.d}日頃（あと${sh.days}日）`;
+      list.appendChild(li);
+    });
+  })();
+
+  /* 天気予報・観測スポット：気象庁の予報データを自サイトのEdge Function（/api/weather）経由で取得 */
+  (async function weather(){
+    const wCard=document.querySelector('[data-card="weather"]');
+    const sCard=document.querySelector('[data-card="spots"]');
+    if(!wCard || !sCard) return;
+    const main=wCard.querySelector('[data-weather-main]');
+    const text=wCard.querySelector('[data-weather-text]');
+    const popEl=wCard.querySelector('[data-weather-pop]');
+    const JMA='https://www.jma.go.jp/bosai/forecast/#area_type=offices&area_code=140000';
+    function popLabel(p){
+      const h=new Date(new Date(p.from).getTime()+9*3600000).getUTCHours();
+      return `${h}〜${(h+6)%24||24}時 ${p.pop}%`;
+    }
+    function skyHint(w){
+      if(/雨|雪/.test(w)) return '星空観測には不向きな予報です。';
+      if(/晴/.test(w) && !/くもり|曇/.test(w)) return '晴れ間が期待でき、星空観測の好機です。';
+      if(/晴/.test(w)) return '晴れ間があれば星空観測のチャンスがあります。';
+      return '雲が多く、星空は見えにくい予報です。';
+    }
+    let data=null;
+    try{ data=await getJson('/api/weather', 10000); }catch(e){}
+    const places={};
+    ((data && data.places)||[]).forEach(p=>{ if(p) places[p.id]=p; });
+    const y=places.yokohama;
+    if(y){
+      main.textContent=y.weather;
+      text.textContent=skyHint(y.weather)+(y.tomorrow? `（明日：${y.tomorrow}）`:'');
+      popEl.textContent=y.pops.length? '降水確率 '+y.pops.map(popLabel).join('／')+'（出典：気象庁）' : '出典：気象庁';
+      setBadge(wCard,true);
+    }else{
+      main.textContent='—';
+      showUnavailable(text,'気象庁の予報データを取得できませんでした。',JMA,'気象庁で見る');
+      setBadge(wCard,false);
+    }
+    let anySpot=false;
+    sCard.querySelectorAll('[data-spot]').forEach(li=>{
+      const p=places[li.dataset.spot];
+      const em=li.querySelector('[data-spot-weather]');
+      if(p){ em.textContent='今日の天気：'+p.weather; anySpot=true; }
+      else { em.textContent='天気：未取得'; }
+    });
+    setBadge(sCard,anySpot);
   })();
 })();
 
@@ -2817,5 +3273,6 @@ window.addEventListener('scroll',()=>{
   window.addEventListener('pagehide', ()=> stopMusic(true));
 })();
 </script>
+<script src="/assets/site.js" defer></script>
 </body>
 </html>

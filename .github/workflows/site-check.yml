@@ -1,0 +1,24 @@
+name: 公式サイト検査
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: 生成ページとデータの一致確認
+        run: node scripts/build-pages.mjs --check
+      - name: リンク・配布PDF・禁止表記の検査
+        run: node scripts/check-site.mjs
+      - name: Edge Function単体テスト
+        run: node --experimental-strip-types --no-warnings scripts/edge-functions.test.mts
