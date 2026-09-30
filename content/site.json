@@ -656,7 +656,19 @@
             "precision": "by",
             "status": "確認済み",
             "label": "改題（旧題「遠回りの教科書 AIの勉強は、今日で終わり。」→現題）とみられる",
-            "source": "note通知：旧題は2026-07-14、現題は2026-07-15T00:36Zから。スキ数が連続しているため同一記事の改題とみられるが、改題日時は未確認"
+            "source": "note通知：現題への反応は2026-07-15T00:36Zから。スキ数が連続"
+          },
+          {
+            "date": "2026-07-30",
+            "status": "確認済み",
+            "label": "note管理画面の公開日時表示（8:15。再公開または更新とみられる）",
+            "source": "ボス提供 note管理画面スクリーンショット（2026-09-30 22:12 JST 撮影）。同日8:11表示の「ホームページ・LP制作」記事も7月16日に反応通知があり、7月30日は初回公開日ではない"
+          },
+          {
+            "date": null,
+            "status": "未確認",
+            "label": "追加編集された未公開の変更あり（日時未確認）",
+            "source": "ボス提供 note管理画面スクリーンショット（2026-09-30 22:12 JST 撮影）"
           }
         ],
         "webImplemented": {
@@ -669,10 +681,11 @@
           "date": "2026-07-14",
           "precision": "by",
           "status": "確認済み",
-          "label": "noteで公開（正確な公開日時は未確認）",
+          "label": "noteで初回公開（正確な日時は未確認）",
           "source": "note通知メール：旧題への最古の反応 2026-07-14T07:38Z（JST 16:38）。これ以前に公開"
         }
-      }
+      },
+      "noteDisplayed": "2026-07-30"
     }
   ],
   "products": [
@@ -742,7 +755,7 @@
       "channel": "note",
       "url": null,
       "fallbackUrl": "https://note.com/sklabs_official",
-      "status": "note公開日は未確認",
+      "status": "note公開 2026年8月15日（個別URLは未取得）",
       "fallbackCta": "SK LABSのnoteを見る",
       "fallbackNote": "個別の商品ページではなく、SK LABSのnoteトップへ移動します。最新の商品一覧から探してください。",
       "history": {
@@ -759,12 +772,25 @@
           "source": "Drive 1fpMoB40b0G6hLU3IkcZSn4dtdrcTIKWr（2026-08-07）。同一商品の初稿かは題名からの判断"
         },
         "articleWritten": {
-          "date": "2026-08-16",
-          "status": "確認済み",
-          "label": "完成稿",
-          "source": "Drive 12Jz-z12qXX9TLFYPwO31c2vFavrYF1KtkmyVxQDdQac（作成 2026-08-15T15:04Z＝JST 8月16日）"
+          "date": null,
+          "status": "未確認",
+          "label": "記事としての完成（2026年8月15日の公開以前）",
+          "source": "Drive 12Jz-z12…（作成 2026-08-15T15:04Z）は公開後の保存版のため執筆日の根拠にならない"
         },
-        "revised": [],
+        "revised": [
+          {
+            "date": "2026-08-16",
+            "status": "確認済み",
+            "label": "公開後の保存版をDriveへ保存",
+            "source": "Drive 12Jz-z12qXX9TLFYPwO31c2vFavrYF1KtkmyVxQDdQac"
+          },
+          {
+            "date": null,
+            "status": "未確認",
+            "label": "追加編集された未公開の変更あり（日時未確認）",
+            "source": "ボス提供 note管理画面スクリーンショット（2026-09-30 22:12 JST 撮影）"
+          }
+        ],
         "webImplemented": {
           "date": "2026-09-30",
           "status": "確認済み",
@@ -772,12 +798,13 @@
           "source": "GitHub 5979084"
         },
         "published": {
-          "date": null,
-          "status": "未確認",
-          "label": "note公開日",
-          "source": "販売投稿セット（2026-09-08）はあるが、公開日時の記録なし"
+          "date": "2026-08-15",
+          "status": "確認済み",
+          "label": "noteで公開（管理画面の公開日時 8:52。これより前の公開記録は見つかっていない）",
+          "source": "ボス提供 note管理画面スクリーンショット（2026-09-30 22:12 JST 撮影）。note上の題名は「【SK LABS式】AIに8割任せて“売れ…」（末尾は画面上で省略）"
         }
-      }
+      },
+      "noteTitleOnNote": "【SK LABS式】AIに8割任せて“売れ…（画面上で省略。正式題名は未確認）"
     }
   ],
   "tools": {
@@ -977,8 +1004,8 @@
     {
       "target": "AIを導入しても仕事が楽にならない理由（無料記事）",
       "checked": "同上",
-      "missing": "公開状態と個別URL",
-      "next": "公開済みならURL共有 → articles へ追加"
+      "missing": "個別URL（公開は確認済み：2026年8月12日19:00、ボス提供 note管理画面スクリーンショット（2026-09-30 22:12 JST 撮影））",
+      "next": "URL共有 → articles へ追加"
     },
     {
       "target": "P002〜P004",
@@ -1058,5 +1085,42 @@
         ]
       }
     ]
-  }
+  },
+  "noteLedger": [
+    {
+      "title": "遠回りの教科書 AIを学ぶだけの時代は、今日で終わり。",
+      "firstPublished": "2026-07-14（以前）",
+      "noteDisplayed": "2026-07-30 08:15",
+      "onSite": true,
+      "source": "note通知メール／ボス提供 note管理画面スクリーンショット（2026-09-30 22:12 JST 撮影）"
+    },
+    {
+      "title": "🚀 ホームページ・LP制作のご依頼…",
+      "firstPublished": "2026-07-16（以前、反応通知）",
+      "noteDisplayed": "2026-07-30 08:11",
+      "onSite": false,
+      "source": "note通知メール 2026-07-16／ボス提供 note管理画面スクリーンショット（2026-09-30 22:12 JST 撮影）"
+    },
+    {
+      "title": "SK LABS OSシリーズ Vol.1｜構成…",
+      "firstPublished": null,
+      "noteDisplayed": "2026-08-02 19:05",
+      "onSite": false,
+      "source": "ボス提供 note管理画面スクリーンショット（2026-09-30 22:12 JST 撮影）"
+    },
+    {
+      "title": "AIを導入しても仕事が楽にならない理由",
+      "firstPublished": null,
+      "noteDisplayed": "2026-08-12 19:00",
+      "onSite": false,
+      "source": "ボス提供 note管理画面スクリーンショット（2026-09-30 22:12 JST 撮影）（URL未取得のためサイト未掲載）"
+    },
+    {
+      "title": "【SK LABS式】AIに8割任せて“売れ…（980円note）",
+      "firstPublished": null,
+      "noteDisplayed": "2026-08-15 08:52",
+      "onSite": true,
+      "source": "ボス提供 note管理画面スクリーンショット（2026-09-30 22:12 JST 撮影）"
+    }
+  ]
 }
