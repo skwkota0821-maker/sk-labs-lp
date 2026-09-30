@@ -17,7 +17,7 @@
       "title": "SK LABS紹介資料（スターターキット2026 Vol.1）",
       "summary": "SK LABSの考え方、使命、提供領域、制作方針をまとめた紹介資料です。",
       "audience": "SK LABSの事業内容を知りたい方、AIと自動化を組み合わせた支援を検討している方",
-      "format": "PDF・11ページ",
+      "format": "PDF・12ページ",
       "url": "/downloads/sklabs-starter-kit-vol1.pdf",
       "cta": "PDFを受け取る",
       "layer": "education",
@@ -27,7 +27,13 @@
         "AI活用"
       ],
       "date": "2026-07-30",
-      "source": "Drive: SK LABS スターターキット2026 / 本文に『LPから無料で受け取れる4つの資料シリーズ』と明記"
+      "source": "Drive: SK LABS スターターキット2026 / 本文に『LPから無料で受け取れる4つの資料シリーズ』と明記",
+      "publicCopy": {
+        "pages": 12,
+        "sha256": "e0fba91f52160d63586084802d9a581db0eb074659420fef12c53c0355dfbef0",
+        "driveOriginalId": "18rf7NFJxmJSe9KUzzq2pHopXo1xNe9d4",
+        "note": "公開用コピー（2026-09-30）：本文・レイアウトは原本と同一。作成ツール名・テンプレート由来の日付などのメタデータを除去。原本（Drive）へはサイトからリンクしない"
+      }
     },
     {
       "id": "starter-vol2",
@@ -44,7 +50,13 @@
         "初心者"
       ],
       "date": "2026-07-30",
-      "source": "Drive: SK LABS スターターキット2026"
+      "source": "Drive: SK LABS スターターキット2026",
+      "publicCopy": {
+        "pages": 31,
+        "sha256": "b868e169c56d12569519c5e9d2a5e00346329182d4cf2f6e34ab553e0e65d5d2",
+        "driveOriginalId": "1OyJ_qeE4zTSBNXjjwH26jOnP7tsRqUhS",
+        "note": "公開用コピー（2026-09-30）：本文・レイアウトは原本と同一。作成ツール名・テンプレート由来の日付などのメタデータを除去。原本（Drive）へはサイトからリンクしない"
+      }
     },
     {
       "id": "starter-vol3",
@@ -61,7 +73,13 @@
         "自動化"
       ],
       "date": "2026-07-30",
-      "source": "Drive: SK LABS スターターキット2026"
+      "source": "Drive: SK LABS スターターキット2026",
+      "publicCopy": {
+        "pages": 36,
+        "sha256": "1f667553726ebd346ebecdc28da22a1744d2c7014fec585f82a8c3b8b4525572",
+        "driveOriginalId": "18PWnlsoJoYqKgnkcdiXnAD0MCezIX1PL",
+        "note": "公開用コピー（2026-09-30）：本文・レイアウトは原本と同一。作成ツール名・テンプレート由来の日付などのメタデータを除去。原本（Drive）へはサイトからリンクしない"
+      }
     },
     {
       "id": "starter-vol4",
@@ -78,7 +96,13 @@
         "プロンプト"
       ],
       "date": "2026-07-30",
-      "source": "Drive: SK LABS スターターキット2026"
+      "source": "Drive: SK LABS スターターキット2026",
+      "publicCopy": {
+        "pages": 28,
+        "sha256": "633d1e72cf88b6b71997da044f86329694d187d405ed5d4af1a230ab2ba3f45a",
+        "driveOriginalId": "12iEZShNALxe4T532UqseFx6Z_-UD3YBt",
+        "note": "公開用コピー（2026-09-30）：本文・レイアウトは原本と同一。作成ツール名・テンプレート由来の日付などのメタデータを除去。原本（Drive）へはサイトからリンクしない"
+      }
     }
   ],
   "articles": [
@@ -149,7 +173,21 @@
           "p",
           "最初から全業務をAI化する必要はありません。毎週くり返す作業を1つ選び、AIに任せる部分と人が確認する部分を決めるところから始めるのが確実です。具体的な進め方は、無料のスターターキットでも紹介しています。"
         ]
-      ]
+      ],
+      "provenance": {
+        "basis": "A（正本由来）＋B（実装時の構成・導入文）",
+        "sources": [
+          "Drive 🔵【正本】SK LABS 全AI共通指示セット v3.2｜2026年9月29日（1bgqI_CXVw9sSLK1q0wILvll0NXH3p0CJP7DQrPJVa0s）第7節「各AIの役割分担」・第1節「正式な情報源」「情報の分類」"
+        ],
+        "added": [
+          "導入段落・見出し構成・「まずは1つの業務から」の段落",
+          "Canvaでデザイン制作という記述（正本v3.2の役割表には記載なし）"
+        ],
+        "factCheck": [
+          "Canvaの用途記述の根拠",
+          "社内ルール（AI共通運用ルール）の一部公開がスターターキットVol.1の「公開しない情報」方針と整合するか（ボス確認）"
+        ]
+      }
     },
     {
       "slug": "stargazing-checklist",
@@ -203,7 +241,21 @@
           "p",
           "街明かりの少ない場所ほど多くの星が見えます。日本国内では、国際ダークスカイ協会（DarkSky International）の星空保護区に認定された地域もあります。夜間に出かける際は、足元の安全と、私有地・立入禁止区域に入らないことを優先してください。"
         ]
-      ]
+      ],
+      "provenance": {
+        "basis": "B（実装時に新規作成した一般解説）",
+        "sources": [
+          "サイト内 /space/ の機能（気象庁予報・流星群・観測スポット）",
+          "観測スポット一覧（netlify/edge-functions/weather.ts の DarkSky International 認定地）"
+        ],
+        "added": [
+          "全文（一般的な観測知識の解説）"
+        ],
+        "factCheck": [
+          "DarkSky International の国内認定地（一次情報：darksky.org の認定一覧）",
+          "流星群の出現数は目安である旨の表現"
+        ]
+      }
     },
     {
       "slug": "starter-kit-guide",
@@ -254,7 +306,18 @@
           "p",
           "スターターキットでは、SK LABSの内部プロンプト、AI共通運用ルール、自動化設計、非公開の業務データなどは掲載していません。"
         ]
-      ]
+      ],
+      "provenance": {
+        "basis": "A（スターターキット原本由来）＋B（読後の導線文）",
+        "sources": [
+          "Drive スターターキット2026 Vol.1〜4 原本PDF（Vol.1 p.10〜11「公開しない情報」「シリーズ構成」、Vol.3 p.36、Vol.4 p.20）"
+        ],
+        "added": [
+          "「読んだあとに」の段落（note・無料相談への導線）",
+          "「登録不要でダウンロードできます」（サイトの実装事実）"
+        ],
+        "factCheck": []
+      }
     },
     {
       "slug": "tomawari-no-kyokasho",
@@ -282,7 +345,9 @@
       "channel": "note",
       "url": null,
       "fallbackUrl": "https://note.com/sklabs_official",
-      "status": "公開記録あり（2026年8月27日 note公式ピックアップ）"
+      "status": "公開記録あり（2026年8月27日 note公式ピックアップ）",
+      "fallbackCta": "SK LABSのnoteを見る",
+      "fallbackNote": "個別の商品ページではなく、SK LABSのnoteトップへ移動します。最新の商品一覧から探してください。"
     },
     {
       "id": "NOTE980",
@@ -292,7 +357,9 @@
       "channel": "note",
       "url": null,
       "fallbackUrl": "https://note.com/sklabs_official",
-      "status": "公開記録あり（2026年9月8日 販売投稿文書）"
+      "status": "公開記録あり（2026年9月8日 販売投稿文書）",
+      "fallbackCta": "SK LABSのnoteを見る",
+      "fallbackNote": "個別の商品ページではなく、SK LABSのnoteトップへ移動します。最新の商品一覧から探してください。"
     }
   ],
   "tools": {
@@ -456,6 +523,7 @@
   ],
   "affiliates": [
     {
+      "brand": "SK LABS",
       "id": "lancers",
       "advertiser": "ランサーズ",
       "label": "クラウドソーシング「ランサーズ」",

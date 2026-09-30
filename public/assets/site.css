@@ -49,6 +49,7 @@ img{max-width:100%;height:auto}
 .card{background:rgba(12,18,62,.72);border:1px solid rgba(120,150,255,.26);border-radius:16px;padding:20px 18px;display:flex;flex-direction:column;gap:8px}
 .card h3{font-size:16.5px;line-height:1.5}
 .card p{font-size:13.5px;color:rgba(255,255,255,.76);flex:1}
+.card .cta-note{flex:0;font-size:12px;line-height:1.6;color:rgba(255,255,255,.6)}
 .card dl{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;font-size:12.5px;color:rgba(255,255,255,.72)}
 .card dt{color:#b9c6ff;font-weight:700;white-space:nowrap}
 .tag{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.04em;color:#c4b5fd}

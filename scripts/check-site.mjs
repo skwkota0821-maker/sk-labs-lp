@@ -1,6 +1,7 @@
 // 公式サイトの公開前チェック：内部リンク・ページ内アンカー・配布PDF・禁止表記を検査する
 import fs from 'node:fs';
 import path from 'node:path';
+import crypto from 'node:crypto';
 
 const root = path.resolve('public');
 const walk = (d) => fs.readdirSync(d, { withFileTypes: true }).flatMap((e) => (e.isDirectory() ? walk(path.join(d, e.name)) : [path.join(d, e.name)]));
@@ -35,14 +36,33 @@ for (const page of pages) {
       if (!target.includes(`id="${hash}"`)) errors.push(`${page}: リンク先のアンカーがありません ${href}`);
     }
   }
+  if (!page.endsWith('404.html') && !/<meta property="og:image" content="https:\/\/sk-labs\.net\/assets\/og\/[^"]+"/.test(html)) errors.push(`${page}: OGP画像（og:image）がありません`);
   if (/drive\.google\.com/.test(html)) errors.push(`${page}: 非公開のGoogleドライブへのリンクが残っています`);
   if (/（サンプル値）|（サンプル）|'SAMPLE'/.test(html)) errors.push(`${page}: サンプル値表示が残っています`);
   if (/x\.com\/sklabs_jp/.test(html)) errors.push(`${page}: 旧Xアカウント（sklabs_jp）へのリンクがあります`);
+  for (const [, text] of html.matchAll(/href="https:\/\/note\.com\/sklabs_official\/?"[^>]*>([^<]*)</g)) {
+    if (/商品|noteで見る|購入/.test(text)) errors.push(`${page}: noteトップへのリンクに個別商品と誤認される文言があります「${text.trim()}」`);
+  }
 }
 
+// 配布PDFは「公開用コピー」だけを置く：台帳（content/site.json の resources[].publicCopy）とハッシュが一致すること、
+// 作成ツール名などの内部メタデータ・Driveリンクが残っていないこと
+const site = JSON.parse(fs.readFileSync(path.resolve('content/site.json'), 'utf8'));
+const ledger = new Map(site.resources.filter((r) => r.url.startsWith('/downloads/')).map((r) => [path.basename(r.url), r.publicCopy]));
 for (const f of fs.readdirSync(path.join(root, 'downloads'))) {
   const buf = fs.readFileSync(path.join(root, 'downloads', f));
   if (buf.subarray(0, 5).toString() !== '%PDF-') errors.push(`downloads/${f}: PDFではありません`);
+  const entry = ledger.get(f);
+  if (!entry) { errors.push(`downloads/${f}: 公開用コピー台帳に登録されていません`); continue; }
+  const sha = crypto.createHash('sha256').update(buf).digest('hex');
+  if (sha !== entry.sha256) errors.push(`downloads/${f}: 台帳のハッシュと一致しません（公開用コピー以外に差し替わっています）`);
+  const raw = buf.toString('latin1');
+  if (/python-docx|x:xmpmeta|docs\.google\.com|drive\.google\.com/.test(raw)) errors.push(`downloads/${f}: 内部メタデータまたはDriveリンクが残っています`);
+}
+
+// 案件のブランド分離：公式サイトに載せるアフィリエイトは所属ブランド必須かつSK LABSのみ
+for (const a of site.affiliates) {
+  if (a.brand !== site.site.name) errors.push(`affiliates[${a.id}]: 所属ブランドが「${a.brand || '未設定'}」です（SK LABS以外は掲載不可）`);
 }
 
 if (errors.length) {

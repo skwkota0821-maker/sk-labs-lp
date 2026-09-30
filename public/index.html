@@ -15,7 +15,7 @@
   // ここへ実際の公開URL・OGP画像・faviconパスを入力してください（未設定=空欄のまま）
   window.SKLABS_SITE = {
     siteUrl:  "https://sk-labs.net/",   // 本人より提供済み。canonical・og:urlに使用
-    ogImage:  "",   // 未確定のため空欄のまま(確定後にここへ入力)
+    ogImage:  "",   // OGP画像は<head>内に静的タグで設定済み（2026年9月30日）。ここは空欄のまま（重複出力防止）
     favicon:  ""    // 未確定のため空欄のまま(確定後にここへ入力)
   };
   // SK LABS公式SNS URL（本人より提供済み。共有トラッキング用クエリのみ除去）
@@ -37,6 +37,12 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="SK LABS | AIで、ビジネスの可能性を解放する。">
 <meta name="twitter:description" content="SK LABSは、複数のAIを組み合わせ、あなた専用のAIチームと業務の仕組みを設計します。">
+<!-- OGP画像：🔵【正本】SK LABS_公式ロゴマーク｜2026年8月18日（Drive 10LfY0LOwIon0bsv_5AphvJj5mtCzUcS3）を縮小した公開用コピー（2026年9月30日） -->
+<meta property="og:image" content="https://sk-labs.net/assets/og/sklabs-og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="600">
+<meta property="og:image:alt" content="SK LABS 公式ロゴ">
+<meta name="twitter:image" content="https://sk-labs.net/assets/og/sklabs-og.jpg">
 
 <!-- 構造化データ: Organization（住所・連絡先はメール以外は住所のみ確定情報として記載） -->
 <script type="application/ld+json">
@@ -597,6 +603,7 @@ a{color:inherit;text-decoration:none;}
 .step-no{font-size:11px;font-weight:900;letter-spacing:.14em;color:#7dd3fc;}
 .step-card-strong{border-color:rgba(236,72,153,.55);box-shadow:0 0 22px rgba(236,72,153,.18);}
 .rh-note{margin-top:12px;font-size:10.5px;color:rgba(255,255,255,.42);}
+.rh-card .cta-note{margin-top:8px;font-size:11px;line-height:1.6;color:rgba(255,255,255,.55);}
 .rh-grid-3{grid-template-columns:repeat(3,1fr);}
 .diag-opts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
 .diag-opts button{font:inherit;font-weight:700;font-size:14px;color:#fff;text-align:left;padding:14px 16px;border-radius:14px;border:1px solid rgba(120,150,255,.35);background:rgba(12,18,62,.78);cursor:pointer;transition:border-color .2s,transform .2s;}
@@ -987,13 +994,13 @@ a{color:inherit;text-decoration:none;}
 <h3>AI活用ガイド【無料版】（スターターキット2026 Vol.2）</h3><p>AIの基本、代表的な活用方法、指示の出し方、安全に使うための注意点を初心者向けに整理したガイドです。</p>
 <a class="rh-btn" href="/downloads/sklabs-starter-kit-vol2.pdf" download data-track="file_download" data-track-label="AI活用ガイド【無料版】（スターターキット2026 Vol.2）">PDFを受け取る →</a></article><article class="rh-card"><span class="tag">入口商品</span>
 <h3>AIに記事を書かせる前に決める5項目</h3><p>「薄い文章」を減らすための最小設計。AIへ渡す前に決める5項目を、そのまま埋めて使える形にまとめたnoteです。</p>
-<a class="rh-btn" href="https://note.com/sklabs_official" target="_blank" rel="noopener noreferrer" data-track="product_click" data-track-label="AIに記事を書かせる前に決める5項目">noteで見る →</a></article><article class="rh-card"><span><span class="pr">PR</span><span class="tag">広告・アフィリエイトリンク</span></span>
+<a class="rh-btn" href="https://note.com/sklabs_official" target="_blank" rel="noopener noreferrer" data-track="product_click" data-track-label="AIに記事を書かせる前に決める5項目">SK LABSのnoteを見る →</a><p class="cta-note">※個別の商品ページではなく、SK LABSのnoteトップへ移動します。最新の商品一覧から探してください。</p></article><article class="rh-card"><span><span class="pr">PR</span><span class="tag">広告・アフィリエイトリンク</span></span>
 <h3>クラウドソーシング「ランサーズ」</h3><p>AIスキルを使って仕事を受けたい方向け。クラウドソーシングで案件を探せます。</p>
 <a class="rh-btn" href="https://www.lancers.jp/affiliate/track?id=3642047&amp;link=%2F" target="_blank" rel="noopener noreferrer sponsored nofollow" data-track="affiliate_click" data-track-label="クラウドソーシング「ランサーズ」">サイトを見る →</a></article></div></div><div class="diag-result" id="top-d-content" data-diag-result="content" hidden><p class="lead">AIに書かせる前の設計と、公開前の確認手順を先に固めると品質が安定します。</p><div class="rh-grid rh-grid-3"><article class="rh-card"><span class="tag">入口商品</span>
 <h3>AIに記事を書かせる前に決める5項目</h3><p>「薄い文章」を減らすための最小設計。AIへ渡す前に決める5項目を、そのまま埋めて使える形にまとめたnoteです。</p>
-<a class="rh-btn" href="https://note.com/sklabs_official" target="_blank" rel="noopener noreferrer" data-track="product_click" data-track-label="AIに記事を書かせる前に決める5項目">noteで見る →</a></article><article class="rh-card"><span class="tag">中価格商品</span>
+<a class="rh-btn" href="https://note.com/sklabs_official" target="_blank" rel="noopener noreferrer" data-track="product_click" data-track-label="AIに記事を書かせる前に決める5項目">SK LABSのnoteを見る →</a><p class="cta-note">※個別の商品ページではなく、SK LABSのnoteトップへ移動します。最新の商品一覧から探してください。</p></article><article class="rh-card"><span class="tag">中価格商品</span>
 <h3>AIに8割任せても売れる「ひとり編集部」の作り方</h3><p>企画・調査・構成・執筆・編集・販売導線までの制作工程と、ChatGPT・Claude・Geminiなどの役割分担をまとめた実践ガイドです。</p>
-<a class="rh-btn" href="https://note.com/sklabs_official" target="_blank" rel="noopener noreferrer" data-track="product_click" data-track-label="AIに8割任せても売れる「ひとり編集部」の作り方">noteで見る →</a></article><article class="rh-card"><span class="tag">無料資料</span>
+<a class="rh-btn" href="https://note.com/sklabs_official" target="_blank" rel="noopener noreferrer" data-track="product_click" data-track-label="AIに8割任せても売れる「ひとり編集部」の作り方">SK LABSのnoteを見る →</a><p class="cta-note">※個別の商品ページではなく、SK LABSのnoteトップへ移動します。最新の商品一覧から探してください。</p></article><article class="rh-card"><span class="tag">無料資料</span>
 <h3>AI実践チェックリスト集（スターターキット2026 Vol.4）</h3><p>AI導入、毎日の活用、プロンプト作成、公開前確認、週間・月間レビューまでを確認できるチェックリストです。</p>
 <a class="rh-btn" href="/downloads/sklabs-starter-kit-vol4.pdf" download data-track="file_download" data-track-label="AI実践チェックリスト集（スターターキット2026 Vol.4）">PDFを受け取る →</a></article></div></div><div class="diag-result" id="top-d-tools" data-diag-result="tools" hidden><p class="lead">「どれが一番か」ではなく、仕事ごとに担当を決めるのがSK LABSの考え方です。</p><div class="rh-grid rh-grid-3"><article class="rh-card"><span class="tag">ページ</span>
 <h3>AIツール</h3>
@@ -1005,7 +1012,7 @@ a{color:inherit;text-decoration:none;}
 <h3>AI TEAM</h3>
 <a class="rh-btn" href="/ai-team/" data-track="internal_click" data-track-label="AI TEAM">ページを見る →</a></article><article class="rh-card"><span class="tag">中価格商品</span>
 <h3>AIに8割任せても売れる「ひとり編集部」の作り方</h3><p>企画・調査・構成・執筆・編集・販売導線までの制作工程と、ChatGPT・Claude・Geminiなどの役割分担をまとめた実践ガイドです。</p>
-<a class="rh-btn" href="https://note.com/sklabs_official" target="_blank" rel="noopener noreferrer" data-track="product_click" data-track-label="AIに8割任せても売れる「ひとり編集部」の作り方">noteで見る →</a></article><article class="rh-card"><span class="tag">相談</span>
+<a class="rh-btn" href="https://note.com/sklabs_official" target="_blank" rel="noopener noreferrer" data-track="product_click" data-track-label="AIに8割任せても売れる「ひとり編集部」の作り方">SK LABSのnoteを見る →</a><p class="cta-note">※個別の商品ページではなく、SK LABSのnoteトップへ移動します。最新の商品一覧から探してください。</p></article><article class="rh-card"><span class="tag">相談</span>
 <h3>無料相談（メール）</h3><p>AI導入・業務自動化・Web/LP制作・コンテンツ制作のご相談を受け付けています。</p>
 <a class="rh-btn" href="mailto:info@sk-labs.net?subject=SK%20LABS%E7%84%A1%E6%96%99%E7%9B%B8%E8%AB%87" data-track="consult_click" data-track-label="無料相談（メール）">無料相談する →</a></article></div></div><div class="diag-result" id="top-d-consult" data-diag-result="consult" hidden><p class="lead">AI導入・業務自動化・Web/LP制作・コンテンツ制作のご相談を受け付けています。</p><div class="rh-grid rh-grid-3"><article class="rh-card"><span class="tag">相談</span>
 <h3>無料相談（メール）</h3><p>AI導入・業務自動化・Web/LP制作・コンテンツ制作のご相談を受け付けています。</p>
@@ -1074,7 +1081,7 @@ a{color:inherit;text-decoration:none;}
       </div>
       <div class="rh-grid rh-grid-4">
         <article class="rh-card gift-card">
-          <span class="rh-cat">VOL.1｜11ページ</span>
+          <span class="rh-cat">VOL.1｜12ページ</span>
           <h3>SK LABS紹介資料</h3>
           <p>SK LABSの考え方、提供領域、制作方針。AIと自動化を組み合わせた支援を検討している方へ。</p>
           <a class="rh-btn" href="/downloads/sklabs-starter-kit-vol1.pdf" download>PDFを受け取る ↓</a>
@@ -1153,14 +1160,16 @@ a{color:inherit;text-decoration:none;}
           <span class="rh-cat">入口商品｜note</span>
           <h3>AIに記事を書かせる前に決める5項目</h3>
           <p>「薄い文章」を減らすための最小設計。AIへ渡す前に決める5項目を、そのまま埋めて使える形にまとめています。</p>
-          <a class="rh-btn" href="https://note.com/sklabs_official" target="_blank" rel="noopener noreferrer">noteで見る →</a>
+          <a class="rh-btn" href="https://note.com/sklabs_official" target="_blank" rel="noopener noreferrer" data-track="product_click">SK LABSのnoteを見る →</a>
+          <p class="cta-note">※個別の商品ページではなく、SK LABSのnoteトップへ移動します。最新の商品一覧から探してください。</p>
         </li>
         <li class="rh-card step-card">
           <span class="step-no">STEP 3</span>
           <span class="rh-cat">実践ガイド｜有料note</span>
           <h3>AIに8割任せても売れる「ひとり編集部」の作り方</h3>
           <p>企画・調査・構成・執筆・編集・販売導線までの制作工程と、ChatGPT・Claude・Geminiなどの役割分担をまとめた実践ガイドです。</p>
-          <a class="rh-btn" href="https://note.com/sklabs_official" target="_blank" rel="noopener noreferrer">noteで見る →</a>
+          <a class="rh-btn" href="https://note.com/sklabs_official" target="_blank" rel="noopener noreferrer" data-track="product_click">SK LABSのnoteを見る →</a>
+          <p class="cta-note">※個別の商品ページではなく、SK LABSのnoteトップへ移動します。最新の商品一覧から探してください。</p>
         </li>
         <li class="rh-card step-card step-card-strong">
           <span class="step-no">STEP 4</span>
@@ -1170,7 +1179,7 @@ a{color:inherit;text-decoration:none;}
           <a class="rh-btn" href="mailto:info@sk-labs.net?subject=SK+LABS無料相談">✉ 無料相談する →</a>
         </li>
       </ol>
-      <p class="rh-note">※note商品の価格・販売状況はnoteの各商品ページが最新です。</p>
+      <p class="rh-note">※note商品の価格・販売状況は、noteの各商品ページの表示が最新です。現在このサイトからは各商品ページへ直接リンクしていません。</p>
     </div>
   </section>
 
