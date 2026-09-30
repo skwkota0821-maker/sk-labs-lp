@@ -1,5 +1,6 @@
 [build]
   publish = "public"
+  command = "npm run build"
 
 [[redirects]]
   from = "/starter-kit"
@@ -16,6 +17,11 @@
 # 実際の配信（index.html）に合わせて明示的に削除（2026年9月30日）。index-v2.html 自体は保全する。
 
 # 存在しないURLは旧v2ページを200で返さず、404ページを返す（2026年9月30日）
+[[redirects]]
+  from = "/member"
+  to = "/member.html"
+  status = 200
+
 [[redirects]]
   from = "/*"
   to = "/404.html"

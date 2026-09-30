@@ -1,0 +1,13 @@
+{
+  "name": "sk-labs-harness-web",
+  "private": true,
+  "scripts": {
+    "build": "esbuild src/member.js --bundle --format=esm --minify --outfile=public/member.js"
+  },
+  "dependencies": {
+    "@netlify/identity": "latest"
+  },
+  "devDependencies": {
+    "esbuild": "latest"
+  }
+}
