@@ -1,0 +1,76 @@
+name: Seedance 2.5 手動実生成
+
+on:
+  workflow_dispatch:
+    inputs:
+      reference_image_url:
+        description: "権利確認済み参照画像URL（非実在人物を優先）"
+        required: true
+        type: string
+      prompt:
+        description: "生成指示"
+        required: true
+        default: "Natural five-second performance. Preserve identity, hairstyle and outfit from the reference image."
+        type: string
+      confirm_paid_generation:
+        description: "有料生成1本を実行する"
+        required: true
+        default: false
+        type: boolean
+
+permissions:
+  contents: read
+
+jobs:
+  generate:
+    if: ${{ inputs.confirm_paid_generation == true }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      LAS_API_KEY: ${{ secrets.LAS_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: APIキー存在確認
+        shell: bash
+        run: |
+          test -n "$LAS_API_KEY" || { echo "LAS_API_KEY secret is not configured"; exit 1; }
+      - name: 実証用参照パック生成
+        shell: bash
+        env:
+          REFERENCE_IMAGE_URL: ${{ inputs.reference_image_url }}
+        run: |
+          python - <<'PY'
+          import json, os
+          pack = {
+              "reference_pack_id": "seedance-paid-smoke-test",
+              "subject_id": "sklabs-owned-non-real-person",
+              "reference_images": [os.environ["REFERENCE_IMAGE_URL"]],
+              "reference_videos": [],
+              "reference_audio": [],
+              "rights_status": "self_owned",
+              "consent_status": "not_applicable",
+              "contains_personal_data": False,
+              "contains_real_human_face": False,
+              "las_asset_library_authorized": False,
+              "provider_export_allowed": True,
+              "voice_rights_status": "self_owned",
+              "portrait_rights_status": "self_owned"
+          }
+          with open("/tmp/seedance-reference-pack.json", "w", encoding="utf-8") as f:
+              json.dump(pack, f, ensure_ascii=False, indent=2)
+          PY
+      - name: dry-run
+        run: python tools/seedance_probe.py --reference-pack /tmp/seedance-reference-pack.json --prompt "${{ inputs.prompt }}"
+      - name: 5秒720p音声付き実生成
+        run: python tools/seedance_probe.py --reference-pack /tmp/seedance-reference-pack.json --prompt "${{ inputs.prompt }}" --execute --poll | tee /tmp/seedance-result.jsonl
+      - name: 実行結果保存
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: seedance-実生成結果
+          path: /tmp/seedance-result.jsonl
+          if-no-files-found: warn
+          retention-days: 7

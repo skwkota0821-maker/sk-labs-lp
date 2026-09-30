@@ -1,0 +1,17 @@
+{
+  "reference_pack_id": "sklabs-demo-seedance-001",
+  "subject_id": "non-real-person-demo",
+  "reference_images": [
+    "https://example.invalid/sklabs-owned-reference.png"
+  ],
+  "reference_videos": [],
+  "reference_audio": [],
+  "rights_status": "self_owned",
+  "consent_status": "not_applicable",
+  "contains_personal_data": false,
+  "contains_real_human_face": false,
+  "las_asset_library_authorized": false,
+  "provider_export_allowed": true,
+  "voice_rights_status": "self_owned",
+  "portrait_rights_status": "self_owned"
+}
