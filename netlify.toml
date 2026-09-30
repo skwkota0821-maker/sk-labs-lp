@@ -6,6 +6,12 @@
   to = "/starter-kit.html"
   status = 200
 
+# 末尾スラッシュ付き（/starter-kit/）も同じ無料資料ページへ（2026年9月30日）
+[[redirects]]
+  from = "/starter-kit/"
+  to = "/starter-kit"
+  status = 301
+
 # 「/ → index-v2.html」の規則は index.html と同じパスのため適用されず（シャドーイング）、本番は index.html を配信していた。
 # 実際の配信（index.html）に合わせて明示的に削除（2026年9月30日）。index-v2.html 自体は保全する。
 

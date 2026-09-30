@@ -26,6 +26,15 @@ const byId = {
   affiliate: Object.fromEntries(data.affiliates.map((a) => [a.id, a])),
 };
 
+// 案件DBのブランド分離：所属ブランドは必須。SK LABS以外（さやママ・モエ等）の案件は公式サイトへ流用しない
+for (const a of data.affiliates) {
+  if (!a.brand) throw new Error(`affiliates[${a.id}]: 所属ブランド（brand）が未設定です`);
+  if (a.brand !== SITE.name) throw new Error(`affiliates[${a.id}]: ${a.brand}の案件はSK LABS公式サイトへ掲載できません`);
+}
+for (const p of data.products) {
+  if (!p.url && !(p.fallbackUrl && p.fallbackCta && p.fallbackNote)) throw new Error(`products[${p.id}]: 個別URL未確定時の送客先・文言・注記が未設定です`);
+}
+
 const PAGES = {
   '/start/': '入口診断', '/articles/': '記事', '/resources/': '無料コンテンツ', '/tools/': 'AIツール',
   '/ai-team/': 'AI TEAM', '/works/': '制作実績', '/space/': '宇宙・星空', '/search/': '検索',
@@ -38,7 +47,12 @@ function resolveRef(ref) {
   if (type === 'page') return { title: PAGES[id] || id, summary: '', url: id, cta: 'ページを見る', kind: 'ページ', track: 'internal_click' };
   if (type === 'resource') { const r = byId.resource[id]; return { title: r.title, summary: r.summary, url: r.url, cta: r.cta, kind: '無料資料', track: 'file_download' }; }
   if (type === 'article') { const a = byId.article[id]; return { title: a.title, summary: a.description, url: articleUrl(a), cta: a.type === 'note' ? '記事を読む（note）' : '記事を読む', kind: '記事', track: 'article_click' }; }
-  if (type === 'product') { const p = byId.product[id]; return { title: p.title, summary: p.summary, url: p.url || p.fallbackUrl, cta: 'noteで見る', kind: p.stage, track: 'product_click' }; }
+  if (type === 'product') {
+    const p = byId.product[id];
+    // 個別商品URLが未確定の間は、noteトップへ送ることが分かる文言にする（個別商品へ到達すると誤認させない）
+    if (p.url) return { title: p.title, summary: p.summary, url: p.url, cta: '商品ページを見る（note）', kind: p.stage, track: 'product_click' };
+    return { title: p.title, summary: p.summary, url: p.fallbackUrl, cta: p.fallbackCta, note: p.fallbackNote, kind: p.stage, track: 'product_click' };
+  }
   if (type === 'affiliate') { const a = byId.affiliate[id]; return { title: a.label, summary: a.context, url: a.url, cta: 'サイトを見る', kind: 'PR', track: 'affiliate_click', sponsored: true }; }
   throw new Error('未知の参照: ' + ref);
 }
@@ -49,7 +63,7 @@ function refCard(ref) {
   const dl = r.url.startsWith('/downloads/') ? ' download' : '';
   return `<article class="card">${r.sponsored ? '<span><span class="pr">PR</span><span class="tag">広告・アフィリエイトリンク</span></span>' : `<span class="tag">${esc(r.kind)}</span>`}
 <h3>${esc(r.title)}</h3>${r.summary ? `<p>${esc(r.summary)}</p>` : ''}
-<a class="btn" href="${esc(r.url)}"${linkAttrs(r.url, sponsored)}${dl} data-track="${r.track}" data-track-label="${esc(r.title)}">${esc(r.cta)} →</a></article>`;
+<a class="btn" href="${esc(r.url)}"${linkAttrs(r.url, sponsored)}${dl} data-track="${r.track}" data-track-label="${esc(r.title)}">${esc(r.cta)} →</a>${r.note ? `<p class="cta-note">※${esc(r.note)}</p>` : ''}</article>`;
 }
 
 const LOGO = '<svg width="26" height="24" viewBox="0 0 32 30" fill="none" aria-hidden="true"><path d="M16 1L20.5 8.5L16 16L11.5 8.5Z" fill="#8cb8ff"/><path d="M6.5 15L11 22.5L6.5 30L2 22.5Z" fill="#6c9cff"/><path d="M25.5 15L30 22.5L25.5 30L21 22.5Z" fill="#7aa8ff"/></svg>';
@@ -73,7 +87,12 @@ function layout({ path: p, title, description, h1, eyebrow, lead, body, crumbs =
 <meta property="og:title" content="${esc(title)}">
 <meta property="og:description" content="${esc(description)}">
 <meta property="og:url" content="${url}">
-<meta name="twitter:card" content="summary">
+<meta property="og:image" content="https://sk-labs.net/assets/og/sklabs-og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="600">
+<meta property="og:image:alt" content="SK LABS 公式ロゴ">
+<meta name="twitter:image" content="https://sk-labs.net/assets/og/sklabs-og.jpg">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:site" content="@SK_labs_jp">
 <meta name="twitter:title" content="${esc(title)}">
 <meta name="twitter:description" content="${esc(description)}">
@@ -237,7 +256,7 @@ function searchIndex() {
   data.resources.forEach((r) => items.push({ type: '無料資料', title: r.title, text: `${r.summary} ${r.audience} ${r.tags.join(' ')}`, url: r.url }));
   data.tools.items.forEach((t) => items.push({ type: 'AIツール', title: `${t.name}（${t.role}）`, text: `${t.use} ${t.flow} ${t.caution}`, url: '/tools/' }));
   data.works.forEach((w) => items.push({ type: '制作実績', title: w.title, text: `${w.summary} ${w.category} ${w.tags.join(' ')}`, url: w.url || '/works/' }));
-  data.products.forEach((p) => items.push({ type: p.stage, title: p.title, text: p.summary, url: p.url || p.fallbackUrl }));
+  data.products.forEach((p) => items.push({ type: p.stage, title: p.url ? p.title : `${p.title}（${p.fallbackCta}）`, text: p.summary, url: p.url || p.fallbackUrl }));
   items.push({ type: 'サービス', title: '無料相談', text: 'AI導入 業務自動化 Web LP制作 コンテンツ制作 SNS運用 事業設計 相談 問い合わせ', url: SITE.consultMail });
   items.push({ type: 'サービス', title: 'AI TEAMの仕組み', text: 'AIチーム 役割分担 工程 調査 企画 制作 品質確認 公開 計測 改善', url: '/ai-team/' });
   items.push({ type: '宇宙情報', title: '宇宙・星空情報', text: '天気 星空 月齢 流星群 オーロラ 宇宙写真 観測スポット 星空保護区', url: '/space/' });
