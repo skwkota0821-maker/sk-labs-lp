@@ -19,6 +19,9 @@
     if (/^https?:\/\/(www\.)?x\.com\//i.test(href)) {
       return { name: 'sns_click', params: { sns_name: 'x' } };
     }
+    if (/\/downloads\/[^/]+\.pdf$/i.test(href)) {
+      return { name: 'file_download', params: { file_name: href.split('/').pop() } };
+    }
     if (/^https?:\/\/note\.com\//i.test(href)) {
       return { name: 'sns_click', params: { sns_name: 'note' } };
     }
