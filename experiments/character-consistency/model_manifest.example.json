@@ -1,0 +1,22 @@
+{
+  "checkpoint": {
+    "filename": "REPLACE_WITH_CHECKPOINT.safetensors",
+    "sha256": "REPLACE_WITH_SHA256"
+  },
+  "character_lora": {
+    "filename": "REPLACE_WITH_CHARACTER_LORA.safetensors",
+    "sha256": "REPLACE_WITH_SHA256",
+    "strength_model": 0.8,
+    "strength_clip": 0.8,
+    "trigger": "REPLACE_WITH_CHARACTER_ID"
+  },
+  "ipadapter": {
+    "filename": "REPLACE_WITH_IPADAPTER_MODEL.safetensors",
+    "sha256": "REPLACE_WITH_SHA256",
+    "weight": 0.8
+  },
+  "master_image": {
+    "filename": "REPLACE_WITH_MASTER_IMAGE.png",
+    "sha256": "REPLACE_WITH_SHA256"
+  }
+}
