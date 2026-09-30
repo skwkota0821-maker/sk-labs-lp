@@ -168,7 +168,7 @@ ${nextBlock(['page:/tools/', 'product:P001', 'consult'])}`;
 // 一覧・カードに出す日付：何の日付かを必ず明記する（公開日と元コンテンツの制作日を分ける）
 function dateLine(a) {
   const h = a.history;
-  if (a.type === 'note') return `noteで公開：${histDate(h.published)}${h.published?.precision === 'by' ? '（正確な日付は未確認）' : ''}`;
+  if (a.type === 'note') return `noteで公開：${histDate(h.published)}${h.published?.precision === 'by' ? '（正確な日付は未確認）' : ''}${a.noteDisplayed ? `／note上の表示日：${jpDate(a.noteDisplayed)}（更新）` : ''}`;
   return `このサイトで公開：${histDate(h.published)}／${hasSource(a) ? `元コンテンツ：${histDate(h.sourceCreated)}` : '書き下ろし'}`;
 }
 function historyTable(a) {
