@@ -1,5 +1,5 @@
 {
-  "_readme": "SK LABS公式サイトのコンテンツ正本データ（サイト配信用ミラー）。正本はGoogle Drive。ここを編集して `node scripts/build-pages.mjs` を実行すると、各ハブページ・検索索引・新着・sitemap.xml が再生成される。URLが一次資料で確認できないものは url を null にし、unresolved に記録する（推測URL禁止）。",
+  "_readme": "SK LABS公式サイトのコンテンツ正本データ（サイト配信用ミラー）。正本はGoogle Drive。ここを編集して `node scripts/build-pages.mjs` を実行すると、各ハブページ・検索索引・新着・sitemap.xml が再生成される。URLが一次資料で確認できないものは url を null にし、unresolved に記録する（推測URL禁止）。 日付は制作履歴として history に分離する（conceived＝原案・企画の初出／sourceCreated＝元コンテンツの初回制作／articleWritten＝記事としての初回執筆／revised＝改訂／webImplemented＝Web実装／published＝実際の公開）。GitHubへ追加した日やサイトへ実装した日を作成日として扱わない。確認できない日付は null（未確認）とし、推測で埋めない。",
   "site": {
     "name": "SK LABS",
     "url": "https://sk-labs.net",
@@ -33,6 +33,52 @@
         "sha256": "e0fba91f52160d63586084802d9a581db0eb074659420fef12c53c0355dfbef0",
         "driveOriginalId": "18rf7NFJxmJSe9KUzzq2pHopXo1xNe9d4",
         "note": "公開用コピー（2026-09-30）：本文・レイアウトは原本と同一。作成ツール名・テンプレート由来の日付などのメタデータを除去。原本（Drive）へはサイトからリンクしない"
+      },
+      "history": {
+        "conceived": {
+          "date": null,
+          "status": "未確認",
+          "label": "企画初出",
+          "source": "2026-07-30より前の企画書は未確認"
+        },
+        "sourceCreated": {
+          "date": "2026-07-30",
+          "status": "確認済み",
+          "label": "PDF資料の作成",
+          "source": "PDF作成日時 2026-07-29T23:38Z（JST 7月30日）、本文「2026年7月30日時点」。Drive原本 18rf7NFJxmJSe9KUzzq2pHopXo1xNe9d4"
+        },
+        "articleWritten": {
+          "date": null,
+          "status": "該当なし",
+          "label": "記事化なし（PDF資料そのもの）",
+          "source": "—"
+        },
+        "revised": [
+          {
+            "date": "2026-08-03",
+            "status": "確認済み",
+            "label": "元資料の最終更新",
+            "source": "Drive modifiedTime 2026-08-03"
+          },
+          {
+            "date": "2026-09-30",
+            "status": "確認済み",
+            "label": "公開用コピーの作成（メタデータのみ除去、本文・表示は同一）",
+            "source": "GitHub 5d0480e／PR #28"
+          }
+        ],
+        "webImplemented": {
+          "date": "2026-08-22",
+          "status": "確認済み",
+          "label": "/starter-kit ページからDrive経由で配布開始",
+          "source": "GitHub sk-labs-lp 51fef9a（2026-08-22、public/starter-kit.html にDriveリンク）。当日の本番デプロイ記録は未確認"
+        },
+        "published": {
+          "date": "2026-08-22",
+          "status": "確認済み",
+          "label": "sk-labs.netで配布開始（2026年9月30日からサイト内配布）",
+          "source": "GitHub 51fef9a（Driveリンク）／5979084（2026-09-30、public/downloads へ移行）。8月22日の本番反映時刻は未確認"
+        }
       }
     },
     {
@@ -56,6 +102,52 @@
         "sha256": "b868e169c56d12569519c5e9d2a5e00346329182d4cf2f6e34ab553e0e65d5d2",
         "driveOriginalId": "1OyJ_qeE4zTSBNXjjwH26jOnP7tsRqUhS",
         "note": "公開用コピー（2026-09-30）：本文・レイアウトは原本と同一。作成ツール名・テンプレート由来の日付などのメタデータを除去。原本（Drive）へはサイトからリンクしない"
+      },
+      "history": {
+        "conceived": {
+          "date": null,
+          "status": "未確認",
+          "label": "企画初出",
+          "source": "2026-07-30より前の企画書は未確認"
+        },
+        "sourceCreated": {
+          "date": "2026-07-30",
+          "status": "確認済み",
+          "label": "PDF資料の作成",
+          "source": "PDF作成日時 2026-07-29T23:49Z（JST 7月30日）、本文「2026年7月30日時点」。Drive原本 1OyJ_qeE4zTSBNXjjwH26jOnP7tsRqUhS"
+        },
+        "articleWritten": {
+          "date": null,
+          "status": "該当なし",
+          "label": "記事化なし（PDF資料そのもの）",
+          "source": "—"
+        },
+        "revised": [
+          {
+            "date": "2026-08-03",
+            "status": "確認済み",
+            "label": "元資料の最終更新",
+            "source": "Drive modifiedTime 2026-08-03"
+          },
+          {
+            "date": "2026-09-30",
+            "status": "確認済み",
+            "label": "公開用コピーの作成（メタデータのみ除去、本文・表示は同一）",
+            "source": "GitHub 5d0480e／PR #28"
+          }
+        ],
+        "webImplemented": {
+          "date": "2026-08-22",
+          "status": "確認済み",
+          "label": "/starter-kit ページからDrive経由で配布開始",
+          "source": "GitHub sk-labs-lp 51fef9a（2026-08-22、public/starter-kit.html にDriveリンク）。当日の本番デプロイ記録は未確認"
+        },
+        "published": {
+          "date": "2026-08-22",
+          "status": "確認済み",
+          "label": "sk-labs.netで配布開始（2026年9月30日からサイト内配布）",
+          "source": "GitHub 51fef9a（Driveリンク）／5979084（2026-09-30、public/downloads へ移行）。8月22日の本番反映時刻は未確認"
+        }
       }
     },
     {
@@ -79,6 +171,52 @@
         "sha256": "1f667553726ebd346ebecdc28da22a1744d2c7014fec585f82a8c3b8b4525572",
         "driveOriginalId": "18PWnlsoJoYqKgnkcdiXnAD0MCezIX1PL",
         "note": "公開用コピー（2026-09-30）：本文・レイアウトは原本と同一。作成ツール名・テンプレート由来の日付などのメタデータを除去。原本（Drive）へはサイトからリンクしない"
+      },
+      "history": {
+        "conceived": {
+          "date": null,
+          "status": "未確認",
+          "label": "企画初出",
+          "source": "2026-07-30より前の企画書は未確認"
+        },
+        "sourceCreated": {
+          "date": "2026-07-30",
+          "status": "確認済み",
+          "label": "PDF資料の作成",
+          "source": "PDF作成日時 2026-07-29T23:53Z（JST 7月30日）、本文「2026年7月30日時点」。Drive原本 18PWnlsoJoYqKgnkcdiXnAD0MCezIX1PL"
+        },
+        "articleWritten": {
+          "date": null,
+          "status": "該当なし",
+          "label": "記事化なし（PDF資料そのもの）",
+          "source": "—"
+        },
+        "revised": [
+          {
+            "date": "2026-08-03",
+            "status": "確認済み",
+            "label": "元資料の最終更新",
+            "source": "Drive modifiedTime 2026-08-03"
+          },
+          {
+            "date": "2026-09-30",
+            "status": "確認済み",
+            "label": "公開用コピーの作成（メタデータのみ除去、本文・表示は同一）",
+            "source": "GitHub 5d0480e／PR #28"
+          }
+        ],
+        "webImplemented": {
+          "date": "2026-08-22",
+          "status": "確認済み",
+          "label": "/starter-kit ページからDrive経由で配布開始",
+          "source": "GitHub sk-labs-lp 51fef9a（2026-08-22、public/starter-kit.html にDriveリンク）。当日の本番デプロイ記録は未確認"
+        },
+        "published": {
+          "date": "2026-08-22",
+          "status": "確認済み",
+          "label": "sk-labs.netで配布開始（2026年9月30日からサイト内配布）",
+          "source": "GitHub 51fef9a（Driveリンク）／5979084（2026-09-30、public/downloads へ移行）。8月22日の本番反映時刻は未確認"
+        }
       }
     },
     {
@@ -102,6 +240,52 @@
         "sha256": "633d1e72cf88b6b71997da044f86329694d187d405ed5d4af1a230ab2ba3f45a",
         "driveOriginalId": "12iEZShNALxe4T532UqseFx6Z_-UD3YBt",
         "note": "公開用コピー（2026-09-30）：本文・レイアウトは原本と同一。作成ツール名・テンプレート由来の日付などのメタデータを除去。原本（Drive）へはサイトからリンクしない"
+      },
+      "history": {
+        "conceived": {
+          "date": null,
+          "status": "未確認",
+          "label": "企画初出",
+          "source": "2026-07-30より前の企画書は未確認"
+        },
+        "sourceCreated": {
+          "date": "2026-07-30",
+          "status": "確認済み",
+          "label": "PDF資料の作成",
+          "source": "PDF作成日時 2026-07-30T00:07Z（JST 7月30日）、本文「2026年7月30日時点」。Drive原本 12iEZShNALxe4T532UqseFx6Z_-UD3YBt"
+        },
+        "articleWritten": {
+          "date": null,
+          "status": "該当なし",
+          "label": "記事化なし（PDF資料そのもの）",
+          "source": "—"
+        },
+        "revised": [
+          {
+            "date": "2026-08-03",
+            "status": "確認済み",
+            "label": "元資料の最終更新",
+            "source": "Drive modifiedTime 2026-08-03"
+          },
+          {
+            "date": "2026-09-30",
+            "status": "確認済み",
+            "label": "公開用コピーの作成（メタデータのみ除去、本文・表示は同一）",
+            "source": "GitHub 5d0480e／PR #28"
+          }
+        ],
+        "webImplemented": {
+          "date": "2026-08-22",
+          "status": "確認済み",
+          "label": "/starter-kit ページからDrive経由で配布開始",
+          "source": "GitHub sk-labs-lp 51fef9a（2026-08-22、public/starter-kit.html にDriveリンク）。当日の本番デプロイ記録は未確認"
+        },
+        "published": {
+          "date": "2026-08-22",
+          "status": "確認済み",
+          "label": "sk-labs.netで配布開始（2026年9月30日からサイト内配布）",
+          "source": "GitHub 51fef9a（Driveリンク）／5979084（2026-09-30、public/downloads へ移行）。8月22日の本番反映時刻は未確認"
+        }
       }
     }
   ],
@@ -187,6 +371,46 @@
           "Canvaの用途記述の根拠",
           "社内ルール（AI共通運用ルール）の一部公開がスターターキットVol.1の「公開しない情報」方針と整合するか（ボス確認）"
         ]
+      },
+      "history": {
+        "conceived": {
+          "date": "2026-07-15",
+          "status": "確認済み",
+          "label": "note連載『遠回りの教科書』vol.2 第2章の原稿（AIを「ツール」から「チーム」へ）",
+          "source": "Drive「🟠遠回りの教科書vol.2」1egPaxzjQHe_UeBCBCiyQOkjAofuBq7viTNVQ8EycbGI 作成 2026-07-14T19:54Z（JST 7月15日）。これより前の初出は未確認"
+        },
+        "sourceCreated": {
+          "date": "2026-07-15",
+          "status": "確認済み",
+          "label": "note連載『遠回りの教科書』vol.2 第2章の原稿",
+          "source": "同上（最終更新 2026-07-27）。note上での公開有無・公開日は未確認"
+        },
+        "articleWritten": {
+          "date": "2026-09-30",
+          "status": "確認済み",
+          "label": "Web記事化（原稿の構成を基に書き直し、役割表を現行の社内ルールへ更新）",
+          "source": "GitHub sk-labs-lp 5979084（2026-09-30）で本文を初回作成。役割表は全AI共通指示セット第7節（初版 2026-07-31／現行v3.2 2026-09-29、1bgqI_CXVw9sSLK1q0wILvll0NXH3p0CJP7DQrPJVa0s）"
+        },
+        "revised": [
+          {
+            "date": "2026-07-27",
+            "status": "確認済み",
+            "label": "元原稿の最終更新",
+            "source": "Drive 1egPaxzjQHe_… modifiedTime 2026-07-27T05:11Z"
+          }
+        ],
+        "webImplemented": {
+          "date": "2026-09-30",
+          "status": "確認済み",
+          "label": "サイトへ実装",
+          "source": "GitHub 5979084・89a7fe1（2026-09-30）"
+        },
+        "published": {
+          "date": "2026-09-30",
+          "status": "確認済み",
+          "label": "sk-labs.netで公開",
+          "source": "本番デプロイ 6abc7e727b807500086529ef（2026-09-30 03:14 UTC）／PR #27"
+        }
       }
     },
     {
@@ -255,6 +479,39 @@
           "DarkSky International の国内認定地（一次情報：darksky.org の認定一覧）",
           "流星群の出現数は目安である旨の表現"
         ]
+      },
+      "history": {
+        "conceived": {
+          "date": null,
+          "status": "未確認",
+          "label": "記事の企画初出",
+          "source": "Drive・GitHubに先行する企画書・原稿なし"
+        },
+        "sourceCreated": {
+          "date": null,
+          "status": "該当なし",
+          "label": "元コンテンツなし（書き下ろし）",
+          "source": "Drive全文検索・GitHub全履歴で先行原稿なし。関連する既存機能：トップの宇宙写真（2026-07-30 sk-labs-lp-preview 03faf14）、流星群データ（2026-08-19 同 f987d77）"
+        },
+        "articleWritten": {
+          "date": "2026-09-30",
+          "status": "確認済み",
+          "label": "書き下ろし",
+          "source": "GitHub sk-labs-lp 5979084（2026-09-30）で本文を初回作成"
+        },
+        "revised": [],
+        "webImplemented": {
+          "date": "2026-09-30",
+          "status": "確認済み",
+          "label": "サイトへ実装",
+          "source": "GitHub 5979084・89a7fe1（2026-09-30）"
+        },
+        "published": {
+          "date": "2026-09-30",
+          "status": "確認済み",
+          "label": "sk-labs.netで公開",
+          "source": "本番デプロイ 6abc7e727b807500086529ef（2026-09-30 03:14 UTC）／PR #27"
+        }
       }
     },
     {
@@ -317,6 +574,46 @@
           "「登録不要でダウンロードできます」（サイトの実装事実）"
         ],
         "factCheck": []
+      },
+      "history": {
+        "conceived": {
+          "date": null,
+          "status": "未確認",
+          "label": "スターターキットの企画初出",
+          "source": "2026-07-30より前の企画書は未確認（Driveフォルダ「SK LABS スターターキット2026」作成 2026-07-30T05:43Z）"
+        },
+        "sourceCreated": {
+          "date": "2026-07-30",
+          "status": "確認済み",
+          "label": "SK LABSスターターキット2026 Vol.1〜4（無料PDF）",
+          "source": "PDF作成日時 2026-07-29T23:38Z〜2026-07-30T00:07Z（JST 7月30日）、本文「2026年7月30日時点」。Drive 18rf7NFJ…／1OyJ_qeE…／18PWnlso…／12iEZShN…"
+        },
+        "articleWritten": {
+          "date": "2026-09-30",
+          "status": "確認済み",
+          "label": "Web記事化（Vol.1の資料構成・公開範囲を記事向けに書き直し）",
+          "source": "GitHub sk-labs-lp 89a7fe1（2026-09-30）で本文を初回作成"
+        },
+        "revised": [
+          {
+            "date": "2026-08-03",
+            "status": "確認済み",
+            "label": "元資料の最終更新",
+            "source": "Drive modifiedTime 2026-08-03"
+          }
+        ],
+        "webImplemented": {
+          "date": "2026-09-30",
+          "status": "確認済み",
+          "label": "サイトへ実装",
+          "source": "GitHub 89a7fe1（2026-09-30）"
+        },
+        "published": {
+          "date": "2026-09-30",
+          "status": "確認済み",
+          "label": "sk-labs.netで公開",
+          "source": "本番デプロイ 6abc7e727b807500086529ef（2026-09-30 03:14 UTC）／PR #27"
+        }
       }
     },
     {
@@ -333,7 +630,49 @@
       ],
       "cta": [
         "resources"
-      ]
+      ],
+      "history": {
+        "conceived": {
+          "date": null,
+          "status": "未確認",
+          "label": "企画初出",
+          "source": "未確認"
+        },
+        "sourceCreated": {
+          "date": null,
+          "status": "未確認",
+          "label": "原稿の初回制作日",
+          "source": "Drive内にvol.1原稿は見つからず"
+        },
+        "articleWritten": {
+          "date": null,
+          "status": "未確認",
+          "label": "記事としての初回執筆日",
+          "source": "未確認"
+        },
+        "revised": [
+          {
+            "date": "2026-07-15",
+            "precision": "by",
+            "status": "確認済み",
+            "label": "改題（旧題「遠回りの教科書 AIの勉強は、今日で終わり。」→現題）とみられる",
+            "source": "note通知：旧題は2026-07-14、現題は2026-07-15T00:36Zから。スキ数が連続しているため同一記事の改題とみられるが、改題日時は未確認"
+          }
+        ],
+        "webImplemented": {
+          "date": "2026-09-30",
+          "status": "確認済み",
+          "label": "サイトの記事一覧へ掲載",
+          "source": "GitHub 5979084（2026-09-30）"
+        },
+        "published": {
+          "date": "2026-07-14",
+          "precision": "by",
+          "status": "確認済み",
+          "label": "noteで公開（正確な公開日時は未確認）",
+          "source": "note通知メール：旧題への最古の反応 2026-07-14T07:38Z（JST 16:38）。これ以前に公開"
+        }
+      }
     }
   ],
   "products": [
@@ -345,9 +684,55 @@
       "channel": "note",
       "url": null,
       "fallbackUrl": "https://note.com/sklabs_official",
-      "status": "公開記録あり（2026年8月27日 note公式ピックアップ）",
+      "status": "note公開日は未確認（記録が矛盾）",
       "fallbackCta": "SK LABSのnoteを見る",
-      "fallbackNote": "個別の商品ページではなく、SK LABSのnoteトップへ移動します。最新の商品一覧から探してください。"
+      "fallbackNote": "個別の商品ページではなく、SK LABSのnoteトップへ移動します。最新の商品一覧から探してください。",
+      "history": {
+        "conceived": {
+          "date": "2026-08-18",
+          "status": "確認済み",
+          "label": "P001企画",
+          "source": "Drive 🟣【企画】P001 11LMn2w9zF0E3bYedBkbsw6b6-pbywvnPAPaUunn9yg8"
+        },
+        "sourceCreated": {
+          "date": "2026-08-19",
+          "status": "確認済み",
+          "label": "P001原稿",
+          "source": "Drive 🟣【原稿】P001 1udn7GEWE545uberH3Sr4lvH8Puaa3bYIdBqvS8mCHVg（作成 2026-08-18T15:39Z＝JST 8月19日）"
+        },
+        "articleWritten": {
+          "date": "2026-08-19",
+          "status": "確認済み",
+          "label": "公開候補版",
+          "source": "Drive 1KcahePK7lXtxAqdlX4uxvZlTSQ3AIdsf1x6d_HYpbbU"
+        },
+        "revised": [
+          {
+            "date": "2026-09-05",
+            "status": "確認済み",
+            "label": "販売価格を300円に決定",
+            "source": "Drive 1GVAsb0NxYb_CdWx9XYMZR0i2GVwBA821zZrWPv5q-gs"
+          },
+          {
+            "date": "2026-09-08",
+            "status": "確認済み",
+            "label": "公開直前確定",
+            "source": "同上"
+          }
+        ],
+        "webImplemented": {
+          "date": "2026-09-30",
+          "status": "確認済み",
+          "label": "サイトに掲載（noteトップへの案内）",
+          "source": "GitHub 5979084"
+        },
+        "published": {
+          "date": null,
+          "status": "未確認",
+          "label": "note公開日",
+          "source": "記録が矛盾：AI HUB台帳 2026-08-27「note公式ピックアップ」／販売準備文書 2026-09-08「note本番は未公開」"
+        }
+      }
     },
     {
       "id": "NOTE980",
@@ -357,9 +742,42 @@
       "channel": "note",
       "url": null,
       "fallbackUrl": "https://note.com/sklabs_official",
-      "status": "公開記録あり（2026年9月8日 販売投稿文書）",
+      "status": "note公開日は未確認",
       "fallbackCta": "SK LABSのnoteを見る",
-      "fallbackNote": "個別の商品ページではなく、SK LABSのnoteトップへ移動します。最新の商品一覧から探してください。"
+      "fallbackNote": "個別の商品ページではなく、SK LABSのnoteトップへ移動します。最新の商品一覧から探してください。",
+      "history": {
+        "conceived": {
+          "date": null,
+          "status": "未確認",
+          "label": "企画初出",
+          "source": "未確認"
+        },
+        "sourceCreated": {
+          "date": "2026-08-07",
+          "status": "確認済み",
+          "label": "初稿（AI編集部note）",
+          "source": "Drive 1fpMoB40b0G6hLU3IkcZSn4dtdrcTIKWr（2026-08-07）。同一商品の初稿かは題名からの判断"
+        },
+        "articleWritten": {
+          "date": "2026-08-16",
+          "status": "確認済み",
+          "label": "完成稿",
+          "source": "Drive 12Jz-z12qXX9TLFYPwO31c2vFavrYF1KtkmyVxQDdQac（作成 2026-08-15T15:04Z＝JST 8月16日）"
+        },
+        "revised": [],
+        "webImplemented": {
+          "date": "2026-09-30",
+          "status": "確認済み",
+          "label": "サイトに掲載（noteトップへの案内）",
+          "source": "GitHub 5979084"
+        },
+        "published": {
+          "date": null,
+          "status": "未確認",
+          "label": "note公開日",
+          "source": "販売投稿セット（2026-09-08）はあるが、公開日時の記録なし"
+        }
+      }
     }
   ],
   "tools": {
@@ -464,7 +882,7 @@
       "title": "SK LABSスターターキット2026",
       "kind": "自社プロジェクト",
       "category": "資料制作",
-      "summary": "AIの基本から実践・公開前確認までをまとめた無料PDF資料4点（計106ページ）。",
+      "summary": "AIの基本から実践・公開前確認までをまとめた無料PDF資料4点（計107ページ）。",
       "tags": [
         "資料制作",
         "AI活用"

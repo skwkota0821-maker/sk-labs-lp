@@ -37,6 +37,7 @@ for (const page of pages) {
     }
   }
   if (!page.endsWith('404.html') && !/<meta property="og:image" content="https:\/\/sk-labs\.net\/assets\/og\/[^"]+"/.test(html)) errors.push(`${page}: OGP画像（og:image）がありません`);
+  if (page.startsWith('articles/') && page !== 'articles/index.html' && !html.includes('<h2>制作履歴</h2>')) errors.push(`${page}: 制作履歴（元コンテンツ・執筆・公開の日付）がありません`);
   if (/drive\.google\.com/.test(html)) errors.push(`${page}: 非公開のGoogleドライブへのリンクが残っています`);
   if (/（サンプル値）|（サンプル）|'SAMPLE'/.test(html)) errors.push(`${page}: サンプル値表示が残っています`);
   if (/x\.com\/sklabs_jp/.test(html)) errors.push(`${page}: 旧Xアカウント（sklabs_jp）へのリンクがあります`);

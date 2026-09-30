@@ -14,6 +14,10 @@ const out = new Map(); // 相対パス → 内容
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const abs = (p) => (p.startsWith('http') ? p : SITE.url + p);
 const jpDate = (d) => { if (!d) return ''; const [y, m, day] = d.split('-').map(Number); return `${y}年${m}月${day}日`; };
+// 制作履歴の日付表示：確認できない日付は「未確認」、元コンテンツが無いものは「該当なし」。推測で埋めない
+const histDate = (h) => (!h ? '未確認' : h.status === '該当なし' ? '該当なし' : !h.date ? '未確認' : jpDate(h.date) + (h.precision === 'by' ? 'まで' : ''));
+const HIST_KEYS = [['conceived', '原案・企画の初出'], ['sourceCreated', '元コンテンツの制作'], ['articleWritten', '記事としての執筆'], ['revised', '改訂'], ['webImplemented', 'このサイトへの実装'], ['published', '公開']];
+const hasSource = (a) => !!a.history?.sourceCreated?.date;
 const ext = (url) => /^https?:/.test(url);
 const linkAttrs = (url, extra = '') => (ext(url) ? ` target="_blank" rel="noopener noreferrer${extra}"` : '');
 
@@ -30,6 +34,22 @@ const byId = {
 for (const a of data.affiliates) {
   if (!a.brand) throw new Error(`affiliates[${a.id}]: 所属ブランド（brand）が未設定です`);
   if (a.brand !== SITE.name) throw new Error(`affiliates[${a.id}]: ${a.brand}の案件はSK LABS公式サイトへ掲載できません`);
+}
+// 制作履歴の必須化：GitHubへの追加日・サイト実装日を作成日として扱わないため、6種類の日付を分けて記録する
+for (const item of [...data.articles, ...data.resources]) {
+  const id = item.slug || item.id;
+  if (!item.history) throw new Error(`${id}: 制作履歴（history）がありません`);
+  for (const [k] of HIST_KEYS) {
+    const v = item.history[k];
+    if (v === undefined) throw new Error(`${id}: history.${k} がありません（不明なら date:null で未確認と記録）`);
+    for (const e of [].concat(v)) {
+      if (e.date && !/^\d{4}-\d{2}-\d{2}$/.test(e.date)) throw new Error(`${id}: history.${k} の日付形式が不正です`);
+      if (e.date && !e.source) throw new Error(`${id}: history.${k} に根拠（source）がありません`);
+    }
+  }
+  const pub = item.history.published?.date, src = item.history.sourceCreated?.date;
+  if (pub && src && src > pub) throw new Error(`${id}: 元コンテンツの制作日が公開日より後になっています`);
+  if (item.type === 'site' && pub !== item.published) throw new Error(`${id}: published と history.published が一致しません`);
 }
 for (const p of data.products) {
   if (!p.url && !(p.fallbackUrl && p.fallbackCta && p.fallbackNote)) throw new Error(`products[${p.id}]: 個別URL未確定時の送客先・文言・注記が未設定です`);
@@ -134,7 +154,7 @@ const ctaRefs = (keys) => keys.map((k) => ({ resources: 'page:/resources/', cons
 // ── /resources/ ──
 function resourcesPage() {
   const cards = data.resources.map((r) => `<article class="card"><span class="tag">${esc(r.format)}</span><h3>${esc(r.title)}</h3><p>${esc(r.summary)}</p>
-<dl><dt>対象</dt><dd>${esc(r.audience)}</dd><dt>形式</dt><dd>${esc(r.format)}（登録不要）</dd><dt>資料日付</dt><dd>${jpDate(r.date)}</dd></dl>
+<dl><dt>対象</dt><dd>${esc(r.audience)}</dd><dt>形式</dt><dd>${esc(r.format)}（登録不要）</dd><dt>資料作成日</dt><dd>${histDate(r.history.sourceCreated)}</dd><dt>サイト掲載</dt><dd>${histDate(r.history.published)}から（2026年9月30日からサイト内で配布）</dd></dl>
 <a class="btn" href="${r.url}" download data-track="file_download" data-track-label="${esc(r.title)}">${esc(r.cta)} ↓</a></article>`).join('');
   const arts = data.articles.map((a) => `<article class="card"><span class="tag">${a.type === 'note' ? '無料記事（note）' : '無料記事'}｜${esc(a.category)}</span><h3>${esc(a.title)}</h3><p>${esc(a.description)}</p><a class="btn ghost" href="${articleUrl(a)}"${linkAttrs(articleUrl(a))} data-track="article_click" data-track-label="${esc(a.title)}">記事を読む →</a></article>`).join('');
   const body = `<section class="sec"><div class="wrap"><h2>無料PDF資料（スターターキット2026）</h2><p class="lead">AIの基本から実践、業務への応用、公開前の確認までをまとめた4つのPDFです。メールアドレスの登録なしでダウンロードできます。</p><div class="grid g2">${cards}</div><p class="note">読む順番と使い方は「<a href="/articles/starter-kit-guide/" style="text-decoration:underline">無料スターターキット2026の使い方</a>」で解説しています。</p></div></section>
@@ -145,9 +165,24 @@ ${nextBlock(['page:/tools/', 'product:P001', 'consult'])}`;
 }
 
 // ── /articles/ と各記事 ──
+// 一覧・カードに出す日付：何の日付かを必ず明記する（公開日と元コンテンツの制作日を分ける）
+function dateLine(a) {
+  const h = a.history;
+  if (a.type === 'note') return `noteで公開：${histDate(h.published)}${h.published?.precision === 'by' ? '（正確な日付は未確認）' : ''}`;
+  return `このサイトで公開：${histDate(h.published)}／${hasSource(a) ? `元コンテンツ：${histDate(h.sourceCreated)}` : '書き下ろし'}`;
+}
+function historyTable(a) {
+  const rows = HIST_KEYS.map(([k, name]) => {
+    const v = a.history[k];
+    const list = [].concat(v || []);
+    const cell = list.length ? list.map((e) => `${histDate(e)}${e.label ? `（${esc(e.label)}）` : ''}`).join('<br>') : 'なし';
+    return `<tr><th scope="row">${name}</th><td>${cell}</td></tr>`;
+  }).join('');
+  return `<section class="sec"><div class="wrap"><h2>制作履歴</h2><div class="tbl-wrap"><table class="tbl">${rows}</table></div><p class="note">「未確認」は記録で確認できない日付です。推測で埋めていません。</p></div></section>`;
+}
 function articleCard(a) {
   const url = articleUrl(a);
-  const date = a.published ? `<span class="note" style="margin:0">公開 ${jpDate(a.published)}${a.updated && a.updated !== a.published ? `／更新 ${jpDate(a.updated)}` : ''}</span>` : '<span class="note" style="margin:0">noteで公開中</span>';
+  const date = `<span class="note" style="margin:0">${dateLine(a)}</span>`;
   return `<article class="card"><span class="tag">${esc(a.category)}${a.type === 'note' ? '｜note' : ''}</span><h3>${esc(a.title)}</h3><p>${esc(a.description)}</p>${date}<a class="btn ghost" href="${url}"${linkAttrs(url)} data-track="article_click" data-track-label="${esc(a.title)}">${a.type === 'note' ? '記事を読む（note）' : '記事を読む'} →</a></article>`;
 }
 function articlesIndex() {
@@ -172,11 +207,13 @@ function articlePage(a) {
   const prev = siteArticles[idx - 1], next = siteArticles[idx + 1];
   const body = `<section class="sec"><div class="wrap"><div class="article">${renderBody(a.body)}${share}</div></div></section>
 ${related.length ? `<section class="sec"><div class="wrap"><h2>関連記事</h2><div class="grid g2">${related.map(articleCard).join('')}</div></div></section>` : ''}
+${historyTable(a)}
 ${nextBlock(ctaRefs(a.cta || ['resources', 'consult']).concat(a.cta?.includes('consult') ? [] : ['consult']).slice(0, 3))}
 <section class="sec"><div class="wrap" style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font-size:13px">${prev ? `<a href="/articles/${prev.slug}/">← ${esc(prev.title)}</a>` : '<span></span>'}${next ? `<a href="/articles/${next.slug}/">${esc(next.title)} →</a>` : ''}</div></section>`;
-  const meta = `<p class="meta">公開 <time datetime="${a.published}">${jpDate(a.published)}</time>｜更新 <time datetime="${a.updated}">${jpDate(a.updated)}</time>｜${esc(a.category)}</p>`;
+  const h = a.history;
+  const meta = `<p class="meta">${hasSource(a) ? `元コンテンツ ${histDate(h.sourceCreated)}｜Web記事化 ${histDate(h.articleWritten)}` : `執筆 ${histDate(h.articleWritten)}（書き下ろし）`}｜公開 <time datetime="${a.published}">${jpDate(a.published)}</time>｜${esc(a.category)}</p>`;
   return layout({ path: p, title: `${a.title}｜SK LABS`, description: a.description, h1: a.title, eyebrow: a.category, lead: a.description, meta, ogType: 'article', crumbs: [{ name: '記事', url: '/articles/' }, { name: a.title, url: p }], body,
-    jsonld: [{ '@context': 'https://schema.org', '@type': 'Article', headline: a.title, description: a.description, datePublished: a.published, dateModified: a.updated, mainEntityOfPage: abs(p), author: { '@type': 'Organization', name: 'SK LABS', url: SITE.url + '/' }, publisher: { '@type': 'Organization', name: 'SK LABS', url: SITE.url + '/' } }] });
+    jsonld: [{ '@context': 'https://schema.org', '@type': 'Article', headline: a.title, description: a.description, datePublished: a.published, dateModified: a.updated, dateCreated: h.articleWritten.date, ...(hasSource(a) ? { isBasedOn: { '@type': 'CreativeWork', name: h.sourceCreated.label, dateCreated: h.sourceCreated.date } } : {}), mainEntityOfPage: abs(p), author: { '@type': 'Organization', name: 'SK LABS', url: SITE.url + '/' }, publisher: { '@type': 'Organization', name: 'SK LABS', url: SITE.url + '/' } }] });
 }
 
 // ── /tools/ ──
@@ -264,25 +301,26 @@ function searchIndex() {
 }
 function updates() {
   const list = [];
-  siteArticles.forEach((a) => list.push({ date: a.updated || a.published, kind: '記事', title: a.title, url: articleUrl(a) }));
-  list.push({ date: '2026-09-30', kind: '公開', title: '無料コンテンツセンターを公開', url: '/resources/' });
-  list.push({ date: '2026-09-30', kind: '公開', title: '宇宙・星空情報ページを公開（天気・流星群・オーロラ・観測スポット）', url: '/space/' });
-  list.push({ date: '2026-09-30', kind: '公開', title: 'AIツールの使い分けページを公開', url: '/tools/' });
+  // date は「このサイトに掲載した日」。元になった原稿・資料の作成日は note に書き、新作に見せない
+  siteArticles.forEach((a) => list.push({ date: a.published, dateType: 'サイト掲載日', kind: hasSource(a) ? 'Web記事化' : '新規記事', title: a.title, note: hasSource(a) ? `元コンテンツ：${histDate(a.history.sourceCreated)}` : '', url: articleUrl(a) }));
+  list.push({ date: '2026-09-30', dateType: 'サイト掲載日', kind: 'ページ新設', title: '無料コンテンツのまとめページを新設', note: '資料そのものは2026年7月30日作成', url: '/resources/' });
+  list.push({ date: '2026-09-30', dateType: 'サイト掲載日', kind: 'ページ新設', title: '宇宙・星空情報を専用ページとして新設（天気・流星群・オーロラ・観測スポット）', note: 'トップの宇宙情報は2026年7月30日から掲載', url: '/space/' });
+  list.push({ date: '2026-09-30', dateType: 'サイト掲載日', kind: 'ページ新設', title: 'AIツールの使い分けページを新設', note: '役割分担の元原稿は2026年7月15日', url: '/tools/' });
   return list.sort((a, b) => b.date.localeCompare(a.date));
 }
 
 // ── トップページへの差し込み（マーカー間を置換） ──
 function topInjections() {
-  const news = updates().slice(0, 6).map((u) => `<li><time datetime="${u.date}">${jpDate(u.date)}</time><span class="rh-cat">${esc(u.kind)}</span><a href="${u.url}">${esc(u.title)}</a></li>`).join('');
+  const news = updates().slice(0, 6).map((u) => `<li><time datetime="${u.date}">${jpDate(u.date)}</time><span class="rh-cat">${esc(u.kind)}</span><a href="${u.url}">${esc(u.title)}</a>${u.note ? `<small class="news-note">（${esc(u.note)}）</small>` : ''}</li>`).join('');
   const tools = data.tools.items.map((i) => `<li><b>${esc(i.name)}</b><span>${esc(i.role)}</span></li>`).join('');
   const flow = data.workflow.map((w) => `<li><b>${esc(w.step)}</b><span>${esc(w.ai)}</span></li>`).join('');
   const works = data.works.slice(0, 4).map((w) => `<article class="rh-card"><span class="rh-cat">${esc(w.kind)}｜${esc(w.category)}</span><h3>${esc(w.title)}</h3><p>${esc(w.summary)}</p></article>`).join('');
   return {
     diagnosis: diagBlock('top-d').replace(/class="card"/g, 'class="rh-card"').replace(/class="btn( ghost)?"/g, 'class="rh-btn"').replace(/class="grid g3"/g, 'class="rh-grid rh-grid-3"'),
-    news: `<ul class="news-list">${news}</ul>`,
+    news: `<ul class="news-list">${news}</ul><p class="rh-note">※日付はこのサイトに掲載した日です。元になった原稿・資料の作成日は括弧内と各記事の「制作履歴」に記載しています。</p>`,
     aitools: `<ul class="tool-chips">${tools}</ul><ol class="flow-mini">${flow}</ol>`,
     works: `<div class="rh-grid rh-grid-4">${works}</div>`,
-    articles: `<div class="rh-grid rh-grid-3">${siteArticles.map((a) => `<article class="rh-card"><span class="rh-cat">${esc(a.category)}｜${jpDate(a.published)}</span><h3>${esc(a.title)}</h3><p>${esc(a.description)}</p><a class="rh-btn" href="/articles/${a.slug}/" data-track="article_click" data-track-label="${esc(a.title)}">記事を読む →</a></article>`).join('')}</div><div class="rh-more"><a href="/articles/">記事一覧を見る →</a></div>`,
+    articles: `<div class="rh-grid rh-grid-3">${siteArticles.map((a) => `<article class="rh-card"><span class="rh-cat">${esc(a.category)}</span><p class="rh-date">${esc(dateLine(a))}</p><h3>${esc(a.title)}</h3><p>${esc(a.description)}</p><a class="rh-btn" href="/articles/${a.slug}/" data-track="article_click" data-track-label="${esc(a.title)}">記事を読む →</a></article>`).join('')}</div><div class="rh-more"><a href="/articles/">記事一覧を見る →</a></div>`,
   };
 }
 
