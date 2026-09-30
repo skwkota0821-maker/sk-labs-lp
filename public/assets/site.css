@@ -1,0 +1,125 @@
+/* SK LABS 公式サイト 共通スタイル（/resources /articles /tools /ai-team /works /space /start /search）
+   トップページの宇宙ダーク基調（#050118・青→紫→ピンクのグラデーション）を踏襲する */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:#050118;color:#f7f8ff;font-family:'Hiragino Sans','Noto Sans JP','Yu Gothic',sans-serif;line-height:1.8;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;height:auto}
+.wrap{width:min(1120px,calc(100% - 32px));margin:0 auto}
+.skip{position:absolute;left:-999px}.skip:focus{left:12px;top:12px;z-index:100;background:#fff;color:#000;padding:6px 10px}
+
+/* ヘッダー */
+.gh{position:sticky;top:0;z-index:50;background:rgba(5,1,24,.9);backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,255,255,.08)}
+.gh .wrap{display:flex;align-items:center;justify-content:space-between;gap:14px;min-height:58px}
+.gh-brand{display:flex;align-items:center;gap:9px;font-weight:900;letter-spacing:.14em;font-size:14px;white-space:nowrap}
+.gh-brand svg{flex-shrink:0}
+.gh-nav{display:flex;align-items:center;gap:18px;font-size:13px;color:#cfd2e2}
+.gh-nav a:hover,.gh-nav a[aria-current="page"]{color:#fff}
+.gh-cta{display:inline-flex;align-items:center;padding:8px 14px;border-radius:999px;font-weight:800;font-size:12.5px;background:linear-gradient(90deg,#1467f0,#7030e8,#e030a0);color:#fff;white-space:nowrap}
+.gh-menu{display:none;background:none;border:1px solid rgba(255,255,255,.25);color:#fff;border-radius:10px;padding:6px 10px;font-size:13px}
+@media(max-width:900px){
+  .gh-nav{display:none;position:absolute;top:58px;left:0;right:0;flex-direction:column;align-items:stretch;gap:0;background:rgba(5,1,24,.97);border-bottom:1px solid rgba(255,255,255,.1);padding:6px 16px 14px}
+  .gh-nav a{padding:11px 4px;border-bottom:1px solid rgba(255,255,255,.06);font-size:15px}
+  .gh.is-open .gh-nav{display:flex}
+  .gh-menu{display:inline-block}
+}
+
+/* パンくず */
+.crumbs{font-size:12px;color:#9ea3c0;padding:16px 0 0}
+.crumbs ol{list-style:none;display:flex;flex-wrap:wrap;gap:6px}
+.crumbs li+li::before{content:'›';margin-right:6px;color:#6b6f90}
+.crumbs a{color:#b9c6ff}
+
+/* ページ見出し */
+.ph{padding:36px 0 26px;background:radial-gradient(circle at 75% 0%,rgba(124,58,237,.30),transparent 45%),radial-gradient(circle at 15% 10%,rgba(26,108,255,.22),transparent 40%)}
+.eyebrow{font-size:11.5px;font-weight:800;letter-spacing:.2em;color:#9fc2ff}
+.ph h1{font-size:clamp(26px,5vw,44px);line-height:1.3;margin:8px 0 12px}
+.ph p{color:#d4d6e8;max-width:760px;font-size:15px}
+.meta{font-size:12px;color:#9ea3c0;margin-top:10px}
+
+/* セクション */
+.sec{padding:34px 0}
+.sec h2{font-size:clamp(20px,3.4vw,28px);line-height:1.4;margin-bottom:14px}
+.sec>.wrap>p.lead{color:#cfd2e2;margin-bottom:18px;max-width:780px}
+.grid{display:grid;gap:14px}
+.g2{grid-template-columns:repeat(2,1fr)}.g3{grid-template-columns:repeat(3,1fr)}.g4{grid-template-columns:repeat(4,1fr)}
+@media(max-width:1000px){.g4{grid-template-columns:repeat(2,1fr)}.g3{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:680px){.g2,.g3,.g4{grid-template-columns:1fr}}
+
+.card{background:rgba(12,18,62,.72);border:1px solid rgba(120,150,255,.26);border-radius:16px;padding:20px 18px;display:flex;flex-direction:column;gap:8px}
+.card h3{font-size:16.5px;line-height:1.5}
+.card p{font-size:13.5px;color:rgba(255,255,255,.76);flex:1}
+.card dl{display:grid;grid-template-columns:auto 1fr;gap:4px 10px;font-size:12.5px;color:rgba(255,255,255,.72)}
+.card dt{color:#b9c6ff;font-weight:700;white-space:nowrap}
+.tag{display:inline-block;font-size:11px;font-weight:700;letter-spacing:.04em;color:#c4b5fd}
+.pr{display:inline-block;font-size:10.5px;font-weight:800;color:#ffd08a;border:1px solid rgba(255,190,90,.5);border-radius:6px;padding:0 6px;margin-right:6px}
+.btn{align-self:flex-start;display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:11px 18px;border-radius:999px;font-weight:800;font-size:13px;color:#fff;background:linear-gradient(90deg,#1467f0,#7030e8,#e030a0);box-shadow:0 8px 22px rgba(112,48,232,.25);transition:transform .2s}
+.btn:hover{transform:translateY(-2px)}
+.btn.ghost{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.28);box-shadow:none}
+@media(max-width:680px){.card .btn{align-self:stretch}}
+.note{font-size:11.5px;color:#9ea3c0;margin-top:10px}
+
+/* 記事本文 */
+.article{max-width:760px}
+.article h2{font-size:21px;margin:30px 0 10px;padding-left:12px;border-left:4px solid #7030e8}
+.article p{margin:0 0 14px;color:#e4e5f2;font-size:15.5px}
+.article ul,.article ol{margin:0 0 16px 22px;color:#e4e5f2;font-size:15px}
+.article li{margin:4px 0}
+.share{display:flex;flex-wrap:wrap;gap:8px;margin:22px 0 6px}
+.share a{font-size:12.5px;padding:7px 12px;border:1px solid rgba(255,255,255,.25);border-radius:999px}
+
+/* 工程図 */
+.flow{list-style:none;display:grid;grid-template-columns:repeat(7,1fr);gap:10px;counter-reset:f}
+.flow li{position:relative;background:rgba(12,18,62,.72);border:1px solid rgba(120,150,255,.26);border-radius:14px;padding:14px 12px;font-size:12.5px;color:rgba(255,255,255,.78)}
+.flow li b{display:block;font-size:15px;color:#fff;margin-bottom:6px}
+.flow li b::before{counter-increment:f;content:counter(f,decimal-leading-zero) ' ';color:#7dd3fc;font-size:11px;letter-spacing:.1em}
+.flow li .ai{display:block;color:#c4b5fd;font-weight:700;margin-bottom:4px}
+@media(max-width:1000px){.flow{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.flow{grid-template-columns:1fr}}
+
+/* 表 */
+.tbl{width:100%;border-collapse:collapse;font-size:13.5px}
+.tbl th,.tbl td{border-bottom:1px solid rgba(255,255,255,.1);padding:10px 8px;text-align:left;vertical-align:top}
+.tbl th{color:#b9c6ff;font-weight:700;white-space:nowrap}
+.tbl-wrap{overflow-x:auto}
+
+/* 診断 */
+.diag-opts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.diag-opts button{font:inherit;font-weight:700;font-size:14px;color:#fff;text-align:left;padding:14px 16px;border-radius:14px;border:1px solid rgba(120,150,255,.35);background:rgba(12,18,62,.72);cursor:pointer;transition:border-color .2s,transform .2s}
+.diag-opts button:hover{transform:translateY(-2px);border-color:#9fc2ff}
+.diag-opts button[aria-pressed="true"]{border-color:#e030a0;box-shadow:0 0 0 1px #e030a0 inset}
+@media(max-width:760px){.diag-opts{grid-template-columns:1fr}}
+.diag-result{margin-top:16px}
+.diag-result[hidden]{display:none}
+.diag-result .lead{margin-bottom:12px;color:#e4e5f2}
+
+/* 検索 */
+.search-box{display:flex;gap:8px}
+.search-box input{flex:1;min-width:0;font:inherit;font-size:16px;color:#fff;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.28);border-radius:12px;padding:11px 14px}
+.search-box button{font:inherit;font-weight:800;color:#fff;border:0;border-radius:12px;padding:0 18px;background:linear-gradient(90deg,#1467f0,#7030e8)}
+.results{margin-top:18px;display:grid;gap:10px}
+.results .card{gap:4px}
+
+/* 宇宙 */
+.sp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media(max-width:900px){.sp-grid{grid-template-columns:1fr}}
+.badge{font-size:10px;font-weight:800;padding:2px 8px;border-radius:999px;border:1px solid rgba(255,255,255,.25);color:rgba(255,255,255,.7);margin-left:6px;vertical-align:middle}
+.badge.live{color:#4ade80;border-color:rgba(52,211,153,.5);background:rgba(16,185,129,.15)}
+.badge.na{color:#ffd08a;border-color:rgba(255,190,90,.45);background:rgba(255,190,90,.12)}
+.big{font-size:22px;font-weight:800;color:#fff}
+.card select{font:inherit;font-size:15px;color:#fff;background:#0c1240;border:1px solid rgba(255,255,255,.3);border-radius:10px;padding:8px 10px;max-width:100%}
+.card ul.plain{list-style:none;display:grid;gap:6px;font-size:13px;color:rgba(255,255,255,.78)}
+.card .src{font-size:11px;color:#9ea3c0}
+.card img.apod{width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:10px;background:rgba(255,255,255,.05)}
+
+/* 次の行動 */
+.next{background:linear-gradient(135deg,rgba(20,103,240,.16),rgba(112,48,232,.16));border:1px solid rgba(255,255,255,.12);border-radius:20px;padding:24px 20px}
+
+/* フッター */
+.gf{border-top:1px solid rgba(255,255,255,.08);margin-top:40px;padding:30px 0 40px;font-size:12.5px;color:#9ea3c0}
+.gf .cols{display:grid;grid-template-columns:1.2fr 1fr 1fr 1fr;gap:20px}
+.gf h4{color:#fff;font-size:12px;letter-spacing:.1em;margin-bottom:8px}
+.gf a{display:block;line-height:2}
+.gf a:hover{color:#fff}
+.gf small{display:block;margin-top:18px}
+@media(max-width:760px){.gf .cols{grid-template-columns:1fr 1fr}}

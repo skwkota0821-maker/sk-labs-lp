@@ -1,6 +1,7 @@
 /* SK LABS 計測基盤
  * GA4 Measurement ID が設定されるまで外部通信は行わない。
- * 設定後、ページ表示と主要CTA/SNSクリックをイベント送信する。
+ * 設定後、ページ表示と主要CTA/SNSクリック、data-track 属性付きリンクのクリックをイベント送信する。
+ * 診断・検索・宇宙情報など画面内の操作は window.SKLABS_TRACK(eventName, params) で送る。
  */
 (function () {
   'use strict';
@@ -49,7 +50,11 @@
   document.addEventListener('click', function (event) {
     var anchor = event.target.closest && event.target.closest('a[href]');
     if (!anchor) return;
-    var tracked = classifyLink(anchor);
+    // data-track 属性があればそのイベント名で送る（CTA・記事・商品・広告・診断など）
+    var named = anchor.getAttribute('data-track');
+    var tracked = named
+      ? { name: named, params: { link_label: (anchor.getAttribute('data-track-label') || '').slice(0, 100) } }
+      : classifyLink(anchor);
     if (!tracked) return;
     tracked.params.link_url = anchor.href;
     tracked.params.link_text = (anchor.textContent || '').trim().slice(0, 100);

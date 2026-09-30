@@ -31,12 +31,21 @@ const jma = (code:string,name:string)=>[{reportDatetime:'2026-09-30T11:00:00+09:
   const place=weather.PLACES.find((p:any)=>p.office===office)!;
   return new Response(JSON.stringify(jma(place.area,'テスト地方')),{status:200}); };
 const realNow = Date.now;
-r = await weather.default(); j = await r.json();
+const W='https://sk-labs.net/api/weather';
+r = await weather.default(new Request(W)); j = await r.json();
 assert.equal(r.status,200);
 const y = j.places[0]; assert.equal(y.id,'yokohama'); assert.equal(y.weather,'晴れ 夜 くもり'); assert.equal(y.tomorrow,'くもり 時々 雨');
 assert.equal(j.places[3], null);
 const s = weather.summarize(weather.PLACES[0], jma('140010','東部'), new Date('2026-09-30T13:00:00+09:00'));
 assert.deepEqual(s!.pops.map((p:any)=>p.pop),[10,20,30]);
 (globalThis as any).fetch = async () => { throw new Error('net'); };
-r = await weather.default(); assert.equal(r.status,502);
+r = await weather.default(new Request(W)); assert.equal(r.status,502);
+// 地域指定（許可リスト外は400）
+r = await weather.default(new Request(W+'?office=999999')); assert.equal(r.status,400);
+r = await weather.default(new Request(W+'?office=../../x')); assert.equal(r.status,400);
+(globalThis as any).fetch = async (u:any) => { assert.ok(String(u).endsWith('/130000.json')); return new Response(JSON.stringify(jma('130020','伊豆諸島北部')),{status:200}); };
+r = await weather.default(new Request(W+'?office=130000')); j = await r.json();
+assert.equal(r.status,200); assert.equal(j.areas.length,2); assert.equal(j.areas[1].area,'伊豆諸島北部'); assert.equal(r.headers.get('Netlify-Vary'),'query=office');
+(globalThis as any).fetch = async () => new Response('x',{status:500});
+r = await weather.default(new Request(W+'?office=130000')); assert.equal(r.status,502);
 console.log('edge function tests: all passed');

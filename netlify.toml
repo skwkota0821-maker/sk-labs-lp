@@ -6,10 +6,8 @@
   to = "/starter-kit.html"
   status = 200
 
-[[redirects]]
-  from = "/"
-  to = "/index-v2.html"
-  status = 200
+# 「/ → index-v2.html」の規則は index.html と同じパスのため適用されず（シャドーイング）、本番は index.html を配信していた。
+# 実際の配信（index.html）に合わせて明示的に削除（2026年9月30日）。index-v2.html 自体は保全する。
 
 # 存在しないURLは旧v2ページを200で返さず、404ページを返す（2026年9月30日）
 [[redirects]]
