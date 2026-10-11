@@ -61,6 +61,30 @@ for (const f of fs.readdirSync(path.join(root, 'downloads'))) {
   if (/python-docx|x:xmpmeta|docs\.google\.com|drive\.google\.com/.test(raw)) errors.push(`downloads/${f}: 内部メタデータまたはDriveリンクが残っています`);
 }
 
+// Drive正本の所在：info@sk-labs.net 所有の新IDを正本として記録し、移管前（skw所有）の旧IDを正本として使わない
+const dc = site.driveCanonical;
+const ID = /^[A-Za-z0-9_-]{25,}$/;
+if (!dc || dc.owner !== 'info@sk-labs.net') errors.push('content/site.json: driveCanonical（正本の所在、所有者 info@sk-labs.net）がありません');
+else {
+  const ledger = dc.docs.find((x) => x.key === 'dateLedger');
+  if (!ledger || !ID.test(ledger.driveId)) errors.push('driveCanonical: 制作履歴台帳（dateLedger）の正本IDがありません');
+  for (const x of [...dc.docs, ...dc.archived]) if (!ID.test(x.driveId || '')) errors.push(`driveCanonical: ID形式が不正です（${x.title}）`);
+  const current = new Set([...dc.docs, ...dc.archived].map((x) => x.driveId));
+  for (const r of dc.retired) {
+    if (current.has(r.driveId)) errors.push(`driveCanonical: 旧ID ${r.driveId} が正本として登録されています`);
+    if (!current.has(r.replacedBy)) errors.push(`driveCanonical: 旧ID ${r.driveId} の移管先 ${r.replacedBy} が正本一覧にありません`);
+  }
+  // 旧IDは driveCanonical.retired 以外のどこにも書かない（サイト配信物・スクリプト・データすべて）
+  const repoFiles = ['public', 'scripts', 'content', 'netlify'].flatMap((d) => (fs.existsSync(d) ? walk(path.resolve(d)) : []))
+    .filter((f) => /\.(html|js|mjs|mts|ts|json|xml|txt|md|toml)$/.test(f));
+  for (const f of repoFiles) {
+    let txt = fs.readFileSync(f, 'utf8');
+    if (f.endsWith(path.join('content', 'site.json'))) txt = JSON.stringify({ ...JSON.parse(txt), driveCanonical: { ...dc, retired: [] } });
+    if (f.endsWith(path.join('scripts', 'check-site.mjs'))) continue;
+    for (const r of dc.retired) if (txt.includes(r.driveId)) errors.push(`${path.relative(process.cwd(), f)}: 移管前の旧Drive ID ${r.driveId}（${r.was}）を参照しています。正本 ${r.replacedBy} を使ってください`);
+  }
+}
+
 // 案件のブランド分離：公式サイトに載せるアフィリエイトは所属ブランド必須かつSK LABSのみ
 for (const a of site.affiliates) {
   if (a.brand !== site.site.name) errors.push(`affiliates[${a.id}]: 所属ブランドが「${a.brand || '未設定'}」です（SK LABS以外は掲載不可）`);
