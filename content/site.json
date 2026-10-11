@@ -1,5 +1,5 @@
 {
-  "_readme": "SK LABS公式サイトのコンテンツ正本データ（サイト配信用ミラー）。正本はGoogle Drive。ここを編集して `node scripts/build-pages.mjs` を実行すると、各ハブページ・検索索引・新着・sitemap.xml が再生成される。URLが一次資料で確認できないものは url を null にし、unresolved に記録する（推測URL禁止）。 日付は制作履歴として history に分離する（conceived＝原案・企画の初出／sourceCreated＝元コンテンツの初回制作／articleWritten＝記事としての初回執筆／revised＝改訂／webImplemented＝Web実装／published＝実際の公開）。GitHubへ追加した日やサイトへ実装した日を作成日として扱わない。確認できない日付は null（未確認）とし、推測で埋めない。",
+  "_readme": "SK LABS公式サイトのコンテンツ正本データ（サイト配信用ミラー）。正本はGoogle Drive。ここを編集して `node scripts/build-pages.mjs` を実行すると、各ハブページ・検索索引・新着・sitemap.xml が再生成される。URLが一次資料で確認できないものは url を null にし、unresolved に記録する（推測URL禁止）。 日付は制作履歴として history に分離する（conceived＝原案・企画の初出／sourceCreated＝元コンテンツの初回制作／articleWritten＝記事としての初回執筆／revised＝改訂／webImplemented＝Web実装／published＝実際の公開）。GitHubへ追加した日やサイトへ実装した日を作成日として扱わない。確認できない日付は null（未確認）とし、推測で埋めない。 Drive上の正本の所在は driveCanonical を参照（2026-10-11 info@sk-labs.netへ移管）。",
   "site": {
     "name": "SK LABS",
     "url": "https://sk-labs.net",
@@ -1122,5 +1122,69 @@
       "onSite": true,
       "source": "ボス提供 note管理画面スクリーンショット（2026-09-30 22:12 JST 撮影）"
     }
-  ]
+  ],
+  "driveCanonical": {
+    "_note": "SK LABS正本はGoogle Drive（info@sk-labs.net所有）。2026-10-11にskw.kota0821@gmail.com所有の旧版から移管。旧IDは retired に記録し、リポジトリ内で正本として参照しない（scripts/check-site.mjs で検査）",
+    "owner": "info@sk-labs.net",
+    "docs": [
+      {
+        "key": "dateLedger",
+        "title": "🔵【正本】SK LABS公式サイト コンテンツ制作履歴台帳 第2版｜2026年9月30日",
+        "driveId": "1Gxbi9JQNbnSyto5HB2Nhpq-URJ07zjlLatrIBhJqyxY",
+        "role": "コンテンツの日付（原案初出／元コンテンツ／記事化／改訂／Web実装／公開）の正本。content/site.json の history・noteLedger と一致させる"
+      },
+      {
+        "key": "affiliateDb",
+        "title": "🟡【アフィリエイト】SK LABS案件DB｜2026年9月30日",
+        "driveId": "1JhpMpz8XL8Td6G07GjajL22Vx0BBjdCmZjIaWHslb0Q",
+        "role": "アフィリエイト案件の正本（15行×30列、B列＝所属ブランド）。content/site.json の affiliates はSK LABS分のミラー"
+      },
+      {
+        "key": "webAudit",
+        "title": "🟡【Web監査】SK LABS公式サイト 本番監査・正本再同期｜2026年9月30日",
+        "driveId": "1HvJU8If1aQwoN6a-8Cvyv48T7Cl4c7KRaBrqDX-jgck",
+        "role": "2026-09-30 本番監査の記録"
+      },
+      {
+        "key": "assetInventory",
+        "title": "🟡【資産棚卸し】SK LABS過去アイデア・試作品棚卸し 第2回｜2026年9月30日",
+        "driveId": "111cJQAThN4K_sWXpD4gvfKQtZFNTMUyGBRJ-ogk_W1U",
+        "role": "過去アイデア・試作品の棚卸し記録"
+      }
+    ],
+    "archived": [
+      {
+        "title": "🔵【使用禁止・アーカイブ】SK LABS公式サイト コンテンツ制作履歴台帳 第1版｜2026年9月30日",
+        "driveId": "18y7N7GNyDsJhj_QZTK9DuxJmZSMiHWgJ4LY9zsHBjVA",
+        "note": "info@所有。本文先頭に使用禁止表示あり。正本として使わない"
+      }
+    ],
+    "retired": [
+      {
+        "driveId": "1R7fFjS8MUVBm_jh9GwIUAEbBVxQU8Tgcyxrqxzhsf60",
+        "replacedBy": "1Gxbi9JQNbnSyto5HB2Nhpq-URJ07zjlLatrIBhJqyxY",
+        "was": "制作履歴台帳 第2版（skw所有・旧版）"
+      },
+      {
+        "driveId": "1pMxmbooYnmWfYKs4CzM2ZJHJfGX-SyMRaW0B5NyJ4Q4",
+        "replacedBy": "1JhpMpz8XL8Td6G07GjajL22Vx0BBjdCmZjIaWHslb0Q",
+        "was": "案件DB（skw所有・旧版）"
+      },
+      {
+        "driveId": "1hfAPZGtXFmywU_j8RxWhauAkIqJ9bZY52twF1i_DA7Q",
+        "replacedBy": "1HvJU8If1aQwoN6a-8Cvyv48T7Cl4c7KRaBrqDX-jgck",
+        "was": "Web監査（skw所有・旧版）"
+      },
+      {
+        "driveId": "1OjopFoicEG6-nnDMJlfrXwStpWlmSEETF3VCJkpZQMk",
+        "replacedBy": "111cJQAThN4K_sWXpD4gvfKQtZFNTMUyGBRJ-ogk_W1U",
+        "was": "資産棚卸し 第2回（skw所有・旧版）"
+      },
+      {
+        "driveId": "1TbqreMHa5X9IJJ3PzABEx59eEebB9ciYRgKBcqRzX2A",
+        "replacedBy": "18y7N7GNyDsJhj_QZTK9DuxJmZSMiHWgJ4LY9zsHBjVA",
+        "was": "制作履歴台帳 第1版（skw所有・旧版、アーカイブ）"
+      }
+    ]
+  }
 }
